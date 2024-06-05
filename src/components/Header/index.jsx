@@ -6,19 +6,30 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import Nav from "./nav";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Rounded from "../../common/RoundedButton";
-import Magnetic from "../../common/Magnetic";
+import Rounded from "../../common/RoundedButton/RoundedButton";
+import Magnetic from "../../common/Magnetic/Magnetic";
+import LocalSwitcher from "./localeSwitcher/local-switcher";
+import { useTranslations } from "next-intl";
+import "./menu.css";
+import Menu from "./menu";
 
-export default function index() {
+export default function index({}) {
   const header = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
   const button = useRef(null);
 
+  const t = useTranslations("Index");
+
   useEffect(() => {
     if (isActive) setIsActive(false);
   }, [pathname]);
+
+  const toggleMenu = () => {
+    setIsActive(!isActive); // Toggle menu visibility
+  };
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -47,31 +58,66 @@ export default function index() {
 
   return (
     <>
-      <div ref={header} className={styles.header}>
+      <div ref={header} className={styles.header} id="home">
         <div className={styles.logo}>
           <p className={styles.copyright}>©</p>
           <div className={styles.name}>
-            <p className={styles.codeBy}>Code by</p>
+            <p className={styles.codeBy}>{t("CodeBy")}</p>
             <p className={styles.eugenio}>Eugenio</p>
             <p className={styles.guevara}>Guevara</p>
           </div>
         </div>
         <div className={styles.nav}>
+          {/* <LocalSwitcher /> */}
           <Magnetic>
             <div className={styles.el}>
-              <a>Work</a>
+              <a
+                href="#description"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const descriptionElement =
+                    document.getElementById("description");
+                  if (descriptionElement) {
+                    descriptionElement.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                About
+              </a>
               <div className={styles.indicator}></div>
             </div>
           </Magnetic>
           <Magnetic>
             <div className={styles.el}>
-              <a>About</a>
+              <a
+                href="#work"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const descriptionElement = document.getElementById("work");
+                  if (descriptionElement) {
+                    descriptionElement.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                Work
+              </a>
               <div className={styles.indicator}></div>
             </div>
           </Magnetic>
           <Magnetic>
             <div className={styles.el}>
-              <a>Contact</a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const descriptionElement = document.getElementById("contact");
+                  if (descriptionElement) {
+                    descriptionElement.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+              >
+                Contact
+              </a>
               <div className={styles.indicator}></div>
             </div>
           </Magnetic>
@@ -91,7 +137,9 @@ export default function index() {
           ></div>
         </Rounded>
       </div>
-      <AnimatePresence mode="wait">{isActive && <Nav />}</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {isActive && <Menu isMenuOpen={isActive} toggleMenu={toggleMenu} />}
+      </AnimatePresence>
     </>
   );
 }

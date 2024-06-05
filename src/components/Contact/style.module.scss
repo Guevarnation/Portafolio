@@ -47,10 +47,12 @@
         top: calc(100% - 75px);
       }
       .button {
+        top: 80%;
+        left: calc(100% - 200px);
         width: 180px;
         height: 180px;
-        background-color: #455ce9;
-        color: white;
+        background-color: #c5fb45;
+        color: black;
         border-radius: 50%;
         position: absolute;
         display: flex;
@@ -61,14 +63,18 @@
           margin: 0px;
           font-size: 16px;
           font-weight: 300;
-          z-index: 2;
           position: relative;
+          z-index: 1;
+          color: black;
         }
-      }
-      svg {
-        position: absolute;
-        top: 30%;
-        left: 100%;
+        &:hover {
+          color: #fb7b45;
+          transition: color 1s ease;
+          p {
+            color: #fb7b45;
+            transition: color 1s ease;
+          }
+        }
       }
     }
     .nav {
@@ -78,6 +84,22 @@
       margin-left: 200px;
       margin-right: 200px;
     }
+    .github {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      transition: color 1s ease;
+      &:hover {
+        color: #fb7b45;
+      }
+      .githubIcon {
+        font-size: 24px;
+        margin-right: 6px;
+        z-index: 10;
+      }
+    }
+
     .info {
       display: flex;
       justify-content: space-between;

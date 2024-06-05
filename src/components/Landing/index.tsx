@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import styles from "./style.module.scss";
 import { useRef, useLayoutEffect } from "react";
@@ -6,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { slideUp } from "./animation";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
   const firstText = useRef(null);
@@ -13,6 +15,8 @@ export default function Home() {
   const slider = useRef(null);
   let xPercent = 0;
   let direction = -1;
+
+  const t = useTranslations("Index");
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -48,11 +52,11 @@ export default function Home() {
       animate="enter"
       className={styles.landing}
     >
-      <Image src="/images/background.jpg" fill={true} alt="background" />
+      <Image src="/images/background2.jpg" fill={true} alt="background" />
       <div className={styles.sliderContainer}>
         <div ref={slider} className={styles.slider}>
-          <p ref={firstText}>Freelance Developer -</p>
-          <p ref={secondText}>Freelance Developer -</p>
+          <p ref={firstText}>{t("FreelanceDeveloper")}</p>
+          <p ref={secondText}>{t("FreelanceDeveloper")}</p>
         </div>
       </div>
       <div data-scroll data-scroll-speed={0.1} className={styles.description}>
@@ -68,8 +72,8 @@ export default function Home() {
             fill="white"
           />
         </svg>
-        <p>Freelance</p>
-        <p>Designer & Developer</p>
+        <p>{t("Freelance")}</p>
+        <p>{t("Designer & Developer")}</p>
       </div>
     </motion.main>
   );

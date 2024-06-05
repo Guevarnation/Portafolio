@@ -5,27 +5,27 @@ import Project from "./components/project";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
-import Rounded from "../../common/RoundedButton";
+import Rounded from "../../common/RoundedButton/RoundedButton";
 
 const projects = [
   {
-    title: "C2 Montreal",
-    src: "c2montreal.png",
+    title: "EzMarket",
+    src: "EzMarket.png",
     color: "#000000",
   },
   {
-    title: "Office Studio",
-    src: "officestudio.png",
+    title: "YEYAR",
+    src: "YEYAR.png",
     color: "#8C8C8C",
   },
   {
-    title: "Locomotive",
-    src: "locomotive.png",
+    title: "React Native",
+    src: "react-native.png",
     color: "#EFE8D3",
   },
   {
-    title: "Silencio",
-    src: "silencio.png",
+    title: "Smart Contracts",
+    src: "blockchain.png",
     color: "#706D63",
   },
 ];
@@ -109,6 +109,7 @@ export default function Home() {
         moveItems(e.clientX, e.clientY);
       }}
       className={styles.projects}
+      id="work"
     >
       <div className={styles.body}>
         {projects.map((project, index) => {

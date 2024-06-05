@@ -1,0 +1,10 @@
+.locale-switcher {
+  display: flex;
+  gap: 10px;
+}
+
+.locale-switcher button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

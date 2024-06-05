@@ -1,9 +1,10 @@
 import styles from "./style.module.scss";
 import Image from "next/image";
-import Rounded from "../../common/RoundedButton";
+import Rounded from "../../common/RoundedButton/RoundedButton";
 import { useRef } from "react";
 import { useScroll, motion, useTransform, useSpring } from "framer-motion";
-import Magnetic from "../../common/Magnetic";
+import Magnetic from "../../common/Magnetic/Magnetic";
+import { BsGithub } from "react-icons/bs";
 
 export default function index() {
   const container = useRef(null);
@@ -20,13 +21,17 @@ export default function index() {
         <div className={styles.title}>
           <span>
             <div className={styles.imageContainer}>
-              <Image fill={true} alt={"image"} src={`/images/background.jpg`} />
+              <Image
+                fill={true}
+                alt={"image"}
+                src={`/images/background.jpeg`}
+              />
             </div>
             <h2>Let's work</h2>
           </span>
           <h2>together</h2>
           <motion.div style={{ x }} className={styles.buttonContainer}>
-            <Rounded backgroundColor={"#334BD3"} className={styles.button}>
+            <Rounded backgroundColor={"#000000"} className={styles.button}>
               <p>Get in touch</p>
             </Rounded>
           </motion.div>
@@ -44,13 +49,20 @@ export default function index() {
             />
           </motion.svg>
         </div>
-        <div className={styles.nav}>
+        <div className={styles.nav} id="contact">
           <Rounded>
-            <p>info@dennissnellenberg.com</p>
+            <p>guevaraeu1@gmail.com</p>
           </Rounded>
-          <Rounded>
-            <p>+31 6 27 84 74 30</p>
-          </Rounded>
+          <div className={styles.github}>
+            <Rounded
+              onClick={() =>
+                (window.location.href = "https://github.com/Guevarnation")
+              }
+            >
+              <BsGithub className={styles.githubIcon} />
+              <p>Github</p>
+            </Rounded>
+          </div>
         </div>
         <div className={styles.info}>
           <div>
@@ -70,14 +82,28 @@ export default function index() {
                 <p>Awwwards</p>
               </Magnetic>
             </span> */}
-            <Magnetic>
+            {/* <Magnetic>
               <p>Instagram</p>
+            </Magnetic> */}
+            <Magnetic>
+              <p
+                onClick={() =>
+                  (window.location.href =
+                    "https://www.upwork.com/freelancers/~01ea49b72a680f73a9")
+                }
+              >
+                UPWORK
+              </p>
             </Magnetic>
             <Magnetic>
-              <p>UPWORK</p>
-            </Magnetic>
-            <Magnetic>
-              <p>Linkedin</p>
+              <p
+                onClick={() =>
+                  (window.location.href =
+                    "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/")
+                }
+              >
+                Linkedin
+              </p>
             </Magnetic>
           </div>
         </div>

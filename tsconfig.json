@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
@@ -30,7 +31,12 @@
     "src/components/Projects/components/project/index.jsx",
     "src/components/menu/menu.tsx",
     "src/components/Description/index.jsx",
-    "src/components/Contact/index.jsx"
+    "src/components/Contact/index.jsx",
+    "src/common/RoundedButton/index.jsx",
+    "src/components/Header/index.jsx",
+    "src/common/RoundedButton/RoundedButton.jsx",
+    "src/common/Magnetic/index.jsx",
+    "src/common/Magnetic/index.jsx"
   ],
   "exclude": ["node_modules"]
 }

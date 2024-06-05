@@ -7,16 +7,18 @@
   align-items: center;
   justify-content: center;
   padding: 15px 60px 15px 60px;
+  background-color: #c5fb45;
 
   p {
     position: relative;
     z-index: 1;
     transition: color 0.4s linear;
+    color: black;
   }
 
   &:hover {
     p {
-      color: white;
+      color: #fb7b45;
     }
   }
 }
@@ -27,4 +29,5 @@
   position: absolute;
   border-radius: 50%;
   top: 100%;
+  color: #c5fb45;
 }
