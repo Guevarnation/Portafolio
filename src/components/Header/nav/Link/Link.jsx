@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { slide, scale } from "../../animation";
 
-export default function Index({ data, isActive, setSelectedIndicator }) {
+export default function Link({ data, isActive, setSelectedIndicator }) {
   const { title, href, index } = data;
 
   return (

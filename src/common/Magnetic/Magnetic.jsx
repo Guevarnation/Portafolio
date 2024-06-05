@@ -5,7 +5,8 @@ const Magnetic = ({ children }) => {
   const magneticRef = useRef(null);
 
   useEffect(() => {
-    if (!magneticRef.current) return;
+    const currentElement = magneticRef.current;
+    if (!currentElement) return;
 
     const xTo = gsap.quickTo(magneticRef.current, "x", {
       duration: 1,

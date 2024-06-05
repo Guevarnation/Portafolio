@@ -5,7 +5,7 @@ import gsap from "gsap";
 import Magnetic from "../Magnetic/Magnetic";
 import { ReactNode } from "react";
 
-export default function index({
+export default function RoundedButton({
   children,
   backgroundColor = "#000",
   ...attributes

@@ -6,7 +6,7 @@ import { useScroll, motion, useTransform, useSpring } from "framer-motion";
 import Magnetic from "../../common/Magnetic/Magnetic";
 import { BsGithub } from "react-icons/bs";
 
-export default function index() {
+export default function Contact() {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,

@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import Nav from "./nav";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,9 +12,9 @@ import Magnetic from "../../common/Magnetic/Magnetic";
 import LocalSwitcher from "./localeSwitcher/local-switcher";
 import { useTranslations } from "next-intl";
 import "./menu.css";
-import Menu from "./menu";
+import Menu from "./Menu";
 
-export default function index({}) {
+export default function Header({}) {
   const header = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
@@ -28,7 +27,7 @@ export default function index({}) {
   }, [pathname]);
 
   const toggleMenu = () => {
-    setIsActive(!isActive); // Toggle menu visibility
+    setIsActive(!isActive);
   };
 
   useLayoutEffect(() => {
