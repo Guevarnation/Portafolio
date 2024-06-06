@@ -12,12 +12,12 @@ interface MenuProps {
   toggleMenu: () => void;
 }
 
-const menuLinks = [
-  { path: "/", label: "Home" },
-  { path: "/about", label: "About" },
-  { path: "/work", label: "Work" },
-  { path: "/contact", label: "Contact" },
-];
+// const menuLinks = [
+//   { path: "/", label: "Home" },
+//   { path: "/about", label: "About" },
+//   { path: "/work", label: "Work" },
+//   { path: "/contact", label: "Contact" },
+// ];
 
 const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
   const container = useRef<HTMLDivElement>(null);
