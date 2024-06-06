@@ -17,16 +17,7 @@ const menuLinks = [
   { path: "/about", label: "About" },
   { path: "/work", label: "Work" },
   { path: "/contact", label: "Contact" },
-  // { path: "/lab", label: "ZAZA" },
 ];
-
-// const menuLinks = [
-//   { path: "/", label: "Home" },
-//   { path: "/about", label: "Acerca de mi" },
-//   { path: "/work", label: "Trabajo" },
-//   { path: "/contact", label: "Contacto" },
-//   // { path: "/lab", label: "ZAZA" },
-// ];
 
 const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -69,7 +60,6 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
   }, [isMenuOpen]);
 
   const handleLinkClick = (sectionId: string) => {
-    // Scroll to section
     setTimeout(() => {
       const sectionElement = document.getElementById(sectionId);
       if (sectionElement) {
@@ -91,10 +81,10 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
           duration: 1,
           clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
           ease: "power4.inOut",
-          onComplete: toggleMenu, // Ensure this is called to update the state
+          onComplete: toggleMenu,
         },
         "-=0.5"
-      ); // Overlap the animation slightly with the links
+      );
   };
 
   return (

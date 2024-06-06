@@ -5,14 +5,13 @@ import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 import Magnetic from "../../common/Magnetic/Magnetic";
 import LocalSwitcher from "./localeSwitcher/local-switcher";
 import { useTranslations } from "next-intl";
 import "./menu.css";
-import Menu from "./menus";
+import Menu from "./Menus";
 
 export default function Header({}) {
   const header = useRef(null);
@@ -24,7 +23,7 @@ export default function Header({}) {
 
   useEffect(() => {
     if (isActive) setIsActive(false);
-  }, [pathname, isActive]);
+  }, [pathname]);
 
   const toggleMenu = () => {
     setIsActive(!isActive);

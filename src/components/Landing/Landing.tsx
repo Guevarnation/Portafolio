@@ -13,42 +13,36 @@ export default function Home() {
   const firstText = useRef(null);
   const secondText = useRef(null);
   const slider = useRef(null);
-  const xPercent = useRef(0);
-  const direction = useRef(-1);
+  let xPercent = 0;
+  let direction = -1;
 
   const t = useTranslations("Index");
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    const tl = gsap.timeline({
+    gsap.to(slider.current, {
       scrollTrigger: {
         trigger: document.documentElement,
         scrub: 0.25,
         start: 0,
         end: window.innerHeight,
-        onUpdate: (self) => {
-          direction.current = self.direction * -1;
-        },
+        onUpdate: (e) => (direction = e.direction * -1),
       },
-    });
-
-    tl.to(slider.current, {
       x: "-500px",
     });
-
     requestAnimationFrame(animate);
   }, []);
 
   const animate = () => {
-    if (xPercent.current < -100) {
-      xPercent.current = 0;
-    } else if (xPercent.current > 0) {
-      xPercent.current = -100;
+    if (xPercent < -100) {
+      xPercent = 0;
+    } else if (xPercent > 0) {
+      xPercent = -100;
     }
-    gsap.set(firstText.current, { xPercent: xPercent.current });
-    gsap.set(secondText.current, { xPercent: xPercent.current });
+    gsap.set(firstText.current, { xPercent: xPercent });
+    gsap.set(secondText.current, { xPercent: xPercent });
     requestAnimationFrame(animate);
-    xPercent.current += 0.1 * direction.current;
+    xPercent += 0.1 * direction;
   };
 
   return (
