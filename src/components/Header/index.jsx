@@ -24,7 +24,7 @@ export default function Header({}) {
 
   useEffect(() => {
     if (isActive) setIsActive(false);
-  }, [pathname]);
+  }, [pathname, isActive]);
 
   const toggleMenu = () => {
     setIsActive(!isActive);
