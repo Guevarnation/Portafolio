@@ -12,7 +12,7 @@ import Magnetic from "../../common/Magnetic/Magnetic";
 import LocalSwitcher from "./localeSwitcher/local-switcher";
 import { useTranslations } from "next-intl";
 import "./menu.css";
-import Menu from "./Menu";
+import Menu from "./menus";
 
 export default function Header({}) {
   const header = useRef(null);
