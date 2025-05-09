@@ -1,5 +1,5 @@
 import styles from "./style.module.scss";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 import { useRef } from "react";
 import { useScroll, motion, useTransform, useSpring } from "framer-motion";

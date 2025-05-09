@@ -20,12 +20,17 @@ interface RootLayoutProps {
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<RootLayoutProps>) {
-  const messages = await getMessages();
+  // In Next.js 15, we need to ensure the params are resolved before using them
+  const resolvedParams = await Promise.resolve(params);
+  const locale = resolvedParams.locale;
+
+  // Pass the locale to getMessages
+  const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider messages={messages} locale={locale}>
       <html lang={locale}>
         <body className={inter.className}>
           <Header />

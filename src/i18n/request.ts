@@ -1,15 +1,19 @@
 import { getRequestConfig } from "next-intl/server";
 
 const locales = ["en", "es"];
+const defaultLocale = "en";
 
 export default getRequestConfig(async ({ locale }) => {
+  // Use defaultLocale if locale is undefined
+  const resolvedLocale = locale || defaultLocale;
+
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as string)) {
-    throw new Error(`Locale ${locale} not supported`);
+  if (!locales.includes(resolvedLocale as string)) {
+    throw new Error(`Locale ${resolvedLocale} not supported`);
   }
 
   return {
-    locale: locale as string,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    locale: resolvedLocale as string,
+    messages: (await import(`../../messages/${resolvedLocale}.json`)).default,
   };
 });

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import styles from "./style.module.scss";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 const slider1 = [
   {
@@ -64,7 +64,8 @@ export default function SlidingImages() {
             >
               <div className={styles.imageContainer}>
                 <Image
-                  fill={true}
+                  style={{ objectFit: "cover" }}
+                  fill
                   alt={"image"}
                   src={`/images/${project.src}`}
                 />
@@ -83,7 +84,8 @@ export default function SlidingImages() {
             >
               <div key={index} className={styles.imageContainer}>
                 <Image
-                  fill={true}
+                  style={{ objectFit: "cover" }}
+                  fill
                   alt={"image"}
                   src={`/images/${project.src}`}
                 />
