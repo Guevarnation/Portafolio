@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import styles from "./style.module.scss";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 const slider1 = [
   {

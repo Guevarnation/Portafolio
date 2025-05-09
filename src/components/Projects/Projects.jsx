@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Project from "./components/project";
 import { motion } from "framer-motion";
 import gsap from "gsap";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 
 const projects = [
