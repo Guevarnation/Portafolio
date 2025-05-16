@@ -15,18 +15,15 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
 export default async function RootLayout({
   children,
   params,
-}: Readonly<RootLayoutProps>) {
-  // In Next.js 15, we need to ensure the params are resolved before using them
-  const resolvedParams = await Promise.resolve(params);
-  const locale = resolvedParams.locale;
+}: RootLayoutProps) {
+  const { locale } = await params;
 
-  // Pass the locale to getMessages
   const messages = await getMessages({ locale });
 
   return (
