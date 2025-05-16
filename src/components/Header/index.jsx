@@ -22,8 +22,11 @@ export default function Header({}) {
   const t = useTranslations("Index");
 
   useEffect(() => {
-    if (isActive) setIsActive(false);
-  }, [pathname, isActive]);
+    if (isActive) {
+      setIsActive(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const toggleMenu = () => {
     setIsActive(!isActive);
@@ -44,11 +47,14 @@ export default function Header({}) {
           });
         },
         onEnterBack: () => {
-          gsap.to(
-            button.current,
-            { scale: 0, duration: 0.25, ease: "power1.out" },
-            setIsActive(false)
-          );
+          gsap.to(button.current, {
+            scale: 0,
+            duration: 0.25,
+            ease: "power1.out",
+            onComplete: () => {
+              setIsActive(false);
+            },
+          });
         },
       },
     });
