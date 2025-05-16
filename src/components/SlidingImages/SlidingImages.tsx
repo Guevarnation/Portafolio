@@ -10,11 +10,11 @@ const slider1 = [
   },
   {
     color: "#d6d7dc",
-    src: "EzMarket.png",
+    src: "EW.png",
   },
   {
     color: "#e3e3e3",
-    src: "react-native.png",
+    src: "YEYAR-app.png",
   },
   {
     color: "#21242b",
@@ -25,11 +25,11 @@ const slider1 = [
 const slider2 = [
   {
     color: "#d4e3ec",
-    src: "react-native.png",
+    src: "YEYAR-app.png",
   },
   {
     color: "#e5e0e1",
-    src: "blockchain.png",
+    src: "chrome-extension.png",
   },
   {
     color: "#d7d4cf",
@@ -37,7 +37,7 @@ const slider2 = [
   },
   {
     color: "#e1dad6",
-    src: "EzMarket2.png",
+    src: "blockchain.png",
   },
 ];
 

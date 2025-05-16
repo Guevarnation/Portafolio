@@ -7,6 +7,8 @@
   },
 
   "Footer": {
-    "Freelance": "Freelance"
+    "Freelance": "Freelance",
+    "Designer": "Diseñador",
+    "& Developer": "& Desarrollador"
   }
 }

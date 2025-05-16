@@ -9,19 +9,30 @@ import Rounded from "../../common/RoundedButton/RoundedButton";
 
 const projects = [
   {
-    title: "EzMarket",
-    src: "EzMarket.png",
-    color: "#000000",
-  },
-  {
     title: "YEYAR",
     src: "YEYAR.png",
     color: "#8C8C8C",
+    onClick: () => {
+      window.open("https://yeyar.mx", "_blank");
+    },
   },
   {
     title: "React Native",
-    src: "react-native.png",
+    src: "YEYAR-app.png",
     color: "#EFE8D3",
+    onClick: () => {
+      window.open("https://apps.apple.com/us/app/yeyar/id6737579256", "_blank");
+    },
+  },
+  {
+    title: "AI & RAG",
+    src: "EW.png",
+    color: "#000000",
+  },
+  {
+    title: "Chrome Extensions",
+    src: "chrome-extension.png",
+    color: "#000000",
   },
   {
     title: "Smart Contracts",
@@ -119,6 +130,7 @@ export default function Projects() {
               title={project.title}
               manageModal={manageModal}
               key={index}
+              onClick={project.onClick}
             />
           );
         })}
@@ -145,12 +157,14 @@ export default function Projects() {
                   className={styles.modal}
                   style={{ backgroundColor: color }}
                   key={`modal_${index}`}
+                  onClick={project.onClick}
                 >
                   <Image
                     src={`/images/${src}`}
                     width={300}
-                    height={0}
+                    height={200}
                     alt="image"
+                    objectFit="contain"
                   />
                 </div>
               );

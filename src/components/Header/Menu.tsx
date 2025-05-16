@@ -148,7 +148,7 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
                 href="#"
                 onClick={() =>
                   (window.location.href =
-                    "https://www.upwork.com/freelancers/~01ea49b72a680f73a9")
+                    "https://www.upwork.com/s/~01ea49b72a680f73a9")
                 }
               >
                 Upwork &#8599;

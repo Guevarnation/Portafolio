@@ -56,7 +56,7 @@ export default function Contact() {
           <div className={styles.github}>
             <Rounded
               onClick={() =>
-                (window.location.href = "https://github.com/Guevarnation")
+                window.open("https://github.com/Guevarnation", "_blank")
               }
             >
               <BsGithub className={styles.githubIcon} />
@@ -68,7 +68,7 @@ export default function Contact() {
           <div>
             <span>
               <h3>Version</h3>
-              <p>2024 © Edition</p>
+              <p>2025 © Edition</p>
             </span>
             <span>
               <h3>Version</h3>
@@ -85,7 +85,7 @@ export default function Contact() {
             {/* <Magnetic>
               <p>Instagram</p>
             </Magnetic> */}
-            <Magnetic>
+            {/* <Magnetic>
               <p
                 onClick={() =>
                   (window.location.href =
@@ -94,12 +94,14 @@ export default function Contact() {
               >
                 UPWORK
               </p>
-            </Magnetic>
+            </Magnetic> */}
             <Magnetic>
               <p
                 onClick={() =>
-                  (window.location.href =
-                    "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/")
+                  window.open(
+                    "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/",
+                    "_blank"
+                  )
                 }
               >
                 Linkedin

@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+
 import styles from "./style.module.scss";
 
-export default function index({ index, title, manageModal }) {
+export default function index({ index, title, manageModal, onClick }) {
   return (
     <div
+      onClick={onClick}
       onMouseEnter={(e) => {
         manageModal(true, index, e.clientX, e.clientY);
       }}

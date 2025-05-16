@@ -16,7 +16,7 @@ export default function Home() {
   let xPercent = 0;
   let direction = -1;
 
-  const t = useTranslations("Index");
+  const t = useTranslations();
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -60,8 +60,8 @@ export default function Home() {
       />
       <div className={styles.sliderContainer}>
         <div ref={slider} className={styles.slider}>
-          <p ref={firstText}>{t("FreelanceDeveloper")}</p>
-          <p ref={secondText}>{t("FreelanceDeveloper")}</p>
+          <p ref={firstText}>{t("Index.FreelanceDeveloper")}</p>
+          <p ref={secondText}>{t("Index.FreelanceDeveloper")}</p>
         </div>
       </div>
       <div data-scroll data-scroll-speed={0.1} className={styles.description}>
@@ -77,8 +77,8 @@ export default function Home() {
             fill="white"
           />
         </svg>
-        <p>{t("Freelance")}</p>
-        <p>{t("Designer & Developer")}</p>
+        <p>{t("Footer.Designer")}</p>
+        <p>{t("Footer.& Developer")}</p>
       </div>
     </motion.main>
   );
