@@ -6,18 +6,36 @@
   margin-top: 200px;
   background-color: white;
   z-index: 1;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    margin-top: 100px;
+    gap: 5vw;
+  }
+
   .slider {
     display: flex;
     position: relative;
     gap: 3vw;
     width: 120vw;
     left: -10vw;
+
+    @media (max-width: 768px) {
+      gap: 5vw;
+    }
+
     .project {
       width: 25%;
       height: 20vw;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @media (max-width: 768px) {
+        width: 45%;
+        height: 30vw;
+      }
+
       .imageContainer {
         position: relative;
         width: 80%;
@@ -28,10 +46,16 @@
       }
     }
   }
+
   .circleContainer {
-    background-color: red;
+    background-color: white;
     position: relative;
     margin-top: 100px;
+
+    @media (max-width: 768px) {
+      margin-top: 50px;
+    }
+
     .circle {
       height: 1550%;
       width: 120%;
@@ -41,6 +65,11 @@
       z-index: 1;
       position: absolute;
       box-shadow: 0px 60px 50px rgba(0, 0, 0, 0.748);
+
+      @media (max-width: 768px) {
+        width: 100%;
+        left: 0;
+      }
     }
   }
 }

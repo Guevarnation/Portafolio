@@ -1,7 +1,7 @@
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useScroll, motion, useTransform, useSpring } from "framer-motion";
 import Magnetic from "../../common/Magnetic/Magnetic";
 import { BsGithub } from "react-icons/bs";
@@ -12,9 +12,22 @@ export default function Contact() {
     target: container,
     offset: ["start end", "end end"],
   });
-  const x = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const y = useTransform(scrollYProgress, [0, 1], [-500, 0]);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const xRange = isMobile ? [0, 0] : [0, 100];
+  const yRange = isMobile ? [-100, 0] : [-500, 0];
+  const x = useTransform(scrollYProgress, [0, 1], xRange);
+  const y = useTransform(scrollYProgress, [0, 1], yRange);
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
+
   return (
     <motion.div style={{ y }} ref={container} className={styles.contact}>
       <div className={styles.body}>

@@ -4,11 +4,25 @@
   margin-top: 200px;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 100px;
+  }
+
   .body {
     max-width: 1400px;
     display: flex;
     gap: 50px;
     position: relative;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+
     p {
       margin: 0px;
       color: black;
@@ -25,11 +39,22 @@
           display: inline-flex;
           color: black;
         }
+
+        @media (max-width: 768px) {
+          font-size: 24px;
+          text-align: center;
+        }
       }
       &:nth-of-type(2) {
         font-size: 18px;
         width: 80%;
         font-weight: 300;
+
+        @media (max-width: 768px) {
+          font-size: 16px;
+          width: 100%;
+          text-align: center;
+        }
       }
     }
     .button {
@@ -45,12 +70,26 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+
+      @media (max-width: 768px) {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 150px;
+        height: 150px;
+        margin-top: 30px;
+      }
+
       p {
         margin: 0px;
         font-size: 16px;
         font-weight: 300;
         position: relative;
         z-index: 1;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
       }
       &:hover {
         p {

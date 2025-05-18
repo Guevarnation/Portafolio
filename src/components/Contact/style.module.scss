@@ -12,21 +12,43 @@
     max-width: 1800px;
     background-color: #141516;
 
+    @media (max-width: 768px) {
+      padding-top: 100px;
+    }
+
     .title {
       border-bottom: 1px solid rgb(134, 134, 134);
       padding-bottom: 100px;
       margin-left: 200px;
       margin-right: 200px;
       position: relative;
+
+      @media (max-width: 768px) {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-bottom: 50px;
+      }
+
       span {
         display: flex;
         align-items: center;
+        @media (max-width: 768px) {
+          // Optional: stack image and "Let's work" if needed
+          // flex-direction: column;
+          // align-items: flex-start;
+          // gap: 10px;
+        }
         .imageContainer {
           width: 100px;
           height: 100px;
           position: relative;
           border-radius: 50%;
           overflow: hidden;
+
+          @media (max-width: 768px) {
+            width: 60px;
+            height: 60px;
+          }
 
           img {
             object-fit: cover;
@@ -40,11 +62,23 @@
         font-size: 5vw;
         margin: 0px;
         font-weight: 300;
+        @media (max-width: 768px) {
+          font-size: 7vw;
+        }
       }
       .buttonContainer {
         position: absolute;
         left: calc(100% - 400px);
         top: calc(100% - 75px);
+
+        @media (max-width: 768px) {
+          position: relative;
+          left: auto;
+          top: auto;
+          margin-top: 30px;
+          display: flex;
+          justify-content: center;
+        }
       }
       .button {
         top: 80%;
@@ -83,6 +117,15 @@
       margin-top: 100px;
       margin-left: 200px;
       margin-right: 200px;
+
+      @media (max-width: 768px) {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 140px;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+      }
     }
     .github {
       display: inline-flex;
@@ -105,10 +148,27 @@
       justify-content: space-between;
       margin-top: 200px;
       padding: 20px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        margin-top: 80px;
+        padding: 20px 0;
+      }
+
       div {
         display: flex;
         gap: 10px;
         align-items: flex-end;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 20px;
+        }
+
         p,
         h3 {
           margin: 0px;
@@ -138,6 +198,11 @@
           display: flex;
           flex-direction: column;
           gap: 15px;
+
+          @media (max-width: 768px) {
+            align-items: center;
+            gap: 10px;
+          }
         }
         h3 {
           color: grey;
