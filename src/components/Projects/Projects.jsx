@@ -13,7 +13,7 @@ const projects = [
       "A modern platform for exploring the  presale real estate market in Mexico, users can browse hotest projects in Mexico, invest, and track their investments in real-time. Users can see individual unit info as well as developer info to make an informed decision.",
     technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
     src: "YEYAR.png",
-    videoSrc: "yeyar.mov",
+    videoSrc: "yeyar.mp4",
     color: "#8C8C8C",
     link: "https://yeyar.mx",
   },
@@ -33,7 +33,7 @@ const projects = [
     technologies:
       "Next.js, Vercel AI SDK, OpenAI, Anthropic, pgvector, Supabase",
     src: "EW.png",
-    videoSrc: "ew.mov",
+    videoSrc: "ew.mp4",
     color: "#000000",
     link: "#",
   },
