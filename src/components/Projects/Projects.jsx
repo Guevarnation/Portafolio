@@ -1,193 +1,251 @@
 "use client";
-import styles from "./style.module.scss";
-import { useState, useEffect, useRef } from "react";
-import Project from "./components/project";
+
+import { useState } from "react";
 import { motion } from "framer-motion";
-import gsap from "gsap";
+import styles from "./style.module.scss";
 import Image from "next/legacy/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 
 const projects = [
   {
     title: "YEYAR",
+    description:
+      "A modern platform for exploring the  presale real estate market in Mexico, users can browse hotest projects in Mexico, invest, and track their investments in real-time. Users can see individual unit info as well as developer info to make an informed decision.",
+    technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
     src: "YEYAR.png",
+    videoSrc: "yeyar.mov",
     color: "#8C8C8C",
-    onClick: () => {
-      window.open("https://yeyar.mx", "_blank");
-    },
+    link: "https://yeyar.mx",
   },
   {
-    title: "React Native",
+    title: "YEYAR Mobile App",
+    description:
+      "Developed a cross-platform mobile application allowing users to browse products, receive notifications, and track orders in real-time. Implemented native device features including camera integration and push notifications.",
+    technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
     src: "YEYAR-app.png",
     color: "#EFE8D3",
-    onClick: () => {
-      window.open("https://apps.apple.com/us/app/yeyar/id6737579256", "_blank");
-    },
+    link: "https://apps.apple.com/us/app/yeyar/id6737579256",
   },
   {
-    title: "AI & RAG",
+    title: "AI & RAG Systems",
+    description:
+      "Lead a team of 3 developers to build advanced AI Chatbot that connects to SEC api to retirve company like finacials from 10K, 10Q, 8K, etc. also had heavy comapny information on own db and also connects to api to know real time price and scrapes google for any news and allows users to ask questions about the company and get the information they need.",
+    technologies:
+      "Next.js, Vercel AI SDK, OpenAI, Anthropic, pgvector, Supabase",
     src: "EW.png",
+    videoSrc: "ew.mov",
     color: "#000000",
+    link: "#",
   },
   {
-    title: "Chrome Extensions",
+    title: "Chrome Extension",
+    description:
+      "Built a custom chrome extension that allows users to quickly grab adjacent ticket seats by only clicking on one seat. Extension allows for heavy customization and a license key is needed to use it. Works for all ticket websites.",
+    technologies: "JavaScript, Chrome API, Custom UI Framework",
     src: "chrome-extension.png",
+    videoSrc: "tm.mov",
     color: "#000000",
+    link: "#",
   },
   {
-    title: "Smart Contracts",
+    title: "Blockchain Solutions",
+    description:
+      "Started practice with blockchain and smart contracts, built a simple token and a simple dapp that allows users to buy and sell the token.",
+    technologies: "Solidity, Ethereum, Web3.js",
     src: "blockchain.png",
     color: "#706D63",
+    link: "#",
   },
 ];
 
-const scaleAnimation = {
-  initial: { scale: 0, x: "-50%", y: "-50%" },
-  enter: {
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.1, 0.25, 0.3, 1],
+    },
+  }),
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: (i) => ({
+    opacity: 1,
     scale: 1,
-    x: "-50%",
-    y: "-50%",
-    transition: { duration: 0.4, ease: [0.76, 0, 0.24, 1] },
-  },
-  closed: {
-    scale: 0,
-    x: "-50%",
-    y: "-50%",
-    transition: { duration: 0.4, ease: [0.32, 0, 0.67, 0] },
-  },
+    transition: {
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.1, 0.25, 0.3, 1],
+    },
+  }),
 };
 
 export default function Projects() {
-  const [modal, setModal] = useState({ active: false, index: 0 });
-  const { active, index } = modal;
-  const modalContainer = useRef(null);
-  const cursor = useRef(null);
-  const cursorLabel = useRef(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  let xMoveContainer = useRef(null);
-  let yMoveContainer = useRef(null);
-  let xMoveCursor = useRef(null);
-  let yMoveCursor = useRef(null);
-  let xMoveCursorLabel = useRef(null);
-  let yMoveCursorLabel = useRef(null);
-
-  useEffect(() => {
-    //Move Container
-    xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
-      duration: 0.8,
-      ease: "power3",
-    });
-    yMoveContainer.current = gsap.quickTo(modalContainer.current, "top", {
-      duration: 0.8,
-      ease: "power3",
-    });
-    //Move cursor
-    xMoveCursor.current = gsap.quickTo(cursor.current, "left", {
-      duration: 0.5,
-      ease: "power3",
-    });
-    yMoveCursor.current = gsap.quickTo(cursor.current, "top", {
-      duration: 0.5,
-      ease: "power3",
-    });
-    //Move cursor label
-    xMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "left", {
-      duration: 0.45,
-      ease: "power3",
-    });
-    yMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "top", {
-      duration: 0.45,
-      ease: "power3",
-    });
-  }, []);
-
-  const moveItems = (x, y) => {
-    xMoveContainer.current(x);
-    yMoveContainer.current(y);
-    xMoveCursor.current(x);
-    yMoveCursor.current(y);
-    xMoveCursorLabel.current(x);
-    yMoveCursorLabel.current(y);
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
   };
-  const manageModal = (active, index, x, y) => {
-    moveItems(x, y);
-    setModal({ active, index });
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
   };
 
   return (
-    <main
-      onMouseMove={(e) => {
-        moveItems(e.clientX, e.clientY);
-      }}
-      className={styles.projects}
-      id="work"
-    >
-      <div className={styles.body}>
+    <section className={styles.projects} id="work">
+      <div className={styles.container}>
+        {/* <motion.h2
+          className={styles.sectionTitle}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Featured Projects
+        </motion.h2> */}
+
         {projects.map((project, index) => {
+          // We're explicitly determining whether each project should have image on left or right
+          const imageOnLeft = index % 2 === 0;
+
           return (
-            <Project
-              index={index}
-              title={project.title}
-              manageModal={manageModal}
+            <motion.div
               key={index}
-              onClick={project.onClick}
-            />
+              className={styles.projectItem}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.2,
+                    delayChildren: 0.1,
+                  },
+                },
+              }}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+              onClick={() =>
+                project.link && window.open(project.link, "_blank")
+              }
+            >
+              <div
+                className={styles.projectContent}
+                style={{ flexDirection: imageOnLeft ? "row" : "row-reverse" }}
+              >
+                {/* Image Container */}
+                <motion.div
+                  className={styles.imageContainer}
+                  custom={1}
+                  variants={scaleIn}
+                >
+                  <div
+                    className={styles.imageWrapper}
+                    style={{
+                      transform:
+                        hoveredIndex === index ? "scale(1.03)" : "scale(1)",
+                      transition:
+                        "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease",
+                    }}
+                  >
+                    {project.videoSrc ? (
+                      <video
+                        width="100%"
+                        height="auto"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "12px",
+                          boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)",
+                          transition: "all 0.5s ease",
+                          transform:
+                            hoveredIndex === index ? "scale(1.01)" : "scale(1)",
+                        }}
+                      >
+                        <source
+                          src={`/videos/${project.videoSrc}`}
+                          type="video/mp4"
+                        />
+                        {/* Fallback image if video fails */}
+                        <Image
+                          src={`/images/${project.src}`}
+                          width={600}
+                          height={400}
+                          alt={project.title}
+                          objectFit="cover"
+                          style={{ borderRadius: "12px" }}
+                        />
+                      </video>
+                    ) : (
+                      <Image
+                        src={`/images/${project.src}`}
+                        width={600}
+                        height={400}
+                        alt={project.title}
+                        objectFit="cover"
+                        style={{
+                          borderRadius: "12px",
+                          transition: "all 0.5s ease",
+                          transform:
+                            hoveredIndex === index ? "scale(1.01)" : "scale(1)",
+                        }}
+                      />
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Project Details */}
+                <div className={styles.projectDetails}>
+                  <motion.h3
+                    className={styles.projectTitle}
+                    custom={2}
+                    variants={fadeInUp}
+                  >
+                    {project.title}
+                  </motion.h3>
+
+                  <motion.p
+                    className={styles.projectDescription}
+                    custom={3}
+                    variants={fadeInUp}
+                  >
+                    {project.description}
+                  </motion.p>
+
+                  <motion.div
+                    className={styles.techStack}
+                    custom={4}
+                    variants={fadeInUp}
+                  >
+                    <span className={styles.techLabel}>Technologies:</span>
+                    <p>{project.technologies}</p>
+                  </motion.div>
+
+                  {project.link && (
+                    <motion.div
+                      className={styles.projectLink}
+                      custom={5}
+                      variants={fadeInUp}
+                    >
+                      <Rounded>
+                        <p>View Project</p>
+                      </Rounded>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
           );
         })}
       </div>
-      <Rounded>
-        <p>More work</p>
-      </Rounded>
-      <>
-        <motion.div
-          ref={modalContainer}
-          variants={scaleAnimation}
-          initial="initial"
-          animate={active ? "enter" : "closed"}
-          className={styles.modalContainer}
-        >
-          <div
-            style={{ top: index * -100 + "%" }}
-            className={styles.modalSlider}
-          >
-            {projects.map((project, index) => {
-              const { src, color } = project;
-              return (
-                <div
-                  className={styles.modal}
-                  style={{ backgroundColor: color }}
-                  key={`modal_${index}`}
-                  onClick={project.onClick}
-                >
-                  <Image
-                    src={`/images/${src}`}
-                    width={300}
-                    height={200}
-                    alt="image"
-                    objectFit="contain"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
-        <motion.div
-          ref={cursor}
-          className={styles.cursor}
-          variants={scaleAnimation}
-          initial="initial"
-          animate={active ? "enter" : "closed"}
-        ></motion.div>
-        <motion.div
-          ref={cursorLabel}
-          className={styles.cursorLabel}
-          variants={scaleAnimation}
-          initial="initial"
-          animate={active ? "enter" : "closed"}
-        >
-          View
-        </motion.div>
-      </>
-    </main>
+    </section>
   );
 }

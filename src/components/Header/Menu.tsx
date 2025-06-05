@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -23,6 +23,11 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
   const container = useRef<HTMLDivElement>(null);
 
   const tl = useRef<GSAPTimeline | null>(null);
+
+  const handleEmailClick = () => {
+    window.location.href =
+      "mailto:guevaraeu1@gmail.com?subject=Portfolio Contact&body=Hi Eugenio,";
+  };
 
   useGSAP(
     () => {
@@ -148,15 +153,6 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
                 href="#"
                 onClick={() =>
                   (window.location.href =
-                    "https://www.upwork.com/s/~01ea49b72a680f73a9")
-                }
-              >
-                Upwork &#8599;
-              </a>
-              <a
-                href="#"
-                onClick={() =>
-                  (window.location.href =
                     "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/")
                 }
               >
@@ -164,7 +160,7 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
               </a>
               {/* <a href="#">Facebook &#8599;</a> */}
             </div>
-            <div className="menu-info-col">
+            <div className="menu-info-col" onClick={handleEmailClick}>
               <p>guevaraeu1@gmail.com</p>
               {/* <p>Monterrey, Mexico</p> */}
             </div>

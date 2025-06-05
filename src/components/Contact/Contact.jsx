@@ -1,9 +1,9 @@
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
-import { useRef, useEffect, useState } from "react";
-import { useScroll, motion, useTransform, useSpring } from "framer-motion";
 import Magnetic from "../../common/Magnetic/Magnetic";
+import { useRef, useEffect, useState } from "react";
+import { useScroll, motion, useTransform } from "framer-motion";
 import { BsGithub } from "react-icons/bs";
 
 export default function Contact() {
@@ -27,6 +27,11 @@ export default function Contact() {
   const x = useTransform(scrollYProgress, [0, 1], xRange);
   const y = useTransform(scrollYProgress, [0, 1], yRange);
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
+
+  const handleEmailClick = () => {
+    window.location.href =
+      "mailto:guevaraeu1@gmail.com?subject=Portfolio Contact&body=Hi Eugenio,";
+  };
 
   return (
     <motion.div style={{ y }} ref={container} className={styles.contact}>
@@ -63,7 +68,7 @@ export default function Contact() {
           </motion.svg>
         </div>
         <div className={styles.nav} id="contact">
-          <Rounded>
+          <Rounded onClick={handleEmailClick}>
             <p>guevaraeu1@gmail.com</p>
           </Rounded>
           <div className={styles.github}>
@@ -89,25 +94,6 @@ export default function Contact() {
             </span>
           </div>
           <div>
-            {/* <span>
-              <h3>socials</h3>
-              <Magnetic>
-                <p>Awwwards</p>
-              </Magnetic>
-            </span> */}
-            {/* <Magnetic>
-              <p>Instagram</p>
-            </Magnetic> */}
-            {/* <Magnetic>
-              <p
-                onClick={() =>
-                  (window.location.href =
-                    "https://www.upwork.com/freelancers/~01ea49b72a680f73a9")
-                }
-              >
-                UPWORK
-              </p>
-            </Magnetic> */}
             <Magnetic>
               <p
                 onClick={() =>
