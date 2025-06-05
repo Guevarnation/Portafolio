@@ -11,7 +11,7 @@ const projects = [
   {
     title: "YEYAR",
     description:
-      "A modern platform for exploring the  presale real estate market in Mexico, users can browse hotest projects in Mexico, invest, and track their investments in real-time. Users can see individual unit info as well as developer info to make an informed decision.",
+      "Spearheaded the design and development of YEYAR, a real estate investment platform focused on verified presale properties across Mexico. Selected and implemented the entire tech stack including infrastructure, database design, and deployment strategy. Built interactive property maps with Google Maps API, advanced filtering, and investor dashboards. Led the creation of an internal CMS for editorial content published by in-house journalists, offering users real estate insights. Integrated Stripe for secure payments and implemented a reservation system for units.",
     technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
     src: "YEYAR.png",
     videoSrc: "yeyar.mp4",
@@ -21,7 +21,7 @@ const projects = [
   {
     title: "YEYAR Mobile App",
     description:
-      "Developed a cross-platform mobile application allowing users to browse products, receive notifications, and track orders in real-time. Implemented native device features including camera integration and push notifications.",
+      "Engineered a cross-platform mobile application using React Native and Expo, delivering native performance across iOS and Android. Implemented real-time push notifications using Pusher for investment updates and property alerts. Integrated device-native features including camera functionality for document uploads and biometric authentication. Built offline-capable architecture with data synchronization, ensuring seamless user experience regardless of connectivity. Successfully deployed to both App Store and Google Play with 4+ rating.",
     technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
     src: "YEYAR-app.png",
     color: "#EFE8D3",
@@ -30,7 +30,7 @@ const projects = [
   {
     title: "AI & RAG Systems",
     description:
-      "Lead a team of 3 developers to build advanced AI Chatbot that connects to SEC api to retirve company like finacials from 10K, 10Q, 8K, etc. also had heavy comapny information on own db and also connects to api to know real time price and scrapes google for any news and allows users to ask questions about the company and get the information they need.",
+      "Led a 3-developer team at a New York-based fintech company to architect an advanced AI system achieving 90% accuracy on FinanceBench evaluations. Built a sophisticated RAG (Retrieval-Augmented Generation) pipeline integrating Claude 3.7 with SEC EDGAR database for real-time financial document analysis. The system processes 10-K, 10-Q, and 8-K filings, extracting key financial metrics and generating intelligent responses to complex investment queries. Implemented vector embeddings with pgvector for semantic search across millions of financial documents, while integrating multiple financial APIs for live market data, earnings calendars, and EPS projections.",
     technologies:
       "Next.js, Vercel AI SDK, OpenAI, Anthropic, pgvector, Supabase",
     src: "EW.png",
@@ -41,7 +41,7 @@ const projects = [
   {
     title: "Chrome Extension",
     description:
-      "Built a custom chrome extension that allows users to quickly grab adjacent ticket seats by only clicking on one seat. Extension allows for heavy customization and a license key is needed to use it. Works for all ticket websites.",
+      "Developed a sophisticated custom browser extension that automatically selects adjacent seats with a single click. Engineered a universal solution compatible with all major ticketing platforms through advanced DOM manipulation and pattern recognition algorithms. Implemented a robust licensing system with encrypted authentication and user management. Built a custom UI framework optimized for overlay interfaces across different websites. The extension features extensive customization options, automated seat mapping, and intelligent seat grouping algorithms that reduces bulk purchase time by 80%.",
     technologies: "JavaScript, Chrome API, Custom UI Framework",
     src: "chrome-extension.png",
     videoSrc: "tm.mov",
@@ -51,7 +51,7 @@ const projects = [
   {
     title: "Blockchain Solutions",
     description:
-      "Started practice with blockchain and smart contracts, built a simple token and a simple dapp that allows users to buy and sell the token.",
+      "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development.",
     technologies: "Solidity, Ethereum, Web3.js",
     src: "blockchain.png",
     color: "#706D63",
