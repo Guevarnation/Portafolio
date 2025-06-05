@@ -59,60 +59,28 @@ const projects = [
   },
 ];
 
-export default function Projects() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const prefersReducedMotion = useReducedMotion();
-  const videoRefs = useRef([]);
+// Custom hook for individual project visibility
+function useProjectInView() {
+  return useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "0px 0px 100px 0px",
+  });
+}
 
-  const handleMouseEnter = (index) => {
-    if (!prefersReducedMotion) {
-      setHoveredIndex(index);
-    }
-  };
+// Individual project component to handle hooks properly
+function ProjectItem({
+  project,
+  index,
+  hoveredIndex,
+  onMouseEnter,
+  onMouseLeave,
+  prefersReducedMotion,
+  videoRef,
+}) {
+  const imageOnLeft = index % 2 === 0;
+  const { ref, inView } = useProjectInView();
 
-  const handleMouseLeave = () => {
-    if (!prefersReducedMotion) {
-      setHoveredIndex(null);
-    }
-  };
-
-  // Control video playback based on visibility
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = parseInt(entry.target.dataset.index, 10);
-          if (entry.isIntersecting) {
-            if (videoRefs.current[index]) {
-              videoRefs.current[index].play().catch((e) => {
-                console.log("Auto-play was prevented");
-              });
-            }
-          } else {
-            if (videoRefs.current[index]) {
-              videoRefs.current[index].pause();
-            }
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    videoRefs.current.forEach((video, index) => {
-      if (video) {
-        video.dataset.index = index;
-        observer.observe(video);
-      }
-    });
-
-    return () => {
-      videoRefs.current.forEach((video) => {
-        if (video) observer.unobserve(video);
-      });
-    };
-  }, []);
-
-  // Simplified animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
     visible: {
@@ -138,154 +106,190 @@ export default function Projects() {
   };
 
   return (
+    <motion.div
+      ref={ref}
+      key={index}
+      className={styles.projectItem}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={{
+        visible: {
+          transition: {
+            staggerChildren: 0.1,
+          },
+        },
+      }}
+      onMouseEnter={() => onMouseEnter(index)}
+      onMouseLeave={onMouseLeave}
+      onClick={() => project.link && window.open(project.link, "_blank")}
+    >
+      <div
+        className={styles.projectContent}
+        style={{ flexDirection: imageOnLeft ? "row" : "row-reverse" }}
+      >
+        {/* Image Container */}
+        <motion.div className={styles.imageContainer} variants={scaleIn}>
+          <div
+            className={styles.imageWrapper}
+            style={{
+              transform:
+                hoveredIndex === index && !prefersReducedMotion
+                  ? "scale(1.02)"
+                  : "scale(1)",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            {project.videoSrc ? (
+              <video
+                ref={videoRef}
+                width="100%"
+                height="auto"
+                autoPlay={false}
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                loading="lazy"
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  willChange: "transform",
+                }}
+              >
+                <source
+                  src={`/videos/${project.videoSrc}#t=0.1`}
+                  type="video/mp4"
+                />
+                {/* Fallback image if video fails */}
+                <Image
+                  src={`/images/${project.src}`}
+                  width={600}
+                  height={400}
+                  alt={project.title}
+                  objectFit="cover"
+                  style={{ borderRadius: "12px" }}
+                  unoptimized={false}
+                  priority={index < 2}
+                />
+              </video>
+            ) : (
+              <Image
+                src={`/images/${project.src}`}
+                width={600}
+                height={400}
+                alt={project.title}
+                objectFit="cover"
+                unoptimized={false}
+                priority={index < 2}
+                style={{
+                  borderRadius: "12px",
+                  willChange: "transform",
+                }}
+              />
+            )}
+          </div>
+        </motion.div>
+
+        {/* Project Details */}
+        <div className={styles.projectDetails}>
+          <motion.h3 className={styles.projectTitle} variants={fadeInUp}>
+            {project.title}
+          </motion.h3>
+
+          <motion.p className={styles.projectDescription} variants={fadeInUp}>
+            {project.description}
+          </motion.p>
+
+          <motion.div className={styles.techStack} variants={fadeInUp}>
+            <span className={styles.techLabel}>Technologies:</span>
+            <p>{project.technologies}</p>
+          </motion.div>
+
+          {project.link && (
+            <motion.div className={styles.projectLink} variants={fadeInUp}>
+              <Rounded>
+                <p>View Project</p>
+              </Rounded>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function Projects() {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const prefersReducedMotion = useReducedMotion();
+  const videoRefs = useRef([]);
+
+  const handleMouseEnter = (index) => {
+    if (!prefersReducedMotion) {
+      setHoveredIndex(index);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!prefersReducedMotion) {
+      setHoveredIndex(null);
+    }
+  };
+
+  // Control video playback based on visibility
+  useEffect(() => {
+    const currentVideoRefs = videoRefs.current; // Copy ref to variable
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.dataset.index, 10);
+          if (entry.isIntersecting) {
+            if (currentVideoRefs[index]) {
+              currentVideoRefs[index].play().catch((e) => {
+                console.log("Auto-play was prevented");
+              });
+            }
+          } else {
+            if (currentVideoRefs[index]) {
+              currentVideoRefs[index].pause();
+            }
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    currentVideoRefs.forEach((video, index) => {
+      if (video) {
+        video.dataset.index = index;
+        observer.observe(video);
+      }
+    });
+
+    return () => {
+      currentVideoRefs.forEach((video) => {
+        if (video) observer.unobserve(video);
+      });
+    };
+  }, []);
+
+  return (
     <section className={styles.projects} id="work">
       <div className={styles.container}>
-        {/* <motion.h2
-          className={styles.sectionTitle}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Featured Projects
-        </motion.h2> */}
-
-        {projects.map((project, index) => {
-          const imageOnLeft = index % 2 === 0;
-          const { ref, inView } = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "0px 0px 100px 0px",
-          });
-
-          return (
-            <motion.div
-              ref={ref}
-              key={index}
-              className={styles.projectItem}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              variants={{
-                visible: {
-                  transition: {
-                    staggerChildren: 0.1,
-                  },
-                },
-              }}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
-              onClick={() =>
-                project.link && window.open(project.link, "_blank")
-              }
-            >
-              <div
-                className={styles.projectContent}
-                style={{ flexDirection: imageOnLeft ? "row" : "row-reverse" }}
-              >
-                {/* Image Container */}
-                <motion.div
-                  className={styles.imageContainer}
-                  variants={scaleIn}
-                >
-                  <div
-                    className={styles.imageWrapper}
-                    style={{
-                      transform:
-                        hoveredIndex === index && !prefersReducedMotion
-                          ? "scale(1.02)"
-                          : "scale(1)",
-                      transition: "transform 0.3s ease",
-                    }}
-                  >
-                    {project.videoSrc ? (
-                      <video
-                        ref={(el) => {
-                          videoRefs.current[index] = el;
-                        }}
-                        width="100%"
-                        height="auto"
-                        autoPlay={false}
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        loading="lazy"
-                        style={{
-                          objectFit: "cover",
-                          borderRadius: "12px",
-                          willChange: "transform",
-                        }}
-                      >
-                        <source
-                          src={`/videos/${project.videoSrc}#t=0.1`}
-                          type="video/mp4"
-                        />
-                        {/* Fallback image if video fails */}
-                        <Image
-                          src={`/images/${project.src}`}
-                          width={600}
-                          height={400}
-                          alt={project.title}
-                          objectFit="cover"
-                          style={{ borderRadius: "12px" }}
-                          unoptimized={false}
-                          priority={index < 2}
-                        />
-                      </video>
-                    ) : (
-                      <Image
-                        src={`/images/${project.src}`}
-                        width={600}
-                        height={400}
-                        alt={project.title}
-                        objectFit="cover"
-                        unoptimized={false}
-                        priority={index < 2}
-                        style={{
-                          borderRadius: "12px",
-                          willChange: "transform",
-                        }}
-                      />
-                    )}
-                  </div>
-                </motion.div>
-
-                {/* Project Details */}
-                <div className={styles.projectDetails}>
-                  <motion.h3
-                    className={styles.projectTitle}
-                    variants={fadeInUp}
-                  >
-                    {project.title}
-                  </motion.h3>
-
-                  <motion.p
-                    className={styles.projectDescription}
-                    variants={fadeInUp}
-                  >
-                    {project.description}
-                  </motion.p>
-
-                  <motion.div className={styles.techStack} variants={fadeInUp}>
-                    <span className={styles.techLabel}>Technologies:</span>
-                    <p>{project.technologies}</p>
-                  </motion.div>
-
-                  {project.link && (
-                    <motion.div
-                      className={styles.projectLink}
-                      variants={fadeInUp}
-                    >
-                      <Rounded>
-                        <p>View Project</p>
-                      </Rounded>
-                    </motion.div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+        {projects.map((project, index) => (
+          <ProjectItem
+            key={index}
+            project={project}
+            index={index}
+            hoveredIndex={hoveredIndex}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            prefersReducedMotion={prefersReducedMotion}
+            videoRef={(el) => {
+              videoRefs.current[index] = el;
+            }}
+          />
+        ))}
       </div>
     </section>
   );
