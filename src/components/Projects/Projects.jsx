@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import styles from "./style.module.scss";
 import Image from "next/legacy/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
@@ -58,42 +59,82 @@ const projects = [
   },
 ];
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 60 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.1, 0.25, 0.3, 1],
-    },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: (i) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.1, 0.25, 0.3, 1],
-    },
-  }),
-};
-
 export default function Projects() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const prefersReducedMotion = useReducedMotion();
+  const videoRefs = useRef([]);
 
   const handleMouseEnter = (index) => {
-    setHoveredIndex(index);
+    if (!prefersReducedMotion) {
+      setHoveredIndex(index);
+    }
   };
 
   const handleMouseLeave = () => {
-    setHoveredIndex(null);
+    if (!prefersReducedMotion) {
+      setHoveredIndex(null);
+    }
+  };
+
+  // Control video playback based on visibility
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.dataset.index, 10);
+          if (entry.isIntersecting) {
+            if (videoRefs.current[index]) {
+              videoRefs.current[index].play().catch((e) => {
+                console.log("Auto-play was prevented");
+              });
+            }
+          } else {
+            if (videoRefs.current[index]) {
+              videoRefs.current[index].pause();
+            }
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        video.dataset.index = index;
+        observer.observe(video);
+      }
+    });
+
+    return () => {
+      videoRefs.current.forEach((video) => {
+        if (video) observer.unobserve(video);
+      });
+    };
+  }, []);
+
+  // Simplified animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const scaleIn = {
+    hidden: { opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -110,21 +151,24 @@ export default function Projects() {
         </motion.h2> */}
 
         {projects.map((project, index) => {
-          // We're explicitly determining whether each project should have image on left or right
           const imageOnLeft = index % 2 === 0;
+          const { ref, inView } = useInView({
+            triggerOnce: true,
+            threshold: 0.1,
+            rootMargin: "0px 0px 100px 0px",
+          });
 
           return (
             <motion.div
+              ref={ref}
               key={index}
               className={styles.projectItem}
               initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              animate={inView ? "visible" : "hidden"}
               variants={{
                 visible: {
                   transition: {
-                    staggerChildren: 0.2,
-                    delayChildren: 0.1,
+                    staggerChildren: 0.1,
                   },
                 },
               }}
@@ -141,37 +185,39 @@ export default function Projects() {
                 {/* Image Container */}
                 <motion.div
                   className={styles.imageContainer}
-                  custom={1}
                   variants={scaleIn}
                 >
                   <div
                     className={styles.imageWrapper}
                     style={{
                       transform:
-                        hoveredIndex === index ? "scale(1.03)" : "scale(1)",
-                      transition:
-                        "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease",
+                        hoveredIndex === index && !prefersReducedMotion
+                          ? "scale(1.02)"
+                          : "scale(1)",
+                      transition: "transform 0.3s ease",
                     }}
                   >
                     {project.videoSrc ? (
                       <video
+                        ref={(el) => {
+                          videoRefs.current[index] = el;
+                        }}
                         width="100%"
                         height="auto"
-                        autoPlay
+                        autoPlay={false}
                         loop
                         muted
                         playsInline
+                        preload="metadata"
+                        loading="lazy"
                         style={{
                           objectFit: "cover",
                           borderRadius: "12px",
-                          boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)",
-                          transition: "all 0.5s ease",
-                          transform:
-                            hoveredIndex === index ? "scale(1.01)" : "scale(1)",
+                          willChange: "transform",
                         }}
                       >
                         <source
-                          src={`/videos/${project.videoSrc}`}
+                          src={`/videos/${project.videoSrc}#t=0.1`}
                           type="video/mp4"
                         />
                         {/* Fallback image if video fails */}
@@ -182,6 +228,8 @@ export default function Projects() {
                           alt={project.title}
                           objectFit="cover"
                           style={{ borderRadius: "12px" }}
+                          unoptimized={false}
+                          priority={index < 2}
                         />
                       </video>
                     ) : (
@@ -191,11 +239,11 @@ export default function Projects() {
                         height={400}
                         alt={project.title}
                         objectFit="cover"
+                        unoptimized={false}
+                        priority={index < 2}
                         style={{
                           borderRadius: "12px",
-                          transition: "all 0.5s ease",
-                          transform:
-                            hoveredIndex === index ? "scale(1.01)" : "scale(1)",
+                          willChange: "transform",
                         }}
                       />
                     )}
@@ -206,7 +254,6 @@ export default function Projects() {
                 <div className={styles.projectDetails}>
                   <motion.h3
                     className={styles.projectTitle}
-                    custom={2}
                     variants={fadeInUp}
                   >
                     {project.title}
@@ -214,17 +261,12 @@ export default function Projects() {
 
                   <motion.p
                     className={styles.projectDescription}
-                    custom={3}
                     variants={fadeInUp}
                   >
                     {project.description}
                   </motion.p>
 
-                  <motion.div
-                    className={styles.techStack}
-                    custom={4}
-                    variants={fadeInUp}
-                  >
+                  <motion.div className={styles.techStack} variants={fadeInUp}>
                     <span className={styles.techLabel}>Technologies:</span>
                     <p>{project.technologies}</p>
                   </motion.div>
@@ -232,7 +274,6 @@ export default function Projects() {
                   {project.link && (
                     <motion.div
                       className={styles.projectLink}
-                      custom={5}
                       variants={fadeInUp}
                     >
                       <Rounded>

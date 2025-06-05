@@ -4,6 +4,7 @@
   margin: 100px 0;
   padding: 30px 0;
   overflow: hidden;
+  contain: content;
 
   @media (max-width: 768px) {
     margin: 60px 0;
@@ -37,7 +38,7 @@
     margin-bottom: 120px;
     cursor: pointer;
     position: relative;
-    transition: all 0.4s ease;
+    contain: layout;
 
     @media (max-width: 768px) {
       margin-bottom: 80px;
@@ -49,7 +50,6 @@
 
     &:hover {
       .imageWrapper {
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
         transform: translateY(-5px);
       }
     }
@@ -59,6 +59,7 @@
     display: flex;
     align-items: center;
     gap: 60px;
+    contain: layout;
 
     @media (max-width: 992px) {
       gap: 40px;
@@ -75,6 +76,7 @@
     max-width: 700px;
     position: relative;
     z-index: 1;
+    contain: layout;
 
     @media (max-width: 768px) {
       max-width: 100%;
@@ -85,15 +87,17 @@
   .imageWrapper {
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transition: transform 0.3s ease;
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.08);
     background-color: transparent !important;
+    will-change: transform;
+    transform: translateZ(0);
 
     &::after {
       content: "";
@@ -109,6 +113,8 @@
       z-index: 1;
       width: 100%;
       height: auto;
+      will-change: transform;
+      transform: translateZ(0);
     }
 
     video {
@@ -117,7 +123,8 @@
       width: 100%;
       height: auto;
       border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      will-change: transform;
+      transform: translateZ(0);
     }
   }
 
@@ -139,7 +146,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-transform: none;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
 
     @media (max-width: 768px) {
       font-size: 1.8rem;
@@ -168,7 +175,7 @@
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
@@ -198,7 +205,7 @@
     margin-top: 20px;
 
     button {
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease;
 
       &:hover {
         transform: translateY(-3px);
