@@ -9,7 +9,6 @@ import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Generate static params for available locales
 export async function generateStaticParams() {
   return [{ locale: "en" }, { locale: "es" }];
 }
