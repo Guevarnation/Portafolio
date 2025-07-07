@@ -3,11 +3,14 @@ import { useInView, motion } from "framer-motion";
 import { useRef } from "react";
 import { slideUp, opacity } from "./animation";
 import Rounded from "../../common/RoundedButton/RoundedButton";
+import { useTranslations } from "next-intl";
+
 export default function Description() {
-  const phrase =
-    "Helping companies build their dream portal to the world wide web, leveraging the latest technologies and industry best practices to stay ahead of the curve";
+  const t = useTranslations("Description");
+  const phrase = t("mainPhrase");
   const descriptionRef = useRef(null);
   const isInView = useInView(descriptionRef);
+
   return (
     <div ref={descriptionRef} id="description" className={styles.description}>
       <div className={styles.body}>
@@ -28,12 +31,11 @@ export default function Description() {
           })}
         </p>
         <motion.p variants={opacity} animate={isInView ? "open" : "closed"}>
-          My passion for code, design, economics & blockchain puts me in a
-          unique place in the web design world.
+          {t("secondaryText")}
         </motion.p>
         <div data-scroll data-scroll-speed={0.1}>
           <Rounded className={styles.button}>
-            <p>About me</p>
+            <p>{t("aboutMeButton")}</p>
           </Rounded>
         </div>
       </div>

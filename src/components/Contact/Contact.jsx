@@ -5,8 +5,10 @@ import Magnetic from "../../common/Magnetic/Magnetic";
 import { useRef, useEffect, useState } from "react";
 import { useScroll, motion, useTransform } from "framer-motion";
 import { BsGithub } from "react-icons/bs";
+import { useTranslations } from "next-intl";
 
 export default function Contact() {
+  const t = useTranslations("Contact");
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
@@ -41,16 +43,16 @@ export default function Contact() {
             <div className={styles.imageContainer}>
               <Image
                 fill={true}
-                alt={"image"}
+                alt="Eugenio Guevara portfolio contact section background"
                 src={`/images/background.jpeg`}
               />
             </div>
-            <h2>Let&apos;s work</h2>
+            <h2>{t("letsWork")}</h2>
           </span>
-          <h2>together</h2>
+          <h2>{t("together")}</h2>
           <motion.div style={{ x }} className={styles.buttonContainer}>
             <Rounded backgroundColor={"#000000"} className={styles.button}>
-              <p>Get in touch</p>
+              <p>{t("getInTouch")}</p>
             </Rounded>
           </motion.div>
           <motion.svg
@@ -78,19 +80,38 @@ export default function Contact() {
               }
             >
               <BsGithub className={styles.githubIcon} />
-              <p>Github</p>
+              <p>{t("github")}</p>
             </Rounded>
           </div>
         </div>
         <div className={styles.info}>
           <div>
             <span>
-              <h3>Version</h3>
-              <p>2025 © Edition</p>
+              <h3>{t("version")}</h3>
+              <p>{t("edition")}</p>
             </span>
             <span>
-              <h3>Version</h3>
+              <h3>{t("version")}</h3>
               <p>11:49 PM GMT+2</p>
+            </span>
+            <span>
+              <h3>{t("language")}</h3>
+              <div className="flex flex-row gap-2">
+                <p
+                  onClick={() => {
+                    window.location.href = "/en";
+                  }}
+                >
+                  En
+                </p>
+                <p
+                  onClick={() => {
+                    window.location.href = "/es";
+                  }}
+                >
+                  Es
+                </p>
+              </div>
             </span>
           </div>
           <div>

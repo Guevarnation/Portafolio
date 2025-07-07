@@ -3,12 +3,75 @@
     "CodeBy": "Código Por",
     "FreelanceDeveloper": "Desarrollador Freelance -",
     "Freelance": "Freelance",
-    "Designer & Developer": "Diseñador y Desarrollador"
+    "Designer & Developer": "Diseñador y Desarrollador",
+    "About": "Sobre mí",
+    "Work": "Trabajo",
+    "Contact": "Contacto"
   },
 
   "Footer": {
     "Freelance": "Freelance",
     "Designer": "Diseñador",
     "& Developer": "& Desarrollador"
+  },
+
+  "Projects": {
+    "ViewProject": "Ver Proyecto",
+    "Technologies": "Tecnologías:",
+    "YEYAR": {
+      "title": "YEYAR",
+      "description": "Lideré el diseño y desarrollo de YEYAR, una plataforma de inversión inmobiliaria enfocada en propiedades de preventa verificadas en México. Seleccioné e implementé todo el stack tecnológico incluyendo infraestructura, diseño de base de datos y estrategia de despliegue. Construí mapas interactivos de propiedades con Google Maps API, filtrado avanzado y dashboards para inversionistas. Dirigí la creación de un CMS interno para contenido editorial publicado por periodistas internos, ofreciendo insights inmobiliarios a los usuarios. Integré Stripe para pagos seguros e implementé un sistema de reservas para unidades."
+    },
+    "YEYARMobile": {
+      "title": "Aplicación Móvil YEYAR",
+      "description": "Desarrollé una aplicación móvil multiplataforma usando React Native y Expo, entregando rendimiento nativo en iOS y Android. Implementé notificaciones push en tiempo real usando Pusher para actualizaciones de inversión y alertas de propiedades. Integré características nativas del dispositivo incluyendo funcionalidad de cámara para subida de documentos y autenticación biométrica. Construí una arquitectura capaz de funcionar offline con sincronización de datos, asegurando una experiencia de usuario fluida independientemente de la conectividad. Desplegué exitosamente en App Store y Google Play con calificación 4+."
+    },
+    "AIRAGSystems": {
+      "title": "Sistemas de IA y RAG",
+      "description": "Lideré un equipo de 3 desarrolladores en una empresa fintech de Nueva York para arquitectar un sistema de IA avanzado logrando 90% de precisión en evaluaciones FinanceBench. Construí un pipeline RAG (Retrieval-Augmented Generation) sofisticado integrando Claude 3.7 con la base de datos SEC EDGAR para análisis de documentos financieros en tiempo real. El sistema procesa filings 10-K, 10-Q y 8-K, extrayendo métricas financieras clave y generando respuestas inteligentes a consultas de inversión complejas. Implementé embeddings vectoriales con pgvector para búsqueda semántica a través de millones de documentos financieros, mientras integraba múltiples APIs financieras para datos de mercado en vivo, calendarios de ganancias y proyecciones EPS."
+    },
+    "ChromeExtension": {
+      "title": "Extensión de Chrome",
+      "description": "Desarrollé una extensión de navegador personalizada sofisticada que selecciona automáticamente asientos adyacentes con un solo clic. Creé una solución universal compatible con todas las principales plataformas de boletos a través de algoritmos avanzados de manipulación DOM y reconocimiento de patrones. Implementé un sistema de licencias robusto con autenticación encriptada y gestión de usuarios. Construí un framework de UI personalizado optimizado para interfaces de superposición en diferentes sitios web. La extensión presenta opciones de personalización extensas, mapeo automático de asientos y algoritmos inteligentes de agrupación de asientos que reduce el tiempo de compra en lote en 80%."
+    },
+    "BlockchainSolutions": {
+      "title": "Soluciones Blockchain",
+      "description": "Creé y desplegué un token ERC-20 simple y dApp acompañante como parte de una iniciativa de aprendizaje blockchain. Los usuarios podían mintear, comprar y vender el token a través de una UI mínima usando MetaMask y Web3.js. Diseñé la lógica del contrato inteligente, manejé el despliegue en testnets de Ethereum y obtuve familiaridad con optimización de gas, wallets y preocupaciones de seguridad en el desarrollo de contratos inteligentes."
+    }
+  },
+
+  "TechStack": {
+    "title": "Stack Tecnológico y Herramientas",
+    "categories": {
+      "Frontend": "Frontend",
+      "Mobile": "Móvil",
+      "Styling": "Estilos",
+      "Backend": "Backend",
+      "Languages": "Lenguajes",
+      "State Management": "Gestión de Estado",
+      "Database": "Base de Datos",
+      "AI/ML": "IA/ML",
+      "Cloud": "Nube",
+      "Services": "Servicios",
+      "Tools": "Herramientas",
+      "Blockchain": "Blockchain",
+      "APIs": "APIs"
+    }
+  },
+
+  "Description": {
+    "mainPhrase": "Ayudando a empresas a construir su portal de ensueño al world wide web, aprovechando las últimas tecnologías y mejores prácticas de la industria para mantenerse a la vanguardia",
+    "secondaryText": "Mi pasión por el código, diseño, economía y blockchain me pone en un lugar único en el mundo del diseño web.",
+    "aboutMeButton": "Sobre mí"
+  },
+
+  "Contact": {
+    "letsWork": "Trabajemos",
+    "together": "juntos",
+    "getInTouch": "Ponte en contacto",
+    "github": "Github",
+    "version": "Versión",
+    "edition": "2025 © Edición",
+    "language": "Idioma"
   }
 }

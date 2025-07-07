@@ -10,6 +10,7 @@ import Contact from "../../components/Contact/Contact";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import GitHub from "@/components/GitHub/GitHub";
+import TechStack from "@/components/TechStack/TechStack";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +37,7 @@ export default function Home() {
       <Description />
       <Projects />
       {/* <SlidingImages /> */}
+      <TechStack />
       <GitHub />
       <Contact />
     </main>

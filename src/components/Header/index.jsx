@@ -86,7 +86,7 @@ export default function Header({}) {
                   }
                 }}
               >
-                About
+                {t("About")}
               </a>
               <div className={styles.indicator}></div>
             </div>
@@ -103,7 +103,7 @@ export default function Header({}) {
                   }
                 }}
               >
-                Work
+                {t("Work")}
               </a>
               <div className={styles.indicator}></div>
             </div>
@@ -120,7 +120,7 @@ export default function Header({}) {
                   }
                 }}
               >
-                Contact
+                {t("Contact")}
               </a>
               <div className={styles.indicator}></div>
             </div>

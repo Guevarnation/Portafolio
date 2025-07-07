@@ -54,7 +54,7 @@ export default function Home() {
     >
       <Image
         src="/images/background2.jpg"
-        alt="background"
+        alt="Eugenio Guevara - Full-stack developer workspace with modern technology setup"
         fill={true}
         objectFit="cover"
       />

@@ -3,11 +3,70 @@
     "CodeBy": "Code By",
     "FreelanceDeveloper": "Freelance Developer -",
     "Freelance": "Freelance",
-    "Designer & Developer": "Designer & Developer"
+    "Designer & Developer": "Designer & Developer",
+    "About": "About",
+    "Work": "Work",
+    "Contact": "Contact"
   },
   "Footer": {
     "Freelance": "Freelance",
     "Designer": "Designer",
     "& Developer": "& Developer"
+  },
+  "Projects": {
+    "ViewProject": "View Project",
+    "Technologies": "Technologies:",
+    "YEYAR": {
+      "title": "YEYAR",
+      "description": "Spearheaded the design and development of YEYAR, a real estate investment platform focused on verified presale properties across Mexico. Selected and implemented the entire tech stack including infrastructure, database design, and deployment strategy. Built interactive property maps with Google Maps API, advanced filtering, and investor dashboards. Led the creation of an internal CMS for editorial content published by in-house journalists, offering users real estate insights. Integrated Stripe for secure payments and implemented a reservation system for units."
+    },
+    "YEYARMobile": {
+      "title": "YEYAR Mobile App",
+      "description": "Engineered a cross-platform mobile application using React Native and Expo, delivering native performance across iOS and Android. Implemented real-time push notifications using Pusher for investment updates and property alerts. Integrated device-native features including camera functionality for document uploads and biometric authentication. Built offline-capable architecture with data synchronization, ensuring seamless user experience regardless of connectivity. Successfully deployed to both App Store and Google Play with 4+ rating."
+    },
+    "AIRAGSystems": {
+      "title": "AI & RAG Systems",
+      "description": "Led a 3-developer team at a New York-based fintech company to architect an advanced AI system achieving 90% accuracy on FinanceBench evaluations. Built a sophisticated RAG (Retrieval-Augmented Generation) pipeline integrating Claude 3.7 with SEC EDGAR database for real-time financial document analysis. The system processes 10-K, 10-Q, and 8-K filings, extracting key financial metrics and generating intelligent responses to complex investment queries. Implemented vector embeddings with pgvector for semantic search across millions of financial documents, while integrating multiple financial APIs for live market data, earnings calendars, and EPS projections."
+    },
+    "ChromeExtension": {
+      "title": "Chrome Extension",
+      "description": "Developed a sophisticated custom browser extension that automatically selects adjacent seats with a single click. Engineered a universal solution compatible with all major ticketing platforms through advanced DOM manipulation and pattern recognition algorithms. Implemented a robust licensing system with encrypted authentication and user management. Built a custom UI framework optimized for overlay interfaces across different websites. The extension features extensive customization options, automated seat mapping, and intelligent seat grouping algorithms that reduces bulk purchase time by 80%."
+    },
+    "BlockchainSolutions": {
+      "title": "Blockchain Solutions",
+      "description": "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development."
+    }
+  },
+  "TechStack": {
+    "title": "Tech Stack & Tools",
+    "categories": {
+      "Frontend": "Frontend",
+      "Mobile": "Mobile",
+      "Styling": "Styling",
+      "Backend": "Backend",
+      "Languages": "Languages",
+      "State Management": "State Management",
+      "Database": "Database",
+      "AI/ML": "AI/ML",
+      "Cloud": "Cloud",
+      "Services": "Services",
+      "Tools": "Tools",
+      "Blockchain": "Blockchain",
+      "APIs": "APIs"
+    }
+  },
+  "Description": {
+    "mainPhrase": "Helping companies build their dream portal to the world wide web, leveraging the latest technologies and industry best practices to stay ahead of the curve",
+    "secondaryText": "My passion for code, design, economics & blockchain puts me in a unique place in the web design world.",
+    "aboutMeButton": "About me"
+  },
+  "Contact": {
+    "letsWork": "Let's work",
+    "together": "together",
+    "getInTouch": "Get in touch",
+    "github": "Github",
+    "version": "Version",
+    "edition": "2025 © Edition",
+    "language": "Language"
   }
 }
