@@ -47,6 +47,7 @@ import {
   FaBrain,
   FaWallet,
 } from "react-icons/fa";
+import { BiLaptop } from "react-icons/bi";
 
 interface TechType {
   name: string;
@@ -305,6 +306,12 @@ export default function TechStack() {
       { name: "Pusher", category: "Services", icon: FaTools, color: "#300D4F" },
 
       // Tools & Analytics
+      {
+        name: "Cursor",
+        category: "Tools",
+        icon: BiLaptop,
+        color: "#000000",
+      },
       {
         name: "Puppeteer",
         category: "Tools",
