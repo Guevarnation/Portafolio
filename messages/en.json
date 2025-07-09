@@ -38,7 +38,7 @@
     },
     "Dropper": {
       "title": "Real-Time Ticket Dropper System",
-      "description": "Built a real-time ticket dropper system for event platforms, featuring a Flutter frontend developed in a team, a Node.js scraper using Puppeteer with stealth plugins and residential proxies, and an Express backend, deployed on Google Cloud. Achieved a 98% success rate in extracting ticket availability and pricing data, enabling automated notifications for ticket drops in a personal proof-of-concept project."
+      "description": "Developed a real-time ticket dropper system for a New York-based client, featuring a Flutter frontend built in a team, a Node.js scraper using Puppeteer with stealth plugins, residential proxies, and advanced CAPTCHA-solving to bypass sophisticated bot detection. Implemented an Express backend with parallel scraper architecture on Google Cloud, achieving a 98% success rate in extracting ticket availability and pricing data, enabling automated drop notifications."
     }
   },
   "TechStack": {
