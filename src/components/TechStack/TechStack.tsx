@@ -231,6 +231,12 @@ export default function TechStack() {
         icon: FaCode,
         color: "#FF4154",
       },
+      {
+        name: "Zustand",
+        category: "State Management",
+        icon: FaCode,
+        color: "#764ABC",
+      },
       { name: "MySQL", category: "Database", icon: SiMysql, color: "#4479A1" },
       {
         name: "MongoDB",
