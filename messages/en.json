@@ -17,12 +17,12 @@
     "ViewProject": "View Project",
     "Technologies": "Technologies:",
     "YEYAR": {
-      "title": "YEYAR",
-      "description": "Spearheaded the design and development of YEYAR, a real estate investment platform focused on verified presale properties across Mexico. Selected and implemented the entire tech stack including infrastructure, database design, and deployment strategy. Built interactive property maps with Google Maps API, advanced filtering, and investor dashboards. Led the creation of an internal CMS for editorial content published by in-house journalists, offering users real estate insights. Integrated Stripe for secure payments and implemented a reservation system for units."
+      "title": "YEYAR Real Estate Platform",
+      "description": "Led the development of YEYAR, a real estate investment platform for presale properties in Mexico, built with Next.js, TypeScript, and Drizzle ORM on AWS. Developed interactive property maps with Google Maps API, investor dashboards, and an admin panel for developers to manage investor interest, chat, and process in-app unit reservations via Stripe. Implemented SEO and metadata optimization, increasing organic traffic by 30%, and created a CMS for real estate insights, boosting user engagement."
     },
     "YEYARMobile": {
       "title": "YEYAR Mobile App",
-      "description": "Engineered a cross-platform mobile application using React Native and Expo, delivering native performance across iOS and Android. Implemented real-time push notifications using Pusher for investment updates and property alerts. Integrated device-native features including camera functionality for document uploads and biometric authentication. Built offline-capable architecture with data synchronization, ensuring seamless user experience regardless of connectivity. Successfully deployed to both App Store and Google Play with 4+ rating."
+      "description": "Developed a cross-platform YEYAR mobile app using React Native and Expo, enabling real-time property alerts via Expo push notifications. Built a Pusher-based chat for real-time messaging and offline data sync for seamless UX. Integrated haptic feedback and location based features, achieving a 4.2+ rating on App Store and Google Play."
     },
     "AIRAGSystems": {
       "title": "AI & RAG Systems",
@@ -35,6 +35,10 @@
     "BlockchainSolutions": {
       "title": "Blockchain Solutions",
       "description": "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development."
+    },
+    "Dropper": {
+      "title": "Real-Time Ticket Dropper System",
+      "description": "Built a real-time ticket dropper system for event platforms, featuring a Flutter frontend developed in a team, a Node.js scraper using Puppeteer with stealth plugins and residential proxies, and an Express backend, deployed on Google Cloud. Achieved a 98% success rate in extracting ticket availability and pricing data, enabling automated notifications for ticket drops in a personal proof-of-concept project."
     }
   },
   "TechStack": {

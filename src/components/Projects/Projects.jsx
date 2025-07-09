@@ -88,7 +88,11 @@ function ProjectItem({
         style={{ flexDirection: imageOnLeft ? "row" : "row-reverse" }}
       >
         {/* Image Container */}
-        <motion.div className={styles.imageContainer} variants={scaleIn}>
+        <motion.div
+          className={styles.imageContainer}
+          variants={scaleIn}
+          style={project.customContainerStyle || {}}
+        >
           <div
             className={styles.imageWrapper}
             style={{
@@ -111,26 +115,32 @@ function ProjectItem({
                 preload="metadata"
                 loading="lazy"
                 style={{
-                  objectFit: "cover",
+                  objectFit: project.videoFit || "cover",
                   borderRadius: "12px",
                   willChange: "transform",
                 }}
               >
                 <source
-                  src={`/videos/${project.videoSrc}#t=0.1`}
+                  src={
+                    project.videoSrc.startsWith("http")
+                      ? project.videoSrc
+                      : `/videos/${project.videoSrc}#t=0.1`
+                  }
                   type="video/mp4"
                 />
                 {/* Fallback image if video fails */}
-                <Image
-                  src={`/images/${project.src}`}
-                  width={600}
-                  height={400}
-                  alt={t(`${project.translationKey}.title`)}
-                  objectFit="cover"
-                  style={{ borderRadius: "12px" }}
-                  unoptimized={false}
-                  priority={index < 2}
-                />
+                {project.src && (
+                  <Image
+                    src={`/images/${project.src}`}
+                    width={600}
+                    height={400}
+                    alt={t(`${project.translationKey}.title`)}
+                    objectFit="cover"
+                    style={{ borderRadius: "12px" }}
+                    unoptimized={false}
+                    priority={index < 2}
+                  />
+                )}
               </video>
             ) : (
               <Image
@@ -218,31 +228,45 @@ export default function Projects() {
       translationKey: "YEYAR",
       technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
       src: "YEYAR.png",
-      videoSrc: "yeyar.mp4",
+      videoSrc:
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/yeyar_qzfv4c.mp4?_s=vp-2.5.0",
       color: "#8C8C8C",
       link: "https://yeyar.mx",
     },
     {
       translationKey: "YEYARMobile",
       technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
-      src: "YEYAR-app.png",
+      videoSrc:
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752084016/ScreenRecording_07-09-2025_11-42-15_1_1_1_fw7lzx.mp4",
       color: "#EFE8D3",
       appStoreLink: true,
+      videoFit: "contain",
+      customContainerStyle: { maxWidth: "330px", margin: "0 auto" },
     },
     {
       translationKey: "AIRAGSystems",
       technologies:
         "Next.js, Vercel AI SDK, OpenAI, Anthropic, pgvector, Supabase",
       src: "EW.png",
-      videoSrc: "ew.mp4",
+      videoSrc:
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752083845/ew_nixk0e.mp4",
       color: "#000000",
+      link: "#",
+    },
+    {
+      translationKey: "Dropper",
+      technologies: "Flutter, Node.js, Puppeteer, Capcha Solver, Google Cloud",
+      videoSrc:
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752085528/Screen_Recording_2025-07-09_at_12.18.00_p.m._1_.mp4_kqnph4.mp4",
+      color: "#000000",
+
       link: "#",
     },
     {
       translationKey: "ChromeExtension",
       technologies: "JavaScript, Chrome API, Custom UI Framework",
-      src: "chrome-extension.png",
-      videoSrc: "tm.mov",
+      videoSrc:
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/tm_1_cmv0l6.mp4?_s=vp-2.5.0",
       color: "#000000",
       link: "#",
     },

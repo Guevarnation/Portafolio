@@ -8,23 +8,21 @@
     "Work": "Trabajo",
     "Contact": "Contacto"
   },
-
   "Footer": {
     "Freelance": "Freelance",
     "Designer": "Diseñador",
     "& Developer": "& Desarrollador"
   },
-
   "Projects": {
     "ViewProject": "Ver Proyecto",
     "Technologies": "Tecnologías:",
     "YEYAR": {
-      "title": "YEYAR",
-      "description": "Lideré el diseño y desarrollo de YEYAR, una plataforma de inversión inmobiliaria enfocada en propiedades de preventa verificadas en México. Seleccioné e implementé todo el stack tecnológico incluyendo infraestructura, diseño de base de datos y estrategia de despliegue. Construí mapas interactivos de propiedades con Google Maps API, filtrado avanzado y dashboards para inversionistas. Dirigí la creación de un CMS interno para contenido editorial publicado por periodistas internos, ofreciendo insights inmobiliarios a los usuarios. Integré Stripe para pagos seguros e implementé un sistema de reservas para unidades."
+      "title": "Plataforma Inmobiliaria YEYAR",
+      "description": "Lideré el desarrollo de YEYAR, una plataforma de inversión inmobiliaria para propiedades en preventa en México, construida con Next.js, TypeScript y Drizzle ORM en AWS. Desarrollé mapas de propiedades interactivos con la API de Google Maps, paneles para inversionistas y un panel de administración para que los desarrolladores gestionen el interés de los inversionistas, chateen y procesen reservaciones de unidades en la aplicación a través de Stripe. Implementé optimización de SEO y metadatos, aumentando el tráfico orgánico en un 30%, y creé un CMS para obtener información sobre bienes raíces, impulsando la participación de los usuarios."
     },
     "YEYARMobile": {
       "title": "Aplicación Móvil YEYAR",
-      "description": "Desarrollé una aplicación móvil multiplataforma usando React Native y Expo, entregando rendimiento nativo en iOS y Android. Implementé notificaciones push en tiempo real usando Pusher para actualizaciones de inversión y alertas de propiedades. Integré características nativas del dispositivo incluyendo funcionalidad de cámara para subida de documentos y autenticación biométrica. Construí una arquitectura capaz de funcionar offline con sincronización de datos, asegurando una experiencia de usuario fluida independientemente de la conectividad. Desplegué exitosamente en App Store y Google Play con calificación 4+."
+      "description": "Desarrollé una aplicación móvil multiplataforma de YEYAR usando React Native y Expo, permitiendo alertas de propiedades en tiempo real a través de notificaciones push de Expo. Construí un chat basado en Pusher para mensajería en tiempo real y sincronización de datos sin conexión para una experiencia de usuario fluida. Integré retroalimentación háptica y funciones basadas en la ubicación, logrando una calificación de 4.2+ en la App Store y Google Play."
     },
     "AIRAGSystems": {
       "title": "Sistemas de IA y RAG",
@@ -37,9 +35,12 @@
     "BlockchainSolutions": {
       "title": "Soluciones Blockchain",
       "description": "Creé y desplegué un token ERC-20 simple y dApp acompañante como parte de una iniciativa de aprendizaje blockchain. Los usuarios podían mintear, comprar y vender el token a través de una UI mínima usando MetaMask y Web3.js. Diseñé la lógica del contrato inteligente, manejé el despliegue en testnets de Ethereum y obtuve familiaridad con optimización de gas, wallets y preocupaciones de seguridad en el desarrollo de contratos inteligentes."
+    },
+    "Dropper": {
+      "title": "Sistema de Dropper de Boletos en Tiempo Real",
+      "description": "Construí un sistema de dropper de boletos en tiempo real para plataformas de eventos, con un frontend en Flutter desarrollado en equipo, un scraper en Node.js usando Puppeteer con plugins de sigilo y proxies residenciales, y un backend en Express, desplegado en Google Cloud. Logré una tasa de éxito del 98% en la extracción de datos de disponibilidad y precios de boletos, permitiendo notificaciones automáticas para la liberación de boletos en un proyecto personal de prueba de concepto."
     }
   },
-
   "TechStack": {
     "title": "Stack Tecnológico y Herramientas",
     "categories": {
@@ -58,13 +59,11 @@
       "APIs": "APIs"
     }
   },
-
   "Description": {
     "mainPhrase": "Ayudando a empresas a construir su portal de ensueño al world wide web, aprovechando las últimas tecnologías y mejores prácticas de la industria para mantenerse a la vanguardia",
     "secondaryText": "Mi pasión por el código, diseño, economía y blockchain me pone en un lugar único en el mundo del diseño web.",
     "aboutMeButton": "Sobre mí"
   },
-
   "Contact": {
     "letsWork": "Trabajemos",
     "together": "juntos",
