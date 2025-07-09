@@ -1,12 +1,8 @@
 "use client";
 
-import React, { memo, useMemo, useState, useRef, useEffect } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import React, { memo, useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
 import {
@@ -59,137 +55,92 @@ interface TechType {
   color: string;
 }
 
+// Custom hook for individual tech item visibility (like Projects)
+function useTechItemInView() {
+  return useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "0px 0px 100px 0px", // Increased from 50px to 100px like Projects
+  });
+}
+
+// Custom hook for title visibility
+function useTitleInView() {
+  return useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "0px 0px 50px 0px",
+  });
+}
+
 const TechItem = memo(function TechItem({
   tech,
   index,
   prefersReducedMotion,
   categoryTranslation,
-  shouldAnimate,
 }: {
   tech: TechType;
   index: number;
   prefersReducedMotion: boolean;
   categoryTranslation: string;
-  shouldAnimate: boolean;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Professional easing curves
-  const springConfig = {
-    type: "spring" as const,
-    damping: 25,
-    stiffness: 300,
-    mass: 0.8,
-  };
+  // Individual useInView for each tech item (like Projects)
+  const { ref, inView } = useTechItemInView();
 
   const itemVariants = useMemo(
     () => ({
       hidden: {
         opacity: 0,
-        y: prefersReducedMotion ? 0 : 40,
-        scale: prefersReducedMotion ? 1 : 0.8,
-        rotateX: prefersReducedMotion ? 0 : -15,
-        filter: "blur(10px)",
+        y: prefersReducedMotion ? 0 : 20,
+        scale: prefersReducedMotion ? 1 : 0.95,
       },
       visible: {
         opacity: 1,
         y: 0,
         scale: 1,
-        rotateX: 0,
-        filter: "blur(0px)",
         transition: {
-          ...springConfig,
-          delay: index * 0.08,
-          opacity: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-          filter: { duration: 0.8, ease: "easeOut" },
+          duration: 0.5, // Increased from 0.4 for smoother animation
+          delay: (index % 12) * 0.03, // Reduced delay and mod by row for better performance
+          ease: [0.25, 0.46, 0.45, 0.94],
         },
       },
     }),
-    [prefersReducedMotion, index, springConfig]
+    [prefersReducedMotion, index]
   );
 
   const hoverVariants = useMemo(() => {
     if (prefersReducedMotion) return {};
-
     return {
-      scale: 1.08,
-      y: -8,
-      rotateY: 5,
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+      y: -4,
+      scale: 1.02,
       transition: {
-        type: "spring",
-        damping: 20,
-        stiffness: 400,
+        duration: 0.2,
+        ease: "easeOut",
       },
     };
   }, [prefersReducedMotion]);
-
-  const iconAnimation = useMemo(() => {
-    if (prefersReducedMotion) return {};
-
-    return {
-      scale: isHovered ? 1.2 : 1,
-      rotate: isHovered ? [0, -5, 5, 0] : 0,
-      transition: {
-        type: "spring",
-        damping: 15,
-        stiffness: 300,
-        rotate: {
-          duration: 0.6,
-          ease: "easeInOut",
-        },
-      },
-    };
-  }, [isHovered, prefersReducedMotion]);
-
-  const textAnimation = useMemo(() => {
-    if (prefersReducedMotion) return {};
-
-    return {
-      y: isHovered ? -2 : 0,
-      transition: {
-        type: "spring",
-        damping: 20,
-        stiffness: 400,
-      },
-    };
-  }, [isHovered, prefersReducedMotion]);
 
   const IconComponent = tech.icon;
 
   return (
     <motion.div
+      ref={ref}
       className={styles.techItem}
       initial="hidden"
-      animate={shouldAnimate ? "visible" : "hidden"}
+      animate={inView ? "visible" : "hidden"}
       variants={itemVariants}
       whileHover={hoverVariants}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      style={{
-        willChange: shouldAnimate ? "auto" : "transform, opacity",
-        transform: "translate3d(0, 0, 0)",
-        perspective: "1000px",
-      }}
     >
-      <motion.div className={styles.iconContainer} animate={iconAnimation}>
+      <div className={styles.iconContainer}>
         <IconComponent
           className={styles.techIcon}
           style={{ color: tech.color }}
         />
-      </motion.div>
-      <motion.div
-        animate={textAnimation}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
+      </div>
+      <div className={styles.textContainer}>
         <span className={styles.techName}>{tech.name}</span>
         <span className={styles.techCategory}>{categoryTranslation}</span>
-      </motion.div>
+      </div>
     </motion.div>
   );
 });
@@ -197,39 +148,9 @@ const TechItem = memo(function TechItem({
 export default function TechStack() {
   const t = useTranslations("TechStack");
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const [isVisible, setIsVisible] = useState(false);
-  const [animationPhase, setAnimationPhase] = useState<
-    "hidden" | "title" | "grid"
-  >("hidden");
-  const sectionRef = useRef<HTMLElement>(null);
 
-  // Enhanced intersection observer with better timing
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-          // Choreographed animation phases
-          setTimeout(() => setAnimationPhase("title"), 100);
-          setTimeout(() => setAnimationPhase("grid"), 600);
-        }
-      },
-      {
-        threshold: 0.2,
-        rootMargin: "0px 0px 100px 0px",
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [isVisible]);
+  // Separate useInView for title
+  const { ref: titleRef, inView: titleInView } = useTitleInView();
 
   const technologies = useMemo(
     (): TechType[] => [
@@ -436,7 +357,6 @@ export default function TechStack() {
     []
   );
 
-  // Pre-compute all translations to avoid re-renders
   const categoryTranslations = useMemo(() => {
     const categories = Array.from(
       new Set(technologies.map((tech) => tech.category))
@@ -451,102 +371,34 @@ export default function TechStack() {
     () => ({
       hidden: {
         opacity: 0,
-        y: prefersReducedMotion ? 0 : 50,
-        scale: prefersReducedMotion ? 1 : 0.9,
-        filter: "blur(10px)",
+        y: prefersReducedMotion ? 0 : 30,
       },
       visible: {
         opacity: 1,
         y: 0,
-        scale: 1,
-        filter: "blur(0px)",
         transition: {
-          type: "spring",
-          damping: 25,
-          stiffness: 200,
-          duration: 0.8,
-          opacity: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-          filter: { duration: 1, ease: "easeOut" },
+          duration: 0.6,
+          ease: [0.25, 0.46, 0.45, 0.94],
         },
       },
     }),
     [prefersReducedMotion]
   );
 
-  const containerVariants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-      },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.05,
-          delayChildren: 0.1,
-          when: "beforeChildren",
-        },
-      },
-    }),
-    []
-  );
-
-  // Background animation for the entire section
-  const sectionVariants = useMemo(
-    () => ({
-      hidden: {
-        background: "linear-gradient(135deg, transparent 0%, transparent 100%)",
-      },
-      visible: {
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%)",
-        transition: {
-          duration: 2,
-          ease: "easeOut",
-        },
-      },
-    }),
-    []
-  );
-
   return (
-    <motion.section
-      ref={sectionRef}
-      className={styles.techStack}
-      id="tech-stack"
-      initial="hidden"
-      animate={isVisible ? "visible" : "hidden"}
-      variants={sectionVariants}
-      style={{
-        transform: "translate3d(0, 0, 0)",
-        backfaceVisibility: "hidden",
-      }}
-    >
+    <section className={styles.techStack} id="tech-stack">
       <div className={styles.container}>
         <motion.h2
+          ref={titleRef}
           className={styles.sectionTitle}
           initial="hidden"
-          animate={animationPhase !== "hidden" ? "visible" : "hidden"}
+          animate={titleInView ? "visible" : "hidden"}
           variants={titleVariants}
-          style={{
-            willChange:
-              animationPhase !== "hidden" ? "auto" : "transform, opacity",
-            transform: "translate3d(0, 0, 0)",
-            backfaceVisibility: "hidden",
-          }}
         >
           {t("title")}
         </motion.h2>
 
-        <motion.div
-          className={styles.techGrid}
-          initial="hidden"
-          animate={animationPhase === "grid" ? "visible" : "hidden"}
-          variants={containerVariants}
-          style={{
-            transform: "translate3d(0, 0, 0)",
-            backfaceVisibility: "hidden",
-          }}
-        >
+        <div className={styles.techGrid}>
           {technologies.map((tech, index) => (
             <TechItem
               key={tech.name}
@@ -554,11 +406,10 @@ export default function TechStack() {
               index={index}
               prefersReducedMotion={prefersReducedMotion}
               categoryTranslation={categoryTranslations[tech.category]}
-              shouldAnimate={animationPhase === "grid"}
             />
           ))}
-        </motion.div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

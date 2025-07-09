@@ -9,13 +9,15 @@ export default function GitHub() {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ["start end", "end start"],
+    offset: ["start 85%", "end start"], // Changed from ["start end", "end start"] to trigger earlier
   });
 
-  // Create scroll-based animations similar to SlidingImages
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  // Create scroll-based animations - optimized for earlier visibility
+  const y1 = useTransform(scrollYProgress, [0, 1], [20, -30]); // Start with slight offset for smooth entry
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 30]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.8], [0, 1, 0.9]); // Show much earlier (15% instead of 50%)
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]); // Add subtle scale animation
+  const blur = useTransform(scrollYProgress, [0, 0.1], [4, 0]); // Add subtle blur effect for smooth entrance
   const height = useTransform(scrollYProgress, [0, 0.9], [30, 0]);
 
   // GitHub username and state
@@ -50,7 +52,15 @@ export default function GitHub() {
 
   return (
     <div ref={container} className={styles.slidingImages}>
-      <motion.div style={{ y: y1, opacity }} className={styles.githubContainer}>
+      <motion.div
+        style={{
+          y: y1,
+          opacity,
+          scale,
+          filter: `blur(${blur}px)`, // Apply blur effect for smooth entrance
+        }}
+        className={styles.githubContainer}
+      >
         {/* <h2 className={styles.title}>GitHub Contributions</h2> */}
 
         {loading && (

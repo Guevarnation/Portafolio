@@ -70,6 +70,7 @@ function ProjectItem({
       ref={ref}
       key={index}
       className={styles.projectItem}
+      style={{ cursor: project.link ? "pointer" : "default" }}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={{
@@ -251,7 +252,6 @@ export default function Projects() {
       videoSrc:
         "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752083845/ew_nixk0e.mp4",
       color: "#000000",
-      link: "#",
     },
     {
       translationKey: "Dropper",
@@ -259,8 +259,6 @@ export default function Projects() {
       videoSrc:
         "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752085528/Screen_Recording_2025-07-09_at_12.18.00_p.m._1_.mp4_kqnph4.mp4",
       color: "#000000",
-
-      link: "#",
     },
     {
       translationKey: "ChromeExtension",
@@ -268,14 +266,12 @@ export default function Projects() {
       videoSrc:
         "https://res.cloudinary.com/drjfzsw6m/video/upload/tm_1_cmv0l6.mp4?_s=vp-2.5.0",
       color: "#000000",
-      link: "#",
     },
     {
       translationKey: "BlockchainSolutions",
       technologies: "Solidity, Ethereum, Web3.js",
       src: "blockchain.png",
       color: "#706D63",
-      link: "#",
     },
   ];
 
