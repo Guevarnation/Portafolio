@@ -38,7 +38,7 @@
     },
     "Dropper": {
       "title": "Sistema de Dropper de Boletos en Tiempo Real",
-      "description": "Construí un sistema de dropper de boletos en tiempo real para plataformas de eventos, con un frontend en Flutter desarrollado en equipo, un scraper en Node.js usando Puppeteer con plugins de sigilo y proxies residenciales, y un backend en Express, desplegado en Google Cloud. Logré una tasa de éxito del 98% en la extracción de datos de disponibilidad y precios de boletos, permitiendo notificaciones automáticas para la liberación de boletos en un proyecto personal de prueba de concepto."
+      "description": "Desarrollé un sistema de dropper de boletos en tiempo real para un cliente con sede en Nueva York, con un frontend en Flutter construido en equipo, un scraper en Node.js usando Puppeteer con plugins de sigilo, proxies residenciales y resolución avanzada de CAPTCHA para evadir la detección sofisticada de bots. Implementé un backend en Express con arquitectura de scraper paralelo en Google Cloud, logrando una tasa de éxito del 98% en la extracción de datos de disponibilidad y precios de boletos, habilitando notificaciones automáticas de drop."
     }
   },
   "TechStack": {
