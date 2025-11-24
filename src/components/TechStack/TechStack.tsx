@@ -1,146 +1,110 @@
 "use client";
 
 import React, { memo, useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
 import {
   SiNextdotjs,
   SiReact,
-  SiJavascript,
   SiTypescript,
   SiPython,
   SiMysql,
-  SiStripe,
-  SiTailwindcss,
-  SiExpo,
-  SiFlutter,
-  SiExpress,
-  SiNodedotjs,
+  SiPostgresql,
   SiAmazon,
-  SiGooglecloud,
-  SiDigitalocean,
-  SiVercel,
-  SiEthereum,
-  SiWeb3Dotjs,
+  SiDocker,
+  SiSolidity,
   SiOpenai,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiGo,
+  SiTensorflow,
+  SiWeb3Dotjs,
+  SiGraphql,
+  SiHono,
+  SiDrizzle,
+  SiExpress,
+  SiExpo,
+  SiAngular,
+  SiIonic,
   SiSupabase,
-  SiGooglemaps,
+  SiFirebase,
+  SiMongodb,
+  SiVercel,
+  SiDigitalocean,
+  SiGooglecloud,
+  SiStripe,
   SiPuppeteer,
   SiR,
-  SiSolidity,
-  SiMongodb,
-  SiFirebase,
-  SiIonic,
+  SiEthereum,
+  SiGooglemaps,
 } from "react-icons/si";
 import {
   FaDatabase,
-  FaTools,
-  FaMobile,
+  FaServer,
+  FaCloud,
   FaCode,
+  FaMobile,
   FaRobot,
   FaCreditCard,
-  FaChrome,
+  FaTools,
   FaFileExcel,
   FaChartBar,
-  FaBrain,
+  FaChrome,
   FaWallet,
 } from "react-icons/fa";
 import { BiLaptop } from "react-icons/bi";
 
-interface TechType {
+interface TechItemData {
   name: string;
-  category: string;
   icon: React.ComponentType<any>;
   color: string;
+  level: "Expert" | "Advanced" | "Intermediate";
+  years: string;
 }
 
-// Custom hook for individual tech item visibility (like Projects)
-function useTechItemInView() {
-  return useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-    rootMargin: "0px 0px 100px 0px", // Increased from 50px to 100px like Projects
-  });
+interface TechCategory {
+  id: string;
+  label: string;
+  icon: React.ComponentType<any>;
+  items: TechItemData[];
 }
 
-// Custom hook for title visibility
-function useTitleInView() {
-  return useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-    rootMargin: "0px 0px 50px 0px",
-  });
-}
-
-const TechItem = memo(function TechItem({
+const TechCard = memo(function TechCard({
   tech,
-  index,
   prefersReducedMotion,
-  categoryTranslation,
 }: {
-  tech: TechType;
-  index: number;
+  tech: TechItemData;
   prefersReducedMotion: boolean;
-  categoryTranslation: string;
 }) {
-  // Individual useInView for each tech item (like Projects)
-  const { ref, inView } = useTechItemInView();
+  const hoverVariants: Variants = {
+    hover: {
+      y: prefersReducedMotion ? 0 : -4,
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+    },
+  };
 
-  const itemVariants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-        y: prefersReducedMotion ? 0 : 20,
-        scale: prefersReducedMotion ? 1 : 0.95,
-      },
-      visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          duration: 0.5, // Increased from 0.4 for smoother animation
-          delay: (index % 12) * 0.03, // Reduced delay and mod by row for better performance
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-    }),
-    [prefersReducedMotion, index]
-  );
-
-  const hoverVariants = useMemo(() => {
-    if (prefersReducedMotion) return {};
-    return {
-      y: -4,
-      scale: 1.02,
-      transition: {
-        duration: 0.2,
-        ease: "easeOut",
-      },
-    };
-  }, [prefersReducedMotion]);
-
-  const IconComponent = tech.icon;
+  const Icon = tech.icon;
 
   return (
     <motion.div
-      ref={ref}
-      className={styles.techItem}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      variants={itemVariants}
-      whileHover={hoverVariants}
+      className={styles.techCard}
+      variants={{
+        hidden: { opacity: 0, y: 10 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      whileHover={prefersReducedMotion ? undefined : "hover"}
     >
-      <div className={styles.iconContainer}>
-        <IconComponent
-          className={styles.techIcon}
-          style={{ color: tech.color }}
-        />
-      </div>
-      <div className={styles.textContainer}>
-        <span className={styles.techName}>{tech.name}</span>
-        <span className={styles.techCategory}>{categoryTranslation}</span>
+      <div className={styles.cardHeader}>
+        <div className={styles.iconWrapper} style={{ color: tech.color }}>
+          <Icon size={24} />
+        </div>
+        <div className={styles.info}>
+          <h4 className={styles.name}>{tech.name}</h4>
+          <span className={styles.level}>{tech.level}</span>
+        </div>
       </div>
     </motion.div>
   );
@@ -149,277 +113,296 @@ const TechItem = memo(function TechItem({
 export default function TechStack() {
   const t = useTranslations("TechStack");
   const prefersReducedMotion = useReducedMotion() ?? false;
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "-50px",
+  });
 
-  // Separate useInView for title
-  const { ref: titleRef, inView: titleInView } = useTitleInView();
-
-  const technologies = useMemo(
-    (): TechType[] => [
-      // Frontend Frameworks & Libraries
+  const categories: TechCategory[] = useMemo(
+    () => [
       {
-        name: "Next.js",
-        category: "Frontend",
-        icon: SiNextdotjs,
-        color: "#000000",
-      },
-      { name: "React", category: "Frontend", icon: SiReact, color: "#61DAFB" },
-      {
-        name: "React Native",
-        category: "Mobile",
-        icon: SiReact,
-        color: "#61DAFB",
-      },
-      { name: "Expo", category: "Mobile", icon: SiExpo, color: "#000020" },
-      {
-        name: "Flutter",
-        category: "Mobile",
-        icon: SiFlutter,
-        color: "#02569B",
-      },
-      { name: "Ionic", category: "Mobile", icon: SiIonic, color: "#3880FF" },
-      {
-        name: "TailwindCSS",
-        category: "Styling",
-        icon: SiTailwindcss,
-        color: "#06B6D4",
-      },
-
-      // Backend & APIs
-      {
-        name: "Express",
-        category: "Backend",
-        icon: SiExpress,
-        color: "#000000",
-      },
-      {
-        name: "Node.js",
-        category: "Backend",
-        icon: SiNodedotjs,
-        color: "#339933",
-      },
-
-      // Programming Languages
-      {
-        name: "JavaScript",
-        category: "Languages",
-        icon: SiJavascript,
-        color: "#F7DF1E",
-      },
-      {
-        name: "TypeScript",
-        category: "Languages",
-        icon: SiTypescript,
-        color: "#3178C6",
-      },
-      {
-        name: "Python",
-        category: "Languages",
-        icon: SiPython,
-        color: "#3776AB",
-      },
-      { name: "R", category: "Languages", icon: SiR, color: "#276DC3" },
-      {
-        name: "Solidity",
-        category: "Languages",
-        icon: SiSolidity,
-        color: "#363636",
-      },
-
-      // State Management & Data
-      {
-        name: "Tanstack",
-        category: "State Management",
+        id: "core",
+        label: "Core & Languages",
         icon: FaCode,
-        color: "#FF4154",
+        items: [
+          {
+            name: "TypeScript",
+            icon: SiTypescript,
+            color: "#3178C6",
+            level: "Expert",
+            years: "5+ Years",
+          },
+          {
+            name: "Python",
+            icon: SiPython,
+            color: "#3776AB",
+            level: "Expert",
+            years: "4+ Years",
+          },
+          {
+            name: "Go",
+            icon: SiGo,
+            color: "#00ADD8",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+          {
+            name: "Solidity",
+            icon: SiSolidity,
+            color: "#363636",
+            level: "Intermediate",
+            years: "2+ Years",
+          },
+          {
+            name: "R",
+            icon: SiR,
+            color: "#276DC3",
+            level: "Intermediate",
+            years: "2+ Years",
+          },
+        ],
       },
       {
-        name: "Zustand",
-        category: "State Management",
-        icon: FaCode,
-        color: "#764ABC",
-      },
-      { name: "MySQL", category: "Database", icon: SiMysql, color: "#4479A1" },
-      {
-        name: "MongoDB",
-        category: "Database",
-        icon: SiMongodb,
-        color: "#47A248",
-      },
-      {
-        name: "Firebase",
-        category: "Database",
-        icon: SiFirebase,
-        color: "#FFCA28",
-      },
-      {
-        name: "Supabase",
-        category: "Database",
-        icon: SiSupabase,
-        color: "#3ECF8E",
-      },
-      {
-        name: "pgvector",
-        category: "Database",
-        icon: FaDatabase,
-        color: "#336791",
-      },
-
-      // AI & Machine Learning
-      { name: "OpenAI", category: "AI/ML", icon: SiOpenai, color: "#412991" },
-      { name: "Anthropic", category: "AI/ML", icon: FaBrain, color: "#D97757" },
-      {
-        name: "Vercel AI SDK",
-        category: "AI/ML",
-        icon: FaRobot,
-        color: "#000000",
-      },
-
-      // Cloud & Infrastructure
-      { name: "AWS", category: "Cloud", icon: SiAmazon, color: "#FF9900" },
-      {
-        name: "Google Cloud",
-        category: "Cloud",
-        icon: SiGooglecloud,
-        color: "#4285F4",
-      },
-      {
-        name: "DigitalOcean",
-        category: "Cloud",
-        icon: SiDigitalocean,
-        color: "#0080FF",
-      },
-      { name: "Vercel", category: "Cloud", icon: SiVercel, color: "#000000" },
-
-      // Payment & Authentication
-      {
-        name: "Stripe",
-        category: "Services",
-        icon: SiStripe,
-        color: "#635BFF",
-      },
-      {
-        name: "Clerk",
-        category: "Services",
-        icon: FaCreditCard,
-        color: "#6C47FF",
-      },
-      { name: "Pusher", category: "Services", icon: FaTools, color: "#300D4F" },
-
-      // Tools & Analytics
-      {
-        name: "Cursor",
-        category: "Tools",
-        icon: BiLaptop,
-        color: "#000000",
-      },
-      {
-        name: "Puppeteer",
-        category: "Tools",
-        icon: SiPuppeteer,
-        color: "#40B5A8",
-      },
-      {
-        name: "Selenium",
-        category: "Tools",
-        icon: FaRobot,
-        color: "#40B5A8",
-      },
-      { name: "Excel", category: "Tools", icon: FaFileExcel, color: "#217346" },
-      { name: "Stata", category: "Tools", icon: FaChartBar, color: "#1A365D" },
-      {
-        name: "Chrome API",
-        category: "Tools",
-        icon: FaChrome,
-        color: "#4285F4",
-      },
-
-      // Blockchain
-      {
-        name: "Ethereum",
-        category: "Blockchain",
-        icon: SiEthereum,
-        color: "#627EEA",
-      },
-      {
-        name: "Web3.js",
-        category: "Blockchain",
-        icon: SiWeb3Dotjs,
-        color: "#F16822",
-      },
-      {
-        name: "MetaMask",
-        category: "Blockchain",
-        icon: FaWallet,
-        color: "#F6851B",
-      },
-
-      // Native APIs
-      {
-        name: "Native APIs",
-        category: "Mobile",
+        id: "web_mobile",
+        label: "Web & Mobile",
         icon: FaMobile,
-        color: "#FF6B6B",
+        items: [
+          {
+            name: "Next.js",
+            icon: SiNextdotjs,
+            color: "#000000",
+            level: "Expert",
+            years: "4+ Years",
+          },
+          {
+            name: "React",
+            icon: SiReact,
+            color: "#61DAFB",
+            level: "Expert",
+            years: "5+ Years",
+          },
+          {
+            name: "Tailwind",
+            icon: SiTailwindcss,
+            color: "#06B6D4",
+            level: "Expert",
+            years: "3+ Years",
+          },
+          {
+            name: "React Native",
+            icon: SiReact,
+            color: "#61DAFB",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+          {
+            name: "Expo",
+            icon: SiExpo,
+            color: "#000020",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+          {
+            name: "Angular",
+            icon: SiAngular,
+            color: "#DD0031",
+            level: "Intermediate",
+            years: "2+ Years",
+          },
+          {
+            name: "Ionic",
+            icon: SiIonic,
+            color: "#3880FF",
+            level: "Intermediate",
+            years: "2+ Years",
+          },
+        ],
       },
       {
-        name: "Google Maps API",
-        category: "APIs",
-        icon: SiGooglemaps,
-        color: "#4285F4",
+        id: "backend_data",
+        label: "Backend & Data",
+        icon: FaDatabase,
+        items: [
+          {
+            name: "Node.js",
+            icon: SiNodedotjs,
+            color: "#339933",
+            level: "Advanced",
+            years: "5+ Years",
+          },
+          {
+            name: "Hono.js",
+            icon: SiHono,
+            color: "#E36002",
+            level: "Advanced",
+            years: "1+ Years",
+          },
+          {
+            name: "Express",
+            icon: SiExpress,
+            color: "#000000",
+            level: "Advanced",
+            years: "4+ Years",
+          },
+          {
+            name: "Drizzle ORM",
+            icon: SiDrizzle,
+            color: "#C5F74F",
+            level: "Advanced",
+            years: "1+ Years",
+          },
+          {
+            name: "PostgreSQL",
+            icon: SiPostgresql,
+            color: "#336791",
+            level: "Advanced",
+            years: "4+ Years",
+          },
+          {
+            name: "MySQL",
+            icon: SiMysql,
+            color: "#4479A1",
+            level: "Advanced",
+            years: "5+ Years",
+          },
+          {
+            name: "MongoDB",
+            icon: SiMongodb,
+            color: "#47A248",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+          {
+            name: "Supabase",
+            icon: SiSupabase,
+            color: "#3ECF8E",
+            level: "Advanced",
+            years: "2+ Years",
+          },
+          {
+            name: "Firebase",
+            icon: SiFirebase,
+            color: "#FFCA28",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+        ],
+      },
+      {
+        id: "infra_tools",
+        label: "Infra, AI & Tools",
+        icon: FaCloud,
+        items: [
+          {
+            name: "AWS",
+            icon: SiAmazon,
+            color: "#FF9900",
+            level: "Advanced",
+            years: "4+ Years",
+          },
+          {
+            name: "Docker",
+            icon: SiDocker,
+            color: "#2496ED",
+            level: "Intermediate",
+            years: "3+ Years",
+          },
+          {
+            name: "OpenAI API",
+            icon: SiOpenai,
+            color: "#412991",
+            level: "Advanced",
+            years: "2+ Years",
+          },
+          {
+            name: "Vercel",
+            icon: SiVercel,
+            color: "#000000",
+            level: "Expert",
+            years: "4+ Years",
+          },
+          {
+            name: "Stripe",
+            icon: SiStripe,
+            color: "#635BFF",
+            level: "Advanced",
+            years: "3+ Years",
+          },
+          {
+            name: "Web3.js",
+            icon: SiWeb3Dotjs,
+            color: "#F16822",
+            level: "Intermediate",
+            years: "2+ Years",
+          },
+          {
+            name: "Puppeteer",
+            icon: SiPuppeteer,
+            color: "#40B5A8",
+            level: "Advanced",
+            years: "2+ Years",
+          },
+          {
+            name: "Cursor",
+            icon: BiLaptop,
+            color: "#000000",
+            level: "Expert",
+            years: "1+ Years",
+          },
+        ],
       },
     ],
     []
   );
 
-  const categoryTranslations = useMemo(() => {
-    const categories = Array.from(
-      new Set(technologies.map((tech) => tech.category))
-    );
-    return categories.reduce((acc, category) => {
-      acc[category] = t(`categories.${category}`);
-      return acc;
-    }, {} as Record<string, string>);
-  }, [technologies, t]);
-
-  const titleVariants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-        y: prefersReducedMotion ? 0 : 30,
-      },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.6,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
-      },
-    }),
-    [prefersReducedMotion]
-  );
-
   return (
-    <section className={styles.techStack} id="tech-stack">
+    <section className={styles.techStack} id="tech-stack" ref={ref}>
       <div className={styles.container}>
         <motion.h2
-          ref={titleRef}
           className={styles.sectionTitle}
-          initial="hidden"
-          animate={titleInView ? "visible" : "hidden"}
-          variants={titleVariants}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
         >
           {t("title")}
         </motion.h2>
 
-        <div className={styles.techGrid}>
-          {technologies.map((tech, index) => (
-            <TechItem
-              key={tech.name}
-              tech={tech}
-              index={index}
-              prefersReducedMotion={prefersReducedMotion}
-              categoryTranslation={categoryTranslations[tech.category]}
-            />
+        <div className={styles.categoriesGrid}>
+          {categories.map((category, catIndex) => (
+            <motion.div
+              key={category.id}
+              className={styles.categoryColumn}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    delay: catIndex * 0.1,
+                    duration: 0.5,
+                    when: "beforeChildren",
+                    staggerChildren: 0.05,
+                  },
+                },
+              }}
+            >
+              <h3 className={styles.categoryTitle}>
+                <category.icon className={styles.catIcon} />
+                {category.label}
+              </h3>
+              <div className={styles.cardsList}>
+                {category.items.map((tech) => (
+                  <TechCard
+                    key={tech.name}
+                    tech={tech}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
+                ))}
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { opacity, slideUp } from "./anim";
 
 const words = [
@@ -56,7 +56,7 @@ export default function Preloader() {
 
   return (
     <motion.div
-      variants={slideUp}
+      variants={slideUp as unknown as Variants}
       initial="initial"
       exit="exit"
       className={styles.introduction}
@@ -70,7 +70,7 @@ export default function Preloader() {
           </motion.p>
           <svg>
             <motion.path
-              variants={curve}
+              variants={curve as unknown as Variants}
               initial="initial"
               exit="exit"
             ></motion.path>

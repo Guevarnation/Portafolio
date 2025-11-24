@@ -1,215 +1,126 @@
 .techStack {
-  padding: 0px 0 40px 0; // Added bottom padding for better flow to next component
-  position: relative;
-  background: white;
-  overflow: hidden;
+  padding: 100px 0;
+  background-color: var(
+    --background-color
+  ); // Assuming global var or dark theme
+  color: var(--text-color);
+  width: 100%;
+  display: flex;
+  justify-content: center;
 
   .container {
-    max-width: 1200px;
-    width: 100%;
+    width: 90%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
-
-    @media (max-width: 768px) {
-      padding: 0 16px;
-    }
   }
 
   .sectionTitle {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 32px;
-    text-align: center;
-    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 2px;
-      background: linear-gradient(90deg, #c5fb45, #4299e1);
-      border-radius: 1px;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 2rem;
-      margin-bottom: 24px;
-    }
+    font-size: 3rem;
+    font-weight: 400;
+    margin-bottom: 80px;
+    text-align: left;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.2);
+    padding-bottom: 20px;
   }
 
-  .techGrid {
+  .categoriesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
-    max-width: 100%;
-
-    @media (max-width: 768px) {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 12px;
-    }
-
-    @media (max-width: 480px) {
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 10px;
-    }
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    width: 100%;
   }
 
-  .techItem {
+  .categoryColumn {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 16px 12px;
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
+    gap: 24px;
+  }
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #c5fb45, transparent);
-      border-radius: 12px 12px 0 0;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+  .categoryTitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    .catIcon {
+      font-size: 1.2em;
     }
+  }
+
+  .cardsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .techCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px 20px;
+    cursor: default;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      border-color: rgba(197, 251, 69, 0.3);
-
-      &::before {
-        opacity: 1;
-      }
-
-      .iconContainer {
-        transform: scale(1.05);
-      }
-
-      .techIcon {
-        filter: brightness(1.1);
-      }
-
-      .techName {
-        color: #1a202c;
-      }
-
-      .techCategory {
-        background-color: rgba(197, 251, 69, 0.1);
-        color: #2d5a27;
-      }
+      border-color: rgba(255, 255, 255, 0.15);
     }
 
-    @media (max-width: 768px) {
-      padding: 14px 10px;
+    .cardHeader {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
-  }
 
-  .iconContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-    background: #f8fafc;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-
-    @media (max-width: 768px) {
-      width: 42px;
-      height: 42px;
-      margin-bottom: 10px;
+    .iconWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
     }
-  }
 
-  .techIcon {
-    font-size: 24px;
-    transition: filter 0.3s ease;
-
-    @media (max-width: 768px) {
-      font-size: 20px;
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
-  }
 
-  .textContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-  }
+    .name {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.2;
+    }
 
-  .techName {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: #2d3748;
-    transition: color 0.3s ease;
-    line-height: 1.2;
-
-    @media (max-width: 768px) {
+    .level {
       font-size: 0.8rem;
-      margin-bottom: 4px;
-    }
-  }
-
-  .techCategory {
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 2px 8px;
-    background-color: rgba(0, 0, 0, 0.04);
-    border-radius: 12px;
-    color: #718096;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-
-    @media (max-width: 768px) {
-      font-size: 0.65rem;
-      padding: 2px 6px;
+      opacity: 0.5;
+      font-weight: 400;
     }
   }
 }
 
-// Responsive optimizations for very small screens
-@media (max-width: 360px) {
+// Responsive adjustments
+@media (max-width: 768px) {
   .techStack {
-    padding: 32px 0;
+    padding: 60px 0;
+  }
 
-    .container {
-      padding: 0 12px;
-    }
+  .sectionTitle {
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+  }
 
-    .techGrid {
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 8px;
-    }
-
-    .techItem {
-      padding: 12px 8px;
-    }
-
-    .techName {
-      font-size: 0.75rem;
-    }
-
-    .techCategory {
-      font-size: 0.6rem;
-      padding: 1px 4px;
-    }
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+    gap: 50px;
   }
 }

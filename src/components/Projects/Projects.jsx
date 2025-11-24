@@ -230,7 +230,7 @@ export default function Projects() {
       technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
       src: "YEYAR.png",
       videoSrc:
-        "https://res.cloudinary.com/drjfzsw6m/video/upload/yeyar_qzfv4c.mp4?_s=vp-2.5.0",
+        "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027454/Screen_Recording_2025-11-24_at_5.29.27_p.m._crxuh5.mp4",
       color: "#8C8C8C",
       link: "https://yeyar.mx",
     },
@@ -238,7 +238,7 @@ export default function Projects() {
       translationKey: "YEYARMobile",
       technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
       videoSrc:
-        "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752084016/ScreenRecording_07-09-2025_11-42-15_1_1_1_fw7lzx.mp4",
+        "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027231/ScreenRecording_11-24-2025_17-30-58_1_t0aqgx.mp4",
       color: "#EFE8D3",
       appStoreLink: true,
       videoFit: "contain",

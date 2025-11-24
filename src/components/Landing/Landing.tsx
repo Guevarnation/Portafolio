@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { useRef, useLayoutEffect } from "react";
 import { ScrollTrigger } from "gsap/all";
 import { slideUp } from "./animation";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 export default function Home() {
@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <motion.main
-      variants={slideUp}
+      variants={slideUp as unknown as Variants}
       initial="initial"
       animate="enter"
       className={styles.landing}
@@ -77,7 +77,7 @@ export default function Home() {
             fill="white"
           />
         </svg>
-        <p>{t("Footer.Designer")}</p>
+        <p>{t("Footer.Economist")}</p>
         <p>{t("Footer.& Developer")}</p>
       </div>
     </motion.main>
