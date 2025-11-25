@@ -39,6 +39,7 @@ import {
   SiR,
   SiEthereum,
   SiGooglemaps,
+  SiPrisma,
 } from "react-icons/si";
 import {
   FaDatabase,
@@ -250,7 +251,14 @@ export default function TechStack() {
             icon: SiDrizzle,
             color: "#C5F74F",
             level: "Advanced",
-            years: "1+ Years",
+            years: "2+ Years",
+          },
+          {
+            name: "Prisma",
+            icon: SiPrisma,
+            color: "#2D3748",
+            level: "Advanced",
+            years: "3+ Years",
           },
           {
             name: "PostgreSQL",
