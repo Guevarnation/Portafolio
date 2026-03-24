@@ -12,7 +12,6 @@ import {
   SiPython,
   SiMysql,
   SiPostgresql,
-  SiAmazon,
   SiDocker,
   SiSolidity,
   SiOpenai,
@@ -54,6 +53,7 @@ import {
   FaChartBar,
   FaChrome,
   FaWallet,
+  FaAws,
 } from "react-icons/fa";
 import { BiLaptop } from "react-icons/bi";
 
@@ -304,7 +304,7 @@ export default function TechStack() {
         items: [
           {
             name: "AWS",
-            icon: SiAmazon,
+            icon: FaAws,
             color: "#FF9900",
             level: "Advanced",
             years: "4+ Years",
