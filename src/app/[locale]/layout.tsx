@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | Eugenio Guevara",
   },
   description:
-    "Full-stack developer specializing in React, Next.js, React Native, and AI/RAG systems. Building modern web applications, mobile apps, and blockchain solutions.",
+    "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups. Specializing in TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
   keywords: [
     "full-stack developer",
     "react developer",
@@ -30,9 +30,12 @@ export const metadata: Metadata = {
     "web developer",
     "mobile app developer",
     "AI developer",
-    "blockchain developer",
-    "freelance developer",
-    "economist",
+    "Go developer",
+    "AWS certified solutions architect",
+    "fintech developer",
+    "cloud architect",
+    "TypeScript developer",
+    "RAG pipeline",
   ],
   authors: [{ name: "Eugenio Guevara" }],
   creator: "Eugenio Guevara",
@@ -51,9 +54,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://eugenioguevara.com",
-    title: "Eugenio Guevara - Full-Stack Developer & Economist",
+    title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
-      "Full-stack developer building modern web applications, mobile apps, and AI systems. Experienced in React, Next.js, React Native, and blockchain development.",
+      "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
     images: [
       {
         url: "/images/background.jpeg",
@@ -66,9 +69,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eugenio Guevara - Full-Stack Developer",
+    title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
-      "Full-stack developer specializing in React, Next.js, React Native, and AI systems.",
+      "AWS Certified Full-Stack Developer. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
     images: ["/images/background.jpeg"],
   },
   alternates: {
@@ -104,24 +107,34 @@ export default async function RootLayout({
                 name: "Eugenio Guevara",
                 jobTitle: "Full-Stack Developer",
                 description:
-                  "Full-stack developer specializing in React, Next.js, React Native, and AI/RAG systems",
+                  "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups",
                 url: "https://eugenioguevara.com",
                 sameAs: [
                   "https://github.com/Guevarnation",
-                  "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/",
+                  "https://www.linkedin.com/in/eugenio-guevara",
                 ],
                 knowsAbout: [
                   "React",
                   "Next.js",
                   "React Native",
-                  "JavaScript",
                   "TypeScript",
+                  "Go",
+                  "AWS",
                   "Full-Stack Development",
                   "Mobile App Development",
-                  "AI Development",
-                  "Blockchain Development",
+                  "AI/RAG Pipelines",
+                  "Cloud Architecture",
+                  "Fintech",
                 ],
-                alumniOf: "Software Engineering",
+                alumniOf: {
+                  "@type": "CollegeOrUniversity",
+                  name: "University of Monterrey (UDEM)",
+                },
+                hasCredential: {
+                  "@type": "EducationalOccupationalCredential",
+                  name: "AWS Certified Solutions Architect – Associate (SAA-C03)",
+                  credentialCategory: "Professional Certification",
+                },
                 email: "guevaraeu1@gmail.com",
               }),
             }}
@@ -136,7 +149,7 @@ export default async function RootLayout({
                 url: "https://eugenioguevara.com",
                 name: "Eugenio Guevara Portfolio",
                 description:
-                  "Full-stack developer portfolio showcasing React, Next.js, React Native, and AI projects",
+                  "AWS Certified Full-Stack Developer portfolio showcasing AI pipelines, real-time systems, and mobile apps",
                 author: {
                   "@id": "https://eugenioguevara.com/#person",
                 },

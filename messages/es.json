@@ -1,17 +1,17 @@
 {
   "Index": {
     "CodeBy": "Código Por",
-    "FreelanceDeveloper": "Desarrollador Freelance -",
-    "Freelance": "Freelance",
-    "Economist & Developer": "Economista y Desarrollador",
+    "FreelanceDeveloper": "Desarrollador Full-Stack -",
+    "Freelance": "Full-Stack",
+    "Economist & Developer": "Desarrollador y Economista",
     "About": "Sobre mí",
     "Work": "Trabajo",
     "Contact": "Contacto"
   },
   "Footer": {
-    "Freelance": "Freelance",
-    "Economist": "Economista",
-    "& Developer": "& Desarrollador"
+    "Freelance": "Full-Stack",
+    "Economist": "Desarrollador",
+    "& Developer": "& Economista"
   },
   "Projects": {
     "ViewProject": "Ver Proyecto",
@@ -60,8 +60,8 @@
     }
   },
   "Description": {
-    "mainPhrase": "Ayudando a empresas a construir su portal de ensueño al world wide web, aprovechando las últimas tecnologías y mejores prácticas de la industria para mantenerse a la vanguardia",
-    "secondaryText": "Mi pasión por el código, diseño, economía y blockchain me pone en un lugar único en el mundo del diseño web.",
+    "mainPhrase": "Construyendo aplicaciones en producción para agencias y startups fintech en EE.UU., desde pipelines de IA y sistemas en tiempo real hasta apps móviles multiplataforma.",
+    "secondaryText": "AWS Certified Solutions Architect con formación en economía, combinando experiencia cloud-native con desarrollo full-stack.",
     "aboutMeButton": "Sobre mí"
   },
   "Contact": {
@@ -70,7 +70,7 @@
     "getInTouch": "Ponte en contacto",
     "github": "Github",
     "version": "Versión",
-    "edition": "2025 © Edición",
+    "edition": "2026 © Edición",
     "language": "Idioma"
   }
 }
