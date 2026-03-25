@@ -212,5 +212,32 @@
         }
       }
     }
+
+    .langButton {
+      background: none;
+      border: none;
+      color: inherit;
+      font: inherit;
+      padding: 2.5px;
+      cursor: pointer;
+
+      &::after {
+        content: "";
+        width: 0%;
+        height: 1px;
+        background-color: white;
+        display: block;
+        margin-top: 2px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: width 0.2s linear;
+      }
+      &:hover {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
   }
 }

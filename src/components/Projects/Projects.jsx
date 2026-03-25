@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 
 // Custom hook for individual project visibility
@@ -136,9 +136,7 @@ function ProjectItem({
                     width={600}
                     height={400}
                     alt={t(`${project.translationKey}.title`)}
-                    objectFit="cover"
-                    style={{ borderRadius: "12px" }}
-                    unoptimized={false}
+                    style={{ objectFit: "cover", borderRadius: "12px" }}
                     priority={index < 2}
                   />
                 )}
@@ -149,13 +147,12 @@ function ProjectItem({
                 width={600}
                 height={400}
                 alt={t(`${project.translationKey}.title`)}
-                objectFit="cover"
-                unoptimized={false}
-                priority={index < 2}
                 style={{
+                  objectFit: "cover",
                   borderRadius: "12px",
                   willChange: "transform",
                 }}
+                priority={index < 2}
               />
             )}
           </div>
@@ -297,9 +294,7 @@ export default function Projects() {
           const index = parseInt(entry.target.dataset.index, 10);
           if (entry.isIntersecting) {
             if (currentVideoRefs[index]) {
-              currentVideoRefs[index].play().catch((e) => {
-                console.log("Auto-play was prevented");
-              });
+              currentVideoRefs[index].play().catch(() => {});
             }
           } else {
             if (currentVideoRefs[index]) {

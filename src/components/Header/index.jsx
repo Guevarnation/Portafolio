@@ -11,8 +11,6 @@ import Magnetic from "../../common/Magnetic/Magnetic";
 import { useTranslations } from "next-intl";
 import "./menu.css";
 import Menu from "./Menu";
-// import LocalSwitcher from "./localeSwitcher/local-switcher";
-
 export default function Header({}) {
   const header = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -71,8 +69,7 @@ export default function Header({}) {
             <p className={styles.guevara}>Guevara</p>
           </div>
         </div>
-        <div className={styles.nav}>
-          {/* <LocalSwitcher /> */}
+        <nav className={styles.nav} aria-label="Main navigation">
           <Magnetic>
             <div className={styles.el}>
               <a
@@ -125,7 +122,7 @@ export default function Header({}) {
               <div className={styles.indicator}></div>
             </div>
           </Magnetic>
-        </div>
+        </nav>
       </div>
       <div ref={button} className={styles.headerButtonContainer}>
         <Rounded
@@ -133,6 +130,8 @@ export default function Header({}) {
             setIsActive(!isActive);
           }}
           className={`${styles.button}`}
+          aria-label={isActive ? "Close menu" : "Open menu"}
+          aria-expanded={isActive}
         >
           <div
             className={`${styles.burger} ${

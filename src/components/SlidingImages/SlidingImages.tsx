@@ -66,7 +66,7 @@ export default function SlidingImages() {
                 <Image
                   style={{ objectFit: "cover" }}
                   fill
-                  alt={"image"}
+                  alt={`Project screenshot – ${project.src.replace(/\.\w+$/, "")}`}
                   src={`/images/${project.src}`}
                 />
               </div>
@@ -86,7 +86,7 @@ export default function SlidingImages() {
                 <Image
                   style={{ objectFit: "cover" }}
                   fill
-                  alt={"image"}
+                  alt={`Project screenshot – ${project.src.replace(/\.\w+$/, "")}`}
                   src={`/images/${project.src}`}
                 />
               </div>

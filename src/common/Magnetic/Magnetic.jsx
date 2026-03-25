@@ -32,13 +32,27 @@ const Magnetic = ({ children }) => {
       yTo(0);
     };
 
+    const handleFocus = () => {
+      xTo(0);
+      yTo(-5);
+    };
+
+    const handleBlur = () => {
+      xTo(0);
+      yTo(0);
+    };
+
     currentElement.addEventListener("mousemove", handleMouseMove);
     currentElement.addEventListener("mouseleave", handleMouseLeave);
+    currentElement.addEventListener("focus", handleFocus, true);
+    currentElement.addEventListener("blur", handleBlur, true);
 
     return () => {
       if (currentElement) {
         currentElement.removeEventListener("mousemove", handleMouseMove);
         currentElement.removeEventListener("mouseleave", handleMouseLeave);
+        currentElement.removeEventListener("focus", handleFocus, true);
+        currentElement.removeEventListener("blur", handleBlur, true);
       }
     };
   }, []); // Note: The empty dependency array assumes magneticRef won't be reassigned new elements dynamically.

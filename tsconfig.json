@@ -33,17 +33,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.jsx",
     ".next/types/**/*.ts",
-    "src/components/Projects/Projects.jsx",
-    "src/components/Projects/components/project/index.jsx",
-    "src/components/menu/menu.tsx",
-    "src/components/Description/Description.jsx",
-    "src/components/Contact/Contact.jsx",
-    "src/common/RoundedButton/index.jsx",
-    "src/components/Header/index.jsx",
-    "src/common/RoundedButton/RoundedButton.jsx",
-    "src/common/Magnetic/index.jsx",
-    "src/common/Magnetic/index.jsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

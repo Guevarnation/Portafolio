@@ -97,35 +97,37 @@ export default function Contact() {
             <span>
               <h3>{t("language")}</h3>
               <div className="flex flex-row gap-2">
-                <p
+                <button
                   onClick={() => {
                     window.location.href = "/en";
                   }}
+                  aria-label="Switch to English"
+                  className={styles.langButton}
                 >
                   En
-                </p>
-                <p
+                </button>
+                <button
                   onClick={() => {
                     window.location.href = "/es";
                   }}
+                  aria-label="Cambiar a Español"
+                  className={styles.langButton}
                 >
                   Es
-                </p>
+                </button>
               </div>
             </span>
           </div>
           <div>
             <Magnetic>
-              <p
-                onClick={() =>
-                  window.open(
-                    "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/",
-                    "_blank"
-                  )
-                }
+              <a
+                href="https://www.linkedin.com/in/eugenio-guevara-a8417b20b/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Eugenio's LinkedIn profile"
               >
                 Linkedin
-              </p>
+              </a>
             </Magnetic>
           </div>
         </div>
