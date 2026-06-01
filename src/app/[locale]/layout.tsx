@@ -3,18 +3,32 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
+import MotionProvider from "@/components/MotionProvider/MotionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export async function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "es" }];
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://eugenioguevara.com/"),
+const SITE_URL = "https://eugenioguevara.com";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const ogLocale = locale === "es" ? "es_ES" : "en_US";
+  const altLocale = locale === "es" ? "en_US" : "es_ES";
+
+  return {
+  metadataBase: new URL(`${SITE_URL}/`),
   title: {
     default: "Eugenio Guevara | Full-Stack Developer & Economist",
     template: "%s | Eugenio Guevara",
@@ -52,8 +66,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://eugenioguevara.com",
+    locale: ogLocale,
+    alternateLocale: altLocale,
+    url: `${SITE_URL}/${locale}`,
     title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
       "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
@@ -75,9 +90,15 @@ export const metadata: Metadata = {
     images: ["/images/background.jpeg"],
   },
   alternates: {
-    canonical: "https://eugenioguevara.com",
+    canonical: `${SITE_URL}/${locale}`,
+    languages: {
+      en: `${SITE_URL}/en`,
+      es: `${SITE_URL}/es`,
+      "x-default": `${SITE_URL}/en`,
+    },
   },
-};
+  };
+}
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -90,10 +111,17 @@ export default async function RootLayout({
 }: RootLayoutProps) {
   const { locale } = await params;
 
-  const messages = await getMessages({ locale });
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  // Enables static rendering for this locale.
+  setRequestLocale(locale);
+
+  const inLanguage = locale === "es" ? "es-ES" : "en-US";
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
+    <NextIntlClientProvider>
       <html lang={locale}>
         <head>
           {/* Structured Data for Personal Portfolio */}
@@ -153,14 +181,16 @@ export default async function RootLayout({
                 author: {
                   "@id": "https://eugenioguevara.com/#person",
                 },
-                inLanguage: "en-US",
+                inLanguage,
               }),
             }}
           />
         </head>
         <body className={inter.className}>
-          <Header />
-          {children}
+          <MotionProvider>
+            <Header />
+            {children}
+          </MotionProvider>
           <Analytics />
         </body>
       </html>

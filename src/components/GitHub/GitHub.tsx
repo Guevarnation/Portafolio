@@ -1,6 +1,8 @@
+"use client";
+
 import styles from "./style.module.scss";
 import { useRef } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useScroll, useTransform, m } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
@@ -17,7 +19,13 @@ export default function GitHub() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 30]);
   const opacity = useTransform(scrollYProgress, [0, 0.15, 0.8], [0, 1, 0.9]); // Show much earlier (15% instead of 50%)
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]); // Add subtle scale animation
-  const blur = useTransform(scrollYProgress, [0, 0.1], [4, 0]); // Add subtle blur effect for smooth entrance
+  // Interpolate the filter as a motion string value (not a template literal)
+  // so Motion can optimize it and avoid per-frame string churn / repaints.
+  const filter = useTransform(
+    scrollYProgress,
+    [0, 0.1],
+    ["blur(4px)", "blur(0px)"]
+  );
   const height = useTransform(scrollYProgress, [0, 0.9], [30, 0]);
 
   // GitHub username and state
@@ -52,12 +60,12 @@ export default function GitHub() {
 
   return (
     <div ref={container} className={styles.slidingImages}>
-      <motion.div
+      <m.div
         style={{
           y: y1,
           opacity,
           scale,
-          filter: `blur(${blur}px)`, // Apply blur effect for smooth entrance
+          filter,
         }}
         className={styles.githubContainer}
       >
@@ -81,7 +89,7 @@ export default function GitHub() {
             </a>
           </div>
 
-          <motion.div className={styles.contributionGraph} style={{ y: y2 }}>
+          <m.div className={styles.contributionGraph} style={{ y: y2 }}>
             <div className={styles.graphContainer}>
               <iframe
                 src={`https://ghchart.rshah.org/${username}`}
@@ -89,6 +97,7 @@ export default function GitHub() {
                 scrolling="no"
                 width="100%"
                 height="88"
+                loading="lazy"
                 title="GitHub Contribution Chart"
               />
             </div>
@@ -97,13 +106,13 @@ export default function GitHub() {
               <div className={styles.legendGradient}></div>
               <span className={styles.legendText}>More</span>
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
-      <motion.div style={{ height }} className={styles.circleContainer}>
+      <m.div style={{ height }} className={styles.circleContainer}>
         <div className={styles.circle}></div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

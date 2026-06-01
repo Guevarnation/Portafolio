@@ -1,8 +1,7 @@
 "use client";
 
-import React, { memo, useMemo } from "react";
-import { motion, useReducedMotion, Variants } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React, { memo, useMemo, useRef } from "react";
+import { m, useInView, useReducedMotion, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
 import {
@@ -90,7 +89,7 @@ const TechCard = memo(function TechCard({
   const Icon = tech.icon;
 
   return (
-    <motion.div
+    <m.div
       className={styles.techCard}
       variants={{
         hidden: { opacity: 0, y: 10 },
@@ -107,17 +106,18 @@ const TechCard = memo(function TechCard({
           <span className={styles.level}>{tech.level}</span>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 });
 
 export default function TechStack() {
   const t = useTranslations("TechStack");
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-    rootMargin: "-50px",
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1,
+    margin: "-50px",
   });
 
   const categories: TechCategory[] = useMemo(
@@ -367,18 +367,18 @@ export default function TechStack() {
   return (
     <section className={styles.techStack} id="tech-stack" ref={ref}>
       <div className={styles.container}>
-        <motion.h2
+        <m.h2
           className={styles.sectionTitle}
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
           {t("title")}
-        </motion.h2>
+        </m.h2>
 
         <div className={styles.categoriesGrid}>
           {categories.map((category, catIndex) => (
-            <motion.div
+            <m.div
               key={category.id}
               className={styles.categoryColumn}
               initial="hidden"
@@ -410,7 +410,7 @@ export default function TechStack() {
                   />
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

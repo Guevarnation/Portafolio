@@ -1,7 +1,7 @@
 "use client";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { m, Variants } from "framer-motion";
 import { opacity, slideUp } from "./anim";
 
 const words = [
@@ -20,6 +20,9 @@ export default function Preloader() {
   const [dimension, setDimension] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    // One-time read of viewport size on mount to build the SVG curve paths;
+    // window is unavailable during SSR so this can't be a state initializer.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDimension({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
@@ -55,7 +58,7 @@ export default function Preloader() {
   };
 
   return (
-    <motion.div
+    <m.div
       variants={slideUp as unknown as Variants}
       initial="initial"
       exit="exit"
@@ -63,20 +66,20 @@ export default function Preloader() {
     >
       {dimension.width > 0 && (
         <>
-          <motion.p initial="initial" animate="enter">
-            {/* variants={opacity} va arriba en motion.p*/}
+          <m.p initial="initial" animate="enter">
+            {/* variants={opacity} va arriba en m.p*/}
             <span></span>
             {words[index]}
-          </motion.p>
+          </m.p>
           <svg>
-            <motion.path
+            <m.path
               variants={curve as unknown as Variants}
               initial="initial"
               exit="exit"
-            ></motion.path>
+            ></m.path>
           </svg>
         </>
       )}
-    </motion.div>
+    </m.div>
   );
 }

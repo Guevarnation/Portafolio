@@ -1,11 +1,12 @@
-"use client";
+import { useTranslations } from "next-intl";
 
 export default function NotFound() {
+  const t = useTranslations("NotFound");
+
   return (
-    <html>
-      <body className="text-center">
-        <h1 className="mt-10 font-semibold">Something went wrong!</h1>
-      </body>
-    </html>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <h1 className="mt-10 text-2xl font-semibold">{t("title")}</h1>
+      <p className="mt-2 opacity-70">{t("description")}</p>
+    </div>
   );
 }

@@ -72,5 +72,9 @@
     "version": "Versión",
     "edition": "2026 © Edición",
     "language": "Idioma"
+  },
+  "NotFound": {
+    "title": "Página no encontrada",
+    "description": "La página que buscas no existe."
   }
 }

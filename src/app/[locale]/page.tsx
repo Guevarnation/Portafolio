@@ -1,32 +1,24 @@
-"use client";
-
+import { setRequestLocale } from "next-intl/server";
 import styles from "./page.module.scss";
-import Preloader from "../../components/Preloader/Preloader";
-import Landing from "../../components/Landing/Landing";
-import Description from "../../components/Description/Description";
-import Projects from "../../components/Projects/Projects";
-import Contact from "../../components/Contact/Contact";
-import { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import GitHub from "@/components/GitHub/GitHub";
+import IntroOverlay from "@/components/IntroOverlay/IntroOverlay";
+import Landing from "@/components/Landing/Landing";
+import Description from "@/components/Description/Description";
+import Projects from "@/components/Projects/Projects";
 import TechStack from "@/components/TechStack/TechStack";
+import GitHub from "@/components/GitHub/GitHub";
+import Contact from "@/components/Contact/Contact";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-      document.body.style.cursor = "default";
-      window.scrollTo(0, 0);
-    }, 2000);
-  }, []);
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
   return (
     <main className={styles.main}>
-      <AnimatePresence mode="wait">
-        {isLoading && <Preloader />}
-      </AnimatePresence>
+      <IntroOverlay />
       <Landing />
       <Description />
       <Projects />

@@ -10,6 +10,10 @@ const nextConfig = {
       { protocol: "https", hostname: "ghchart.rshah.org" },
     ],
   },
+  experimental: {
+    // react-icons is optimized by default in Next 16; framer-motion is not.
+    optimizePackageImports: ["framer-motion"],
+  },
 };
 
 export default withNextIntl(nextConfig);

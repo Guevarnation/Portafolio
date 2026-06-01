@@ -1,20 +1,21 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { m, useInView, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 
-// Custom hook for individual project visibility
+// Custom hook for individual project visibility (Motion's own useInView).
 function useProjectInView() {
-  return useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-    rootMargin: "0px 0px 100px 0px",
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.1,
+    margin: "0px 0px 100px 0px",
   });
+  return { ref, inView };
 }
 
 // Individual project component to handle hooks properly
@@ -66,7 +67,7 @@ function ProjectItem({
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       key={index}
       className={styles.projectItem}
@@ -89,7 +90,7 @@ function ProjectItem({
         style={{ flexDirection: imageOnLeft ? "row" : "row-reverse" }}
       >
         {/* Image Container */}
-        <motion.div
+        <m.div
           className={styles.imageContainer}
           variants={scaleIn}
           style={project.customContainerStyle || {}}
@@ -156,32 +157,32 @@ function ProjectItem({
               />
             )}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Project Details */}
         <div className={styles.projectDetails}>
-          <motion.h3 className={styles.projectTitle} variants={fadeInUp}>
+          <m.h3 className={styles.projectTitle} variants={fadeInUp}>
             {t(`${project.translationKey}.title`)}
-          </motion.h3>
+          </m.h3>
 
-          <motion.p className={styles.projectDescription} variants={fadeInUp}>
+          <m.p className={styles.projectDescription} variants={fadeInUp}>
             {t(`${project.translationKey}.description`)}
-          </motion.p>
+          </m.p>
 
-          <motion.div className={styles.techStack} variants={fadeInUp}>
+          <m.div className={styles.techStack} variants={fadeInUp}>
             <span className={styles.techLabel}>{t("Technologies")}</span>
             <p>{project.technologies}</p>
-          </motion.div>
+          </m.div>
 
           {project.link && !project.appStoreLink && (
-            <motion.div className={styles.projectLink} variants={fadeInUp}>
+            <m.div className={styles.projectLink} variants={fadeInUp}>
               <Rounded>
                 <p>{t("ViewProject")}</p>
               </Rounded>
-            </motion.div>
+            </m.div>
           )}
           {project.appStoreLink && (
-            <motion.div className={styles.projectLink} variants={fadeInUp}>
+            <m.div className={styles.projectLink} variants={fadeInUp}>
               <div className="flex flex-row justify-center items-center gap-4 mt-6">
                 <a
                   href="https://apps.apple.com/app/id6737579256"
@@ -208,11 +209,11 @@ function ProjectItem({
                   />
                 </a>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
