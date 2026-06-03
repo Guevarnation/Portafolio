@@ -2,7 +2,7 @@
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
 import { m, Variants } from "framer-motion";
-import { opacity, slideUp } from "./anim";
+import { slideUp } from "./anim";
 
 const words = [
   "Hello",

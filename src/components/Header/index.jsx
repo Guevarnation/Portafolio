@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 import Magnetic from "../../common/Magnetic/Magnetic";
 import { useTranslations } from "next-intl";
 import "./menu.css";
 import Menu from "./Menu";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 export default function Header({}) {
   const header = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -30,8 +34,7 @@ export default function Header({}) {
     setIsActive(!isActive);
   };
 
-  useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  useGSAP(() => {
     gsap.to(button.current, {
       scrollTrigger: {
         trigger: document.documentElement,

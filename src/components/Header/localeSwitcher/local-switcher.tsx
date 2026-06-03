@@ -6,7 +6,7 @@ import { useTransition, useState } from "react";
 import FlagIcon from "./flag-icon";
 
 const LocaleSwitcher = () => {
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const locale = useLocale();

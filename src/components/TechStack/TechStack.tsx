@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useMemo, useRef } from "react";
+import { memo, useMemo, useRef } from "react";
 import { m, useInView, useReducedMotion, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
@@ -17,9 +17,7 @@ import {
   SiTailwindcss,
   SiNodedotjs,
   SiGo,
-  SiTensorflow,
   SiWeb3Dotjs,
-  SiGraphql,
   SiHono,
   SiDrizzle,
   SiExpress,
@@ -30,35 +28,24 @@ import {
   SiFirebase,
   SiMongodb,
   SiVercel,
-  SiDigitalocean,
-  SiGooglecloud,
   SiStripe,
   SiPuppeteer,
   SiR,
-  SiEthereum,
-  SiGooglemaps,
   SiPrisma,
 } from "react-icons/si";
 import {
   FaDatabase,
-  FaServer,
   FaCloud,
   FaCode,
   FaMobile,
-  FaRobot,
-  FaCreditCard,
-  FaTools,
-  FaFileExcel,
-  FaChartBar,
-  FaChrome,
-  FaWallet,
   FaAws,
 } from "react-icons/fa";
 import { BiLaptop } from "react-icons/bi";
+import type { IconType } from "react-icons";
 
 interface TechItemData {
   name: string;
-  icon: React.ComponentType<any>;
+  icon: IconType;
   color: string;
   level: "Expert" | "Advanced" | "Intermediate";
   years: string;
@@ -67,7 +54,7 @@ interface TechItemData {
 interface TechCategory {
   id: string;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: IconType;
   items: TechItemData[];
 }
 
@@ -94,6 +81,7 @@ const TechCard = memo(function TechCard({
       variants={{
         hidden: { opacity: 0, y: 10 },
         visible: { opacity: 1, y: 0 },
+        ...hoverVariants,
       }}
       whileHover={prefersReducedMotion ? undefined : "hover"}
     >
