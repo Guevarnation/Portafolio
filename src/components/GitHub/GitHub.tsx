@@ -1,118 +1,79 @@
-"use client";
+import { getGitHubData, GITHUB_PROFILE_URL } from "@/lib/github";
+import GitHubClient, {
+  type CalendarProps,
+  type FeaturedRepo,
+  type RepoId,
+  type LanguageKey,
+} from "./GitHubClient";
 
-import styles from "./style.module.scss";
-import { useRef } from "react";
-import { useScroll, useTransform, m } from "framer-motion";
-import { FaGithub } from "react-icons/fa";
-import { useState, useEffect } from "react";
+/**
+ * Curated public repos — one per language in the profile bio. Descriptions
+ * live in messages/*.json under `GitHub.repos.<id>.description`; GitHub's own
+ * strings are too terse ("technical interview"). `pushedAt` is filled from
+ * the API at build time when available.
+ */
+const FEATURED: { id: RepoId; name: string; language: LanguageKey }[] = [
+  { id: "portfolio", name: "Portafolio", language: "typescript" },
+  { id: "ledger", name: "supercool-ledger", language: "go" },
+  { id: "polymarket", name: "rust-polymarket-bot", language: "rust" },
+  { id: "binance", name: "binance_futures_bot", language: "python" },
+];
 
-export default function GitHub() {
-  // Container ref for scroll animations
-  const container = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start 85%", "end start"], // Changed from ["start end", "end start"] to trigger earlier
+const DAY_MS = 86_400_000;
+
+function toUtcDay(iso: string): number {
+  return Date.parse(`${iso}T00:00:00Z`);
+}
+
+function toIsoDate(ms: number): string {
+  return new Date(ms).toISOString().slice(0, 10);
+}
+
+/**
+ * Async Server Component: fetches once at build time (ISR daily), reduces the
+ * payload to a few small arrays and hands them to the animated client island.
+ */
+export default async function GitHub() {
+  const data = await getGitHubData();
+
+  let calendar: CalendarProps | null = null;
+  if (data.days && data.days.length > 0) {
+    // Re-key by date so any gap in the source becomes a 0-count day and the
+    // client can derive every date from `startDate` + index.
+    const byDate = new Map(data.days.map((d) => [d.date, d]));
+    const start = toUtcDay(data.days[0].date);
+    const end = toUtcDay(data.days[data.days.length - 1].date);
+    const counts: number[] = [];
+    const levels: number[] = [];
+    for (let ms = start; ms <= end; ms += DAY_MS) {
+      const day = byDate.get(toIsoDate(ms));
+      counts.push(day?.count ?? 0);
+      levels.push(day?.level ?? 0);
+    }
+    calendar = {
+      startDate: toIsoDate(start),
+      counts,
+      levels,
+      total: data.totalContributions ?? counts.reduce((sum, c) => sum + c, 0),
+      restricted: data.restrictedContributions,
+    };
+  }
+
+  const repos: FeaturedRepo[] = FEATURED.map((repo) => {
+    const live = data.repos[repo.name];
+    return {
+      ...repo,
+      url: live?.url ?? `${GITHUB_PROFILE_URL}/${repo.name}`,
+      pushedAt: live?.pushedAt ?? null,
+    };
   });
 
-  // Create scroll-based animations - optimized for earlier visibility
-  const y1 = useTransform(scrollYProgress, [0, 1], [20, -30]); // Start with slight offset for smooth entry
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 30]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.8], [0, 1, 0.9]); // Show much earlier (15% instead of 50%)
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]); // Add subtle scale animation
-  // Interpolate the filter as a motion string value (not a template literal)
-  // so Motion can optimize it and avoid per-frame string churn / repaints.
-  const filter = useTransform(
-    scrollYProgress,
-    [0, 0.1],
-    ["blur(4px)", "blur(0px)"]
-  );
-  const height = useTransform(scrollYProgress, [0, 0.9], [30, 0]);
-
-  // GitHub username and state
-  const username = "Guevarnation";
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [name, setName] = useState<string>("");
-
-  useEffect(() => {
-    const fetchGitHubInfo = async () => {
-      try {
-        setLoading(true);
-
-        // Just fetch basic user data for the name
-        const userResponse = await fetch(
-          `https://api.github.com/users/${username}`
-        );
-        if (!userResponse.ok)
-          throw new Error("Failed to fetch GitHub user data");
-        const userData = await userResponse.json();
-        setName(userData.name || userData.login);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGitHubInfo();
-  }, [username]);
-
   return (
-    <div ref={container} className={styles.slidingImages}>
-      <m.div
-        style={{
-          y: y1,
-          opacity,
-          scale,
-          filter,
-        }}
-        className={styles.githubContainer}
-      >
-        {/* <h2 className={styles.title}>GitHub Contributions</h2> */}
-
-        {loading && (
-          <div className={styles.loading}>Loading contribution data...</div>
-        )}
-        {error && <div className={styles.error}>Error: {error}</div>}
-
-        <div className={styles.contributionSection}>
-          <div className={styles.profileInfo}>
-            <a
-              href={`https://github.com/${username}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.username}
-            >
-              <FaGithub />
-              <span>{name || username}</span>
-            </a>
-          </div>
-
-          <m.div className={styles.contributionGraph} style={{ y: y2 }}>
-            <div className={styles.graphContainer}>
-              <iframe
-                src={`https://ghchart.rshah.org/${username}`}
-                frameBorder="0"
-                scrolling="no"
-                width="100%"
-                height="88"
-                loading="lazy"
-                title="GitHub Contribution Chart"
-              />
-            </div>
-            <div className={styles.legendContainer}>
-              <span className={styles.legendText}>Less</span>
-              <div className={styles.legendGradient}></div>
-              <span className={styles.legendText}>More</span>
-            </div>
-          </m.div>
-        </div>
-      </m.div>
-
-      <m.div style={{ height }} className={styles.circleContainer}>
-        <div className={styles.circle}></div>
-      </m.div>
-    </div>
+    <GitHubClient
+      calendar={calendar}
+      createdAt={data.createdAt}
+      repos={repos}
+      profileUrl={GITHUB_PROFILE_URL}
+    />
   );
 }

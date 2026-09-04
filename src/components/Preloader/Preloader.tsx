@@ -1,8 +1,8 @@
 "use client";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
-import { m, Variants } from "framer-motion";
-import { slideUp } from "./anim";
+import { m } from "framer-motion";
+import { slideUp, curve } from "./anim";
 
 const words = [
   "Hello",
@@ -15,71 +15,45 @@ const words = [
   "Hallo",
 ];
 
+/**
+ * Dark curtain with cycling greetings. The overlay is `position: fixed;
+ * inset: 0` and the exit curve is drawn in a fixed viewBox stretched with
+ * `preserveAspectRatio="none"`, so nothing here depends on window size and
+ * the component never re-renders on mount (no layout shifts, no dimension
+ * state, identical server/client markup).
+ */
 export default function Preloader() {
   const [index, setIndex] = useState(0);
-  const [dimension, setDimension] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    // One-time read of viewport size on mount to build the SVG curve paths;
-    // window is unavailable during SSR so this can't be a state initializer.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDimension({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
   useEffect(() => {
     if (index === words.length - 1) return;
     const timeout = setTimeout(
-      () => {
-        setIndex(index + 1);
-      },
-      index === 0 ? 1000 : 150
+      () => setIndex((i) => i + 1),
+      index === 0 ? 450 : 100
     );
     return () => clearTimeout(timeout);
   }, [index]);
 
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${
-    dimension.height
-  } Q${dimension.width / 2} ${dimension.height + 300} 0 ${
-    dimension.height
-  }  L0 0`;
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${
-    dimension.height
-  } Q${dimension.width / 2} ${dimension.height} 0 ${dimension.height}  L0 0`;
-
-  const curve = {
-    initial: {
-      d: initialPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
-    },
-    exit: {
-      d: targetPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 },
-    },
-  };
-
   return (
     <m.div
-      variants={slideUp as unknown as Variants}
+      variants={slideUp}
       initial="initial"
       exit="exit"
       className={styles.introduction}
+      aria-hidden="true"
+      data-intro-overlay=""
     >
-      {dimension.width > 0 && (
-        <>
-          <m.p initial="initial" animate="enter">
-            {/* variants={opacity} va arriba en m.p*/}
-            <span></span>
-            {words[index]}
-          </m.p>
-          <svg>
-            <m.path
-              variants={curve as unknown as Variants}
-              initial="initial"
-              exit="exit"
-            ></m.path>
-          </svg>
-        </>
-      )}
+      <p>
+        <span></span>
+        {words[index]}
+      </p>
+      <svg viewBox="0 0 100 130" preserveAspectRatio="none" aria-hidden="true">
+        <m.path
+          variants={curve}
+          initial="initial"
+          exit="exit"
+        />
+      </svg>
     </m.div>
   );
 }

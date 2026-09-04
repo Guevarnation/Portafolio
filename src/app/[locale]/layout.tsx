@@ -3,12 +3,12 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
 import MotionProvider from "@/components/MotionProvider/MotionProvider";
+import { IntroProvider } from "@/components/IntroOverlay/IntroContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +16,17 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-const SITE_URL = "https://eugenioguevara.com";
+const SITE_URL = "https://www.eugenioguevara.com";
+
+/**
+ * Runs synchronously in <head>, before the intro overlay is painted. Keep the
+ * session key in sync with IntroOverlay.tsx and the attribute with the
+ * `html[data-intro="skip"]` rule in globals.css.
+ */
+const INTRO_SKIP_SCRIPT =
+  '(function(){try{if(sessionStorage.getItem("intro-seen")==="1"||' +
+  'matchMedia("(prefers-reduced-motion: reduce)").matches){' +
+  'document.documentElement.setAttribute("data-intro","skip")}}catch(e){}})();';
 
 export async function generateMetadata({
   params,
@@ -72,14 +82,6 @@ export async function generateMetadata({
     title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
       "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
-    images: [
-      {
-        url: "/images/background.jpeg",
-        width: 1200,
-        height: 630,
-        alt: "Eugenio Guevara - Full-Stack Developer Portfolio",
-      },
-    ],
     siteName: "Eugenio Guevara Portfolio",
   },
   twitter: {
@@ -87,7 +89,6 @@ export async function generateMetadata({
     title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
       "AWS Certified Full-Stack Developer. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
-    images: ["/images/background.jpeg"],
   },
   alternates: {
     canonical: `${SITE_URL}/${locale}`,
@@ -102,28 +103,23 @@ export async function generateMetadata({
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }
 
-export default async function RootLayout({
-  children,
-  params,
-}: RootLayoutProps) {
-  const { locale } = await params;
-
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
-
-  // Enables static rendering for this locale.
-  setRequestLocale(locale);
+export default async function RootLayout({ children }: RootLayoutProps) {
+  // Resolved from the `[locale]` root param inside src/i18n/request.ts, which
+  // validates it and 404s on unknown values. Static rendering is preserved
+  // without setRequestLocale (deprecated in next-intl 4.13.5).
+  const locale = await getLocale();
 
   const inLanguage = locale === "es" ? "es-ES" : "en-US";
 
   return (
     <NextIntlClientProvider>
-      <html lang={locale}>
+      {/* suppressHydrationWarning: the inline script below may add
+          data-intro="skip" to <html> before React hydrates. */}
+      <html lang={locale} suppressHydrationWarning>
         <head>
+          <script dangerouslySetInnerHTML={{ __html: INTRO_SKIP_SCRIPT }} />
           {/* Structured Data for Personal Portfolio */}
           <script
             type="application/ld+json"
@@ -131,15 +127,15 @@ export default async function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Person",
-                "@id": "https://eugenioguevara.com/#person",
+                "@id": `${SITE_URL}/#person`,
                 name: "Eugenio Guevara",
                 jobTitle: "Full-Stack Developer",
                 description:
                   "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups",
-                url: "https://eugenioguevara.com",
+                url: SITE_URL,
                 sameAs: [
                   "https://github.com/Guevarnation",
-                  "https://www.linkedin.com/in/eugenio-guevara",
+                  "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/",
                 ],
                 knowsAbout: [
                   "React",
@@ -154,6 +150,21 @@ export default async function RootLayout({
                   "Cloud Architecture",
                   "Fintech",
                 ],
+                worksFor: {
+                  "@type": "Organization",
+                  name: "SEM Nexus",
+                  address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "New York",
+                    addressRegion: "NY",
+                    addressCountry: "US",
+                  },
+                },
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Monterrey",
+                  addressCountry: "MX",
+                },
                 alumniOf: {
                   "@type": "CollegeOrUniversity",
                   name: "University of Monterrey (UDEM)",
@@ -173,13 +184,13 @@ export default async function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "@id": "https://eugenioguevara.com/#website",
-                url: "https://eugenioguevara.com",
+                "@id": `${SITE_URL}/#website`,
+                url: SITE_URL,
                 name: "Eugenio Guevara Portfolio",
                 description:
                   "AWS Certified Full-Stack Developer portfolio showcasing AI pipelines, real-time systems, and mobile apps",
                 author: {
-                  "@id": "https://eugenioguevara.com/#person",
+                  "@id": `${SITE_URL}/#person`,
                 },
                 inLanguage,
               }),
@@ -188,8 +199,10 @@ export default async function RootLayout({
         </head>
         <body className={inter.className}>
           <MotionProvider>
-            <Header />
-            {children}
+            <IntroProvider>
+              <Header />
+              {children}
+            </IntroProvider>
           </MotionProvider>
           <Analytics />
         </body>

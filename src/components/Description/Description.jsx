@@ -7,6 +7,8 @@ import { slideUp, opacity } from "./animation";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 import { useTranslations } from "next-intl";
 
+const LINKEDIN_URL = "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/";
+
 export default function Description() {
   const t = useTranslations("Description");
   const phrase = t("mainPhrase");
@@ -38,8 +40,14 @@ export default function Description() {
         <m.p variants={opacity} initial="initial" animate={animateState}>
           {t("secondaryText")}
         </m.p>
-        <div data-scroll data-scroll-speed={0.1}>
-          <Rounded className={styles.button}>
+        <div>
+          <Rounded
+            as="a"
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.button}
+          >
             <p>{t("aboutMeButton")}</p>
           </Rounded>
         </div>

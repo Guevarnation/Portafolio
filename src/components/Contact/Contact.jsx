@@ -4,13 +4,62 @@ import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 import Magnetic from "../../common/Magnetic/Magnetic";
-import { useRef, useEffect, useState } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useSyncExternalStore,
+} from "react";
 import { useScroll, m, useTransform } from "framer-motion";
 import { BsGithub } from "react-icons/bs";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+
+const EMAIL = "guevaraeu1@gmail.com";
+const MAILTO = `mailto:${EMAIL}?subject=Portfolio%20Contact&body=Hi%20Eugenio,`;
+const GITHUB_URL = "https://github.com/Guevarnation";
+const LINKEDIN_URL = "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/";
+const TIME_ZONE = "America/Monterrey";
+const CLOCK_PLACEHOLDER = "--:--";
+
+// Ticks every 30s; React re-reads the snapshot on each tick.
+const subscribeToClock = (onChange) => {
+  const id = setInterval(onChange, 30_000);
+  return () => clearInterval(id);
+};
+
+/** Live wall-clock in Monterrey. Renders a placeholder on the server and
+ *  during hydration (via getServerSnapshot) so markup never mismatches. */
+function useLocalTime(locale) {
+  const formatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale, {
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: TIME_ZONE,
+        timeZoneName: "short",
+      }),
+    [locale]
+  );
+  const getSnapshot = useCallback(
+    () => formatter.format(new Date()),
+    [formatter]
+  );
+  return useSyncExternalStore(
+    subscribeToClock,
+    getSnapshot,
+    () => CLOCK_PLACEHOLDER
+  );
+}
 
 export default function Contact() {
   const t = useTranslations("Contact");
+  const locale = useLocale();
+  const pathname = usePathname();
+  const localTime = useLocalTime(locale);
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
@@ -32,11 +81,6 @@ export default function Contact() {
   const y = useTransform(scrollYProgress, [0, 1], yRange);
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
 
-  const handleEmailClick = () => {
-    window.location.href =
-      "mailto:guevaraeu1@gmail.com?subject=Portfolio Contact&body=Hi Eugenio,";
-  };
-
   return (
     <m.div style={{ y }} ref={container} className={styles.contact}>
       <div className={styles.body}>
@@ -45,6 +89,7 @@ export default function Contact() {
             <div className={styles.imageContainer}>
               <Image
                 fill={true}
+                sizes="(max-width: 768px) 60vw, 100px"
                 alt="Eugenio Guevara portfolio contact section background"
                 src={`/images/background.jpeg`}
               />
@@ -53,7 +98,12 @@ export default function Contact() {
           </span>
           <h2>{t("together")}</h2>
           <m.div style={{ x }} className={styles.buttonContainer}>
-            <Rounded backgroundColor={"#000000"} className={styles.button}>
+            <Rounded
+              as="a"
+              href={MAILTO}
+              backgroundColor={"#000000"}
+              className={styles.button}
+            >
               <p>{t("getInTouch")}</p>
             </Rounded>
           </m.div>
@@ -73,61 +123,64 @@ export default function Contact() {
           </m.svg>
         </div>
         <div className={styles.nav} id="contact">
-          <Rounded onClick={handleEmailClick}>
-            <p>guevaraeu1@gmail.com</p>
+          <Rounded as="a" href={MAILTO}>
+            <p>{EMAIL}</p>
           </Rounded>
           <div className={styles.github}>
             <Rounded
-              onClick={() =>
-                window.open("https://github.com/Guevarnation", "_blank")
-              }
+              as="a"
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <BsGithub className={styles.githubIcon} />
+              <BsGithub className={styles.githubIcon} aria-hidden="true" />
               <p>{t("github")}</p>
             </Rounded>
           </div>
         </div>
         <div className={styles.info}>
           <div>
-            <span>
+            {/* div, not span: h3/nav are flow content (invalid inside span). */}
+            <div className={styles.infoGroup}>
               <h3>{t("version")}</h3>
               <p>{t("edition")}</p>
-            </span>
-            <span>
-              <h3>{t("version")}</h3>
-              <p>11:49 PM GMT+2</p>
-            </span>
-            <span>
+            </div>
+            <div className={styles.infoGroup}>
+              <h3>{t("localTime")}</h3>
+              <p>
+                <time suppressHydrationWarning>{localTime}</time>
+              </p>
+            </div>
+            <div className={styles.infoGroup}>
               <h3>{t("language")}</h3>
-              <div className="flex flex-row gap-2">
-                <button
-                  onClick={() => {
-                    window.location.href = "/en";
-                  }}
-                  aria-label="Switch to English"
-                  className={styles.langButton}
-                >
-                  En
-                </button>
-                <button
-                  onClick={() => {
-                    window.location.href = "/es";
-                  }}
-                  aria-label="Cambiar a Español"
-                  className={styles.langButton}
-                >
-                  Es
-                </button>
-              </div>
-            </span>
+              <nav
+                className="flex flex-row gap-2"
+                aria-label={t("language")}
+              >
+                {routing.locales.map((code) => (
+                  <Link
+                    key={code}
+                    href={pathname}
+                    locale={code}
+                    hrefLang={code}
+                    lang={code}
+                    aria-label={t(`languages.${code}`)}
+                    aria-current={code === locale ? "page" : undefined}
+                    className={styles.langButton}
+                  >
+                    {t(`languageCodes.${code}`)}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
           <div>
             <Magnetic>
               <a
-                href="https://www.linkedin.com/in/eugenio-guevara-a8417b20b/"
+                href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit Eugenio's LinkedIn profile"
+                aria-label={t("linkedinAria")}
               >
                 Linkedin
               </a>

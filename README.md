@@ -1,34 +1,60 @@
-Initialize Next.js DevTools MCP context and establish documentation requirements.
+# eugenioguevara.com
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Personal portfolio of Eugenio Guevara, full-stack developer and economist based in Monterrey, Mexico. Bilingual (EN/ES) single-page site with a preloader, project showcase, tech stack, GitHub activity and contact section.
 
-## Getting Started
+Live: https://www.eugenioguevara.com
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router, React Server Components, static prerender per locale)
+- React 19, TypeScript (strict)
+- next-intl v4 for `/en` and `/es` routing and translations
+- Tailwind CSS v4 + SCSS Modules
+- GSAP (`useGSAP`, ScrollTrigger) and Framer Motion (`LazyMotion` strict, `m.*` components)
+- Videos and posters served from Cloudinary; static images in `public/images/`
+- Vercel Analytics
+
+## Commands
+
+Package manager is **bun**.
 
 ```bash
-bun dev
+bun install        # install dependencies
+bun dev            # dev server (Turbopack) at http://localhost:3000
+bun run build      # production build
+bun run start      # serve the production build
+bun lint           # ESLint (flat config)
+bun run typecheck  # tsc --noEmit
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    [locale]/            # layout (metadata, JSON-LD), page, opengraph-image, not-found
+    sitemap.ts           # /sitemap.xml with hreflang alternates
+    robots.ts            # /robots.txt
+  components/            # Feature sections (Landing, Projects, TechStack, GitHub, Contact, ...)
+                         # + MotionProvider (LazyMotion), IntroOverlay + Preloader
+  common/                # Reusable pieces (RoundedButton, Magnetic)
+  i18n/                  # routing.ts (defineRouting) + request.ts (getRequestConfig)
+  proxy.ts               # next-intl locale middleware
+messages/                # en.json / es.json (identical key structure)
+public/images/           # Static images and store badges
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Conventions
 
-## Learn More
+- Every user-facing string lives in both `messages/en.json` and `messages/es.json`.
+- Use `m.*` from Framer Motion (never `motion.*`) because motion runs under `LazyMotion strict`.
+- Use `useGSAP` for GSAP animations so they are reverted automatically.
+- Scoped styles go in `*.module.scss`; Tailwind utilities are fine for layout.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deployed on Vercel. The canonical host is `https://www.eugenioguevara.com`; the apex domain 308-redirects to `www`. Every absolute URL in metadata, sitemap, robots, JSON-LD and Open Graph uses the `www` host, and `next.config.mjs` sends `X-Robots-Tag: noindex, nofollow` on any other host (preview deployments, `*.vercel.app`, localhost).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Environment
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# portafolio
+`GITHUB_TOKEN` (optional): fine-grained personal access token with read-only access to public repositories. Powers the GitHub section at build time and daily ISR revalidation; without it the build falls back to public APIs. See `.env.example`.

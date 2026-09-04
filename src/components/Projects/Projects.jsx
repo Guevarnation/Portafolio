@@ -7,6 +7,23 @@ import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
 
+// Cloudinary delivery transforms: best format/quality for the client, capped
+// width. Posters are the first frame (so_0) of the same asset as a JPEG.
+const VIDEO_TRANSFORM = "f_auto,q_auto";
+const POSTER_TRANSFORM = "so_0,q_auto";
+
+function cloudinaryVideo(url, width) {
+  return url.replace("/video/upload/", `/video/upload/${VIDEO_TRANSFORM},w_${width}/`);
+}
+
+function cloudinaryPoster(url, width) {
+  return url
+    .replace("/video/upload/", `/video/upload/${POSTER_TRANSFORM},w_${width}/`)
+    .replace(/\.mp4$/, ".jpg");
+}
+
+const linkStyle = { color: "inherit", textDecoration: "none" };
+
 // Custom hook for individual project visibility (Motion's own useInView).
 function useProjectInView() {
   const ref = useRef(null);
@@ -31,16 +48,7 @@ function ProjectItem({
   const t = useTranslations("Projects");
   const imageOnLeft = index % 2 === 0;
   const { ref, inView } = useProjectInView();
-
-  const handleClick = (e, link) => {
-    if (e.target.closest("a")) {
-      return;
-    }
-    e.preventDefault();
-    if (link) {
-      window.open(link, "_blank");
-    }
-  };
+  const title = t(`${project.translationKey}.title`);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
@@ -66,12 +74,12 @@ function ProjectItem({
     },
   };
 
+  const videoWidth = project.videoWidth || 1200;
+
   return (
     <m.div
       ref={ref}
-      key={index}
       className={styles.projectItem}
-      style={{ cursor: project.link ? "pointer" : "default" }}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={{
@@ -83,7 +91,6 @@ function ProjectItem({
       }}
       onMouseEnter={() => onMouseEnter(index)}
       onMouseLeave={onMouseLeave}
-      onClick={(e) => handleClick(e, project.link)}
     >
       <div
         className={styles.projectContent}
@@ -108,52 +115,31 @@ function ProjectItem({
             {project.videoSrc ? (
               <video
                 ref={videoRef}
-                width="100%"
-                height="auto"
+                src={cloudinaryVideo(project.videoSrc, videoWidth)}
+                poster={cloudinaryPoster(project.videoSrc, videoWidth)}
                 autoPlay={false}
                 loop
                 muted
                 playsInline
                 preload="metadata"
-                loading="lazy"
+                aria-label={title}
                 style={{
                   objectFit: project.videoFit || "cover",
                   borderRadius: "12px",
                   willChange: "transform",
                 }}
-              >
-                <source
-                  src={
-                    project.videoSrc.startsWith("http")
-                      ? project.videoSrc
-                      : `/videos/${project.videoSrc}#t=0.1`
-                  }
-                  type="video/mp4"
-                />
-                {/* Fallback image if video fails */}
-                {project.src && (
-                  <Image
-                    src={`/images/${project.src}`}
-                    width={600}
-                    height={400}
-                    alt={t(`${project.translationKey}.title`)}
-                    style={{ objectFit: "cover", borderRadius: "12px" }}
-                    priority={index < 2}
-                  />
-                )}
-              </video>
+              />
             ) : (
               <Image
                 src={`/images/${project.src}`}
                 width={600}
                 height={400}
-                alt={t(`${project.translationKey}.title`)}
+                alt={title}
                 style={{
                   objectFit: "cover",
                   borderRadius: "12px",
                   willChange: "transform",
                 }}
-                priority={index < 2}
               />
             )}
           </div>
@@ -162,7 +148,18 @@ function ProjectItem({
         {/* Project Details */}
         <div className={styles.projectDetails}>
           <m.h3 className={styles.projectTitle} variants={fadeInUp}>
-            {t(`${project.translationKey}.title`)}
+            {project.link ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={linkStyle}
+              >
+                {title}
+              </a>
+            ) : (
+              title
+            )}
           </m.h3>
 
           <m.p className={styles.projectDescription} variants={fadeInUp}>
@@ -176,9 +173,17 @@ function ProjectItem({
 
           {project.link && !project.appStoreLink && (
             <m.div className={styles.projectLink} variants={fadeInUp}>
-              <Rounded>
-                <p>{t("ViewProject")}</p>
-              </Rounded>
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${t("ViewProject")}: ${title}`}
+                style={{ ...linkStyle, display: "inline-block" }}
+              >
+                <Rounded>
+                  <p>{t("ViewProject")}</p>
+                </Rounded>
+              </a>
             </m.div>
           )}
           {project.appStoreLink && (
@@ -190,9 +195,11 @@ function ProjectItem({
                   rel="noopener noreferrer"
                   className="h-16 w-40 flex justify-center items-center"
                 >
-                  <img
+                  <Image
                     src="/images/download-black.svg"
-                    alt="Download on the App Store"
+                    alt={t("appStoreAlt")}
+                    width={160}
+                    height={53}
                     className="h-full w-full object-contain"
                   />
                 </a>
@@ -202,9 +209,11 @@ function ProjectItem({
                   rel="noopener noreferrer"
                   className="h-16 w-40 flex justify-center items-center"
                 >
-                  <img
+                  <Image
                     src="/images/google-play-download.svg"
-                    alt="Get it on Google Play"
+                    alt={t("googlePlayAlt")}
+                    width={160}
+                    height={54}
                     className="h-full w-full object-contain"
                   />
                 </a>
@@ -218,6 +227,7 @@ function ProjectItem({
 }
 
 export default function Projects() {
+  const t = useTranslations("Projects");
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const prefersReducedMotion = useReducedMotion();
   const videoRefs = useRef([]);
@@ -225,8 +235,7 @@ export default function Projects() {
   const projects = [
     {
       translationKey: "YEYAR",
-      technologies: "Next.js, React, Tanstack, MySQL, Stripe, TailwindCSS",
-      src: "YEYAR.png",
+      technologies: "Next.js, TypeScript, Hono, Drizzle ORM, PostgreSQL, Stripe, Turborepo",
       videoSrc:
         "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027454/Screen_Recording_2025-11-24_at_5.29.27_p.m._crxuh5.mp4",
       color: "#8C8C8C",
@@ -237,23 +246,31 @@ export default function Projects() {
       technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
       videoSrc:
         "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027231/ScreenRecording_11-24-2025_17-30-58_1_t0aqgx.mp4",
+      // Portrait phone recording rendered in a 330px column.
+      videoWidth: 800,
       color: "#EFE8D3",
       appStoreLink: true,
       videoFit: "contain",
       customContainerStyle: { maxWidth: "330px", margin: "0 auto" },
     },
     {
+      translationKey: "MiContax",
+      technologies: "Next.js, Hono, Clerk, Drizzle ORM, PostgreSQL, Stripe",
+      src: "micontax.jpg",
+      color: "#1f4d3a",
+      link: "https://www.cmsconsultores.mx",
+    },
+    {
       translationKey: "AIRAGSystems",
       technologies:
         "Next.js, Vercel AI SDK, OpenAI, Anthropic, pgvector, Supabase",
-      src: "EW.png",
       videoSrc:
         "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752083845/ew_nixk0e.mp4",
       color: "#000000",
     },
     {
       translationKey: "Dropper",
-      technologies: "Flutter, Node.js, Puppeteer, Capcha Solver, Google Cloud",
+      technologies: "Flutter, Node.js, Puppeteer, CAPTCHA Solver, Google Cloud",
       videoSrc:
         "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752085528/Screen_Recording_2025-07-09_at_12.18.00_p.m._1_.mp4_kqnph4.mp4",
       color: "#000000",
@@ -262,13 +279,20 @@ export default function Projects() {
       translationKey: "ChromeExtension",
       technologies: "JavaScript, Chrome API, Custom UI Framework",
       videoSrc:
-        "https://res.cloudinary.com/drjfzsw6m/video/upload/tm_1_cmv0l6.mp4?_s=vp-2.5.0",
+        "https://res.cloudinary.com/drjfzsw6m/video/upload/tm_1_cmv0l6.mp4",
       color: "#000000",
+    },
+    {
+      translationKey: "PolymarketEngine",
+      technologies: "Rust, WebSockets, AWS EC2, Go",
+      // Private repo: generated poster, no public link.
+      src: "polymarket-engine.png",
+      color: "#0f1011",
     },
     {
       translationKey: "BlockchainSolutions",
       technologies: "Solidity, Ethereum, Web3.js",
-      src: "blockchain.png",
+      src: "blockchain.jpg",
       color: "#706D63",
     },
   ];
@@ -323,10 +347,12 @@ export default function Projects() {
 
   return (
     <section className={styles.projects} id="work">
+      {/* Keeps the heading outline h1 -> h2 -> h3 without changing the design. */}
+      <h2 className="sr-only">{t("sectionTitle")}</h2>
       <div className={styles.container}>
         {projects.map((project, index) => (
           <ProjectItem
-            key={index}
+            key={project.translationKey}
             project={project}
             index={index}
             hoveredIndex={hoveredIndex}

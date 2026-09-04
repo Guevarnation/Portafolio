@@ -11,6 +11,20 @@ body {
   background: #fff;
 }
 
+/* Set by the inline script in app/[locale]/layout.tsx before first paint
+   when the intro has already played this session or the user prefers
+   reduced motion. See IntroOverlay.tsx. */
+html[data-intro="skip"] [data-intro-overlay] {
+  display: none;
+}
+
+/* Same pre-hydration guard for the hero: Motion server-renders its
+   `initial` offset inline, so on a skipped intro the hero must sit in place
+   before hydration too (no 300px gap for a frame). */
+html[data-intro="skip"] [data-hero] {
+  transform: none !important;
+}
+
 a,
 p {
   color: white;

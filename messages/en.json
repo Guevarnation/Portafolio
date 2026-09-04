@@ -16,47 +16,122 @@
   "Projects": {
     "ViewProject": "View Project",
     "Technologies": "Technologies:",
+    "sectionTitle": "Selected work",
+    "appStoreAlt": "Download on the App Store",
+    "googlePlayAlt": "Get it on Google Play",
     "YEYAR": {
       "title": "YEYAR Real Estate Platform",
-      "description": "Led the development of YEYAR, a real estate investment platform for presale properties in Mexico, built with Next.js, TypeScript, and Drizzle ORM on AWS. Developed interactive property maps with Google Maps API, investor dashboards, and an admin panel for developers to manage investor interest, chat, and process in-app unit reservations via Stripe. Implemented SEO and metadata optimization, increasing organic traffic by 30%, and created a CMS for real estate insights, boosting user engagement."
+      "description": "Led the development of YEYAR, a real estate investment platform for presale properties in Mexico, now structured as a monorepo where the investor web platform, the admin platform for the internal team and developers, and the mobile app share one codebase. Developed interactive property maps with the Google Maps API, investor dashboards, real-time chat, and in-app unit reservations via Stripe. Implemented SEO and metadata optimization, increasing organic traffic by 30%, and created a CMS for real estate insights, boosting user engagement."
     },
     "YEYARMobile": {
       "title": "YEYAR Mobile App",
-      "description": "Developed a cross-platform YEYAR mobile app using React Native and Expo, enabling real-time property alerts via Expo push notifications. Built a Pusher-based chat for real-time messaging and offline data sync for seamless UX. Integrated haptic feedback and location based features, achieving a 4.2+ rating on App Store and Google Play."
+      "description": "Developed a cross-platform YEYAR mobile app using React Native and Expo, enabling real-time property alerts via Expo push notifications. Built a Pusher-based chat for real-time messaging and offline data sync for seamless UX. Integrated haptic feedback and location based features, published on the App Store and Google Play."
+    },
+    "MiContax": {
+      "title": "MiContax & CMS Consultores",
+      "description": "Built MiContax, a tax-preparation SaaS for Mexico that connects to the Contalink accounting API to guide users through their filings. Developed the authenticated dashboard, subscription billing with Stripe, and a rich-text blog editor on top of a typed API. Also built the marketing site for CMS Consultores, the accounting firm behind the product, with lead-capture forms, a resource hub, and a full SEO setup."
     },
     "AIRAGSystems": {
       "title": "AI & RAG Systems",
-      "description": "Led a 3-developer team at a New York-based fintech company to architect an advanced AI system achieving 90% accuracy on FinanceBench evaluations. Built a sophisticated RAG (Retrieval-Augmented Generation) pipeline integrating Claude 3.7 with SEC EDGAR database for real-time financial document analysis. The system processes 10-K, 10-Q, and 8-K filings, extracting key financial metrics and generating intelligent responses to complex investment queries. Implemented vector embeddings with pgvector for semantic search across millions of financial documents, while integrating multiple financial APIs for live market data, earnings calendars, and EPS projections."
+      "description": "Led a 3-developer team at a New York-based fintech company to architect an advanced AI system achieving 90% accuracy on FinanceBench evaluations. Built a sophisticated RAG (Retrieval-Augmented Generation) pipeline integrating Claude with SEC EDGAR database for real-time financial document analysis. The system processes 10-K, 10-Q, and 8-K filings, extracting key financial metrics and generating intelligent responses to complex investment queries. Implemented vector embeddings with pgvector for semantic search across millions of financial documents, while integrating multiple financial APIs for live market data, earnings calendars, and EPS projections."
+    },
+    "Dropper": {
+      "title": "Real-Time Ticket Dropper System",
+      "description": "Developed a real-time ticket dropper system for a New York-based client, featuring a Flutter frontend built in a team, a Node.js scraper using Puppeteer with stealth plugins, residential proxies, and advanced CAPTCHA-solving to bypass sophisticated bot detection. Implemented an Express backend with parallel scraper architecture on Google Cloud, achieving a 98% success rate in extracting ticket availability and pricing data, enabling automated drop notifications."
     },
     "ChromeExtension": {
       "title": "Chrome Extension",
       "description": "Developed a sophisticated custom browser extension that automatically selects adjacent seats with a single click. Engineered a universal solution compatible with all major ticketing platforms through advanced DOM manipulation and pattern recognition algorithms. Implemented a robust licensing system with encrypted authentication and user management. Built a custom UI framework optimized for overlay interfaces across different websites. The extension features extensive customization options, automated seat mapping, and intelligent seat grouping algorithms that reduces bulk purchase time by 80%."
     },
+    "PolymarketEngine": {
+      "title": "Polymarket Trading Engine",
+      "description": "Built a Rust trading engine for Polymarket prediction markets that runs several strategies side by side against a shared live order book. The same strategy code runs live over WebSockets or in backtests against recorded market data, with a recorder and replay pipeline to evaluate ideas before deploying them. Runs as concurrent instances on AWS alongside a Go copy-trading bot that has been live since early 2026."
+    },
     "BlockchainSolutions": {
       "title": "Blockchain Solutions",
       "description": "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development."
-    },
-    "Dropper": {
-      "title": "Real-Time Ticket Dropper System",
-      "description": "Developed a real-time ticket dropper system for a New York-based client, featuring a Flutter frontend built in a team, a Node.js scraper using Puppeteer with stealth plugins, residential proxies, and advanced CAPTCHA-solving to bypass sophisticated bot detection. Implemented an Express backend with parallel scraper architecture on Google Cloud, achieving a 98% success rate in extracting ticket availability and pricing data, enabling automated drop notifications."
     }
   },
   "TechStack": {
     "title": "Tech Stack & Tools",
-    "categories": {
-      "Frontend": "Frontend",
-      "Mobile": "Mobile",
-      "Styling": "Styling",
-      "Backend": "Backend",
-      "Languages": "Languages",
-      "State Management": "State Management",
-      "Database": "Database",
-      "AI/ML": "AI/ML",
-      "Cloud": "Cloud",
-      "Services": "Services",
-      "Tools": "Tools",
-      "Blockchain": "Blockchain",
-      "APIs": "APIs"
+    "legend": "Highlighted = core stack",
+    "core": "core",
+    "groups": {
+      "languages": "Languages",
+      "web": "Web",
+      "mobile": "Mobile",
+      "backend": "Backend",
+      "data": "Data",
+      "cloud": "Cloud & DevOps",
+      "ai": "AI",
+      "services": "Services",
+      "tooling": "Tooling"
+    },
+    "highlights": {
+      "aws": {
+        "label": "AWS Certified",
+        "detail": "Solutions Architect – Associate (SAA-C03), 2026"
+      },
+      "languages": {
+        "label": "3 languages",
+        "detail": "Spanish (native), English (C2), French (B2)"
+      },
+      "economics": {
+        "label": "Economics B.A.",
+        "detail": "Universidad de Monterrey (UDEM)"
+      }
+    }
+  },
+  "GitHub": {
+    "chartTitle": "GitHub contribution chart",
+    "less": "Less",
+    "more": "More",
+    "eyebrow": "Open source & activity",
+    "title": "GitHub Activity",
+    "profileLink": "@Guevarnation",
+    "profileAria": "Open Eugenio's GitHub profile (new tab)",
+    "heatmapTitle": "Contributions · last 12 months",
+    "heatmapSummary": "{total} contributions in the last 12 months across {activeDays} active days; busiest day {date} with {max} contributions.",
+    "cellTitle": "{count, plural, =0 {No contributions} one {# contribution} other {# contributions}} on {date}",
+    "unavailable": "Contribution activity is temporarily unavailable. The full graph is on GitHub.",
+    "stats": {
+      "contributions": {
+        "label": "Contributions",
+        "detail": "last 12 months"
+      },
+      "activeDays": {
+        "label": "Active days",
+        "detail": "{pct}% of the year"
+      },
+      "busiestDay": {
+        "label": "Busiest day",
+        "detail": "{date}"
+      },
+      "privateWork": {
+        "label": "Private client work",
+        "detail": "of contributions"
+      },
+      "activeSince": {
+        "label": "On GitHub since",
+        "detail": "account created"
+      }
+    },
+    "reposTitle": "Selected public repos",
+    "viewAll": "All repositories",
+    "updated": "Updated {date}",
+    "repos": {
+      "portfolio": {
+        "description": "This site — Next.js 16, React 19, next-intl, GSAP and Motion."
+      },
+      "ledger": {
+        "description": "Ledger service in Go for customer balances: safe concurrency, auditability and PostgreSQL, standard library only."
+      },
+      "polymarket": {
+        "description": "Polymarket copy-trading bot in Rust: mirrors a target trader with proportional sizing, risk limits and live CLOB execution."
+      },
+      "binance": {
+        "description": "Binance Futures trading bot in Python driven by a Random Forest model over technical and sentiment indicators."
+      }
     }
   },
   "Description": {
@@ -71,7 +146,26 @@
     "github": "Github",
     "version": "Version",
     "edition": "2026 © Edition",
-    "language": "Language"
+    "language": "Language",
+    "localTime": "Local time",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "languageCodes": {
+      "en": "En",
+      "es": "Es"
+    },
+    "linkedinAria": "Visit Eugenio's LinkedIn profile"
+  },
+  "Menu": {
+    "close": "Close menu",
+    "open": "Open menu",
+    "mainNav": "Main navigation",
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "contact": "Contact"
   },
   "NotFound": {
     "title": "Page not found",

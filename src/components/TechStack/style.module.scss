@@ -1,126 +1,220 @@
+$bg: #141516;
+$accent: #fb7b45;
+$border: rgba(255, 255, 255, 0.08);
+$surface: rgba(255, 255, 255, 0.03);
+
 .techStack {
-  padding: 100px 0;
-  background-color: var(
-    --background-color
-  ); // Assuming global var or dark theme
-  color: var(--text-color);
   width: 100%;
+  padding: 120px 20px;
+  background-color: $bg;
+  color: white;
   display: flex;
   justify-content: center;
 
-  .container {
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .sectionTitle {
-    font-size: 3rem;
-    font-weight: 400;
-    margin-bottom: 80px;
-    text-align: left;
-    border-bottom: 1px solid rgba(200, 200, 200, 0.2);
-    padding-bottom: 20px;
-  }
-
-  .categoriesGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
-    width: 100%;
-  }
-
-  .categoryColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .categoryTitle {
-    font-size: 1.1rem;
-    font-weight: 500;
-    opacity: 0.6;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-
-    .catIcon {
-      font-size: 1.2em;
-    }
-  }
-
-  .cardsList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .techCard {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 16px 20px;
-    cursor: default;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .cardHeader {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .iconWrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      flex-shrink: 0;
-    }
-
-    .info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .name {
-      font-size: 1rem;
-      font-weight: 500;
-      margin: 0;
-      line-height: 1.2;
-    }
-
-    .level {
-      font-size: 0.8rem;
-      opacity: 0.5;
-      font-weight: 400;
-    }
+  @media (max-width: 768px) {
+    padding: 80px 20px;
   }
 }
 
-// Responsive adjustments
-@media (max-width: 768px) {
-  .techStack {
-    padding: 60px 0;
-  }
+.container {
+  width: 100%;
+  max-width: 1400px;
+}
 
-  .sectionTitle {
-    font-size: 2.2rem;
-    margin-bottom: 50px;
-  }
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid $border;
+}
 
-  .categoriesGrid {
+.sectionTitle {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+// The global `p` rule forces uppercase/14px; keep that but soften colour.
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: $accent;
+  flex-shrink: 0;
+}
+
+.highlights {
+  list-style: none;
+  margin: 0 0 48px 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    gap: 50px;
   }
+}
+
+.highlight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: $surface;
+  border: 1px solid $border;
+  will-change: transform, opacity;
+}
+
+.highlightIcon {
+  flex-shrink: 0;
+  font-size: 28px;
+  color: $accent;
+}
+
+.highlightText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+
+  strong {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  span {
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 16px;
+  background: $surface;
+  border: 1px solid $border;
+  transition: border-color 0.3s ease;
+  will-change: transform, opacity;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cardIcon {
+  font-size: 16px;
+  color: $accent;
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: default;
+  will-change: transform, opacity;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+  }
+}
+
+.chipIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+// Emphasised "primary" tools — the accent is reserved for these.
+.chipPrimary {
+  color: white;
+  font-weight: 500;
+  border-color: rgba(251, 123, 69, 0.55);
+  background: rgba(251, 123, 69, 0.1);
+
+  .chipIcon {
+    color: $accent;
+    opacity: 1;
+  }
+
+  &:hover {
+    border-color: $accent;
+    background: rgba(251, 123, 69, 0.16);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

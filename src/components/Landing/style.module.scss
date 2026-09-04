@@ -1,3 +1,12 @@
+// Dark backdrop the hero slides up over while the intro curtain lifts, so the
+// reveal never exposes the white page background.
+.landingWrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #141516;
+}
+
 .landing {
   position: relative;
   display: flex;
@@ -40,9 +49,32 @@
     color: white;
     font-size: 24px;
     font-weight: 300;
-    p {
-      margin: 0px;
-      margin-bottom: 10px;
+
+    // The h1 must look exactly like the <p> lines it replaced (which took
+    // the global `p` typography), so override the UA h1 defaults here.
+    .title {
+      margin: 0;
+      padding: 0;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 100%;
+      text-transform: uppercase;
+    }
+    .line {
+      display: block;
+      margin: 0 0 10px 0;
+    }
+    .srOnly {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     svg {
       transform: scale(2);

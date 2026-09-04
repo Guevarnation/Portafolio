@@ -1,27 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Preloader from "../Preloader/Preloader";
+import { useIntro } from "./IntroContext";
 
 /**
- * Decorative intro overlay. The page content now renders server-side
- * underneath this, so the preloader no longer blocks first paint / LCP — it
- * just plays on top and removes itself once its word animation completes.
+ * Decorative intro curtain. Page content renders server-side underneath, so
+ * it never blocks first paint / LCP. Timing lives in IntroContext; on repeat
+ * visits (or reduced motion) the inline script in app/[locale]/layout.tsx
+ * hides `[data-intro-overlay]` before first paint and the provider reports
+ * `skipped`, so nothing animates.
  */
 export default function IntroOverlay() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      document.body.style.cursor = "default";
-      window.scrollTo(0, 0);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
+  const { phase, skipped } = useIntro();
+  if (skipped) return null;
   return (
-    <AnimatePresence mode="wait">{isLoading && <Preloader />}</AnimatePresence>
+    <AnimatePresence>
+      {phase !== "done" && <Preloader />}
+    </AnimatePresence>
   );
 }

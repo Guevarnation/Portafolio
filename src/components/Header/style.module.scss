@@ -19,12 +19,21 @@
       transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
     }
     .name {
+      // Offsets depend on the width of the "Code By" label, so they are
+      // per-locale variables ("Código Por" is wider than "Code By").
+      --guevara-left: 130px;
+      --hover-shift: -62px;
       display: flex;
       position: relative;
       overflow: hidden;
       white-space: nowrap;
       margin-left: 5px;
       transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+
+      :global(html:lang(es)) & {
+        --guevara-left: 160px;
+        --hover-shift: -88px;
+      }
 
       @media (max-width: 768px) {
         display: none;
@@ -38,7 +47,7 @@
         }
         &:nth-of-type(3) {
           position: absolute;
-          left: 130px;
+          left: var(--guevara-left);
           padding-left: 0.3em;
         }
       }
@@ -53,10 +62,10 @@
           transform: translateX(-100%);
         }
         .eugenio {
-          transform: translateX(-65px);
+          transform: translateX(var(--hover-shift));
         }
         .guevara {
-          transform: translateX(-65px);
+          transform: translateX(var(--hover-shift));
         }
       }
     }
@@ -114,6 +123,7 @@
   }
 
   .burger {
+    display: block;
     width: 100%;
     position: relative;
     z-index: 1;

@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 import "./menu.css";
 
@@ -12,24 +13,26 @@ interface MenuProps {
   toggleMenu: () => void;
 }
 
-// const menuLinks = [
-//   { path: "/", label: "Home" },
-//   { path: "/about", label: "About" },
-//   { path: "/work", label: "Work" },
-//   { path: "/contact", label: "Contact" },
-// ];
+const EMAIL = "guevaraeu1@gmail.com";
+const MAILTO = `mailto:${EMAIL}?subject=Portfolio%20Contact&body=Hi%20Eugenio,`;
+const GITHUB_URL = "https://github.com/Guevarnation";
+const LINKEDIN_URL = "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/";
+
+// In-page sections paired with their "Menu" translation keys.
+const MENU_LINKS = [
+  { id: "home", key: "home" },
+  { id: "description", key: "about" },
+  { id: "work", key: "work" },
+  { id: "contact", key: "contact" },
+] as const;
 
 const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
+  const t = useTranslations("Menu");
   const container = useRef<HTMLDivElement>(null);
 
   const tl = useRef<GSAPTimeline | null>(null);
 
-  const handleEmailClick = () => {
-    window.location.href =
-      "mailto:guevaraeu1@gmail.com?subject=Portfolio Contact&body=Hi Eugenio,";
-  };
-
-  useGSAP(
+  const { contextSafe } = useGSAP(
     () => {
       gsap.set(".menu-link-item-holder", { y: 75 });
 
@@ -64,7 +67,13 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
     };
   }, [isMenuOpen]);
 
-  const handleLinkClick = (sectionId: string) => {
+  // Real `href="#id"` anchors keep keyboard / middle-click semantics; a plain
+  // left-click is intercepted so the overlay can animate closed first.
+  // contextSafe: the close timeline is created after useGSAP ran, so this
+  // keeps it inside the hook's context (reverted with the component).
+  const handleLinkClick = contextSafe(
+    (event: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    event.preventDefault();
     setTimeout(() => {
       const sectionElement = document.getElementById(sectionId);
       if (sectionElement) {
@@ -90,85 +99,55 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
         },
         "-=0.5"
       );
-  };
+    }
+  );
 
   return (
     <div className="menu-container" ref={container}>
-      <div className="menu-overlay">
+      <div className="menu-overlay" id="site-menu">
         <div className="menu-overlay-bar">
           <div className="menu-logo">
             <Link href="/" className="menu-guevara">
               Guevara
             </Link>
           </div>
-          <div className="menu-close" onClick={toggleMenu}>
-            <p>Cerrar</p>
-          </div>
+          <button type="button" className="menu-close" onClick={toggleMenu}>
+            <span>{t("close")}</span>
+          </button>
         </div>
-        <div className="menu-close-icon">
+        <div className="menu-close-icon" aria-hidden="true">
           <p>&#x1715;</p>
         </div>
         <div className="menu-copy">
-          <div className="menu-links">
+          <nav className="menu-links" aria-label={t("mainNav")}>
             <div className="menu-link-item">
-              <div
-                className="menu-link-item-holder"
-                onClick={() => handleLinkClick("home")}
-              >
-                <a className="menu-link">Home</a>
-              </div>
-              <div
-                className="menu-link-item-holder"
-                onClick={() => handleLinkClick("description")}
-              >
-                <a className="menu-link">About</a>
-              </div>
-              <div
-                className="menu-link-item-holder"
-                onClick={() => handleLinkClick("work")}
-              >
-                <a className="menu-link">Work</a>
-              </div>
-              <div
-                className="menu-link-item-holder"
-                onClick={() => handleLinkClick("contact")}
-              >
-                <a className="menu-link">Contact</a>
-              </div>
+              {MENU_LINKS.map(({ id, key }) => (
+                <div key={id} className="menu-link-item-holder">
+                  <a
+                    href={`#${id}`}
+                    className="menu-link"
+                    onClick={(e) => handleLinkClick(e, id)}
+                  >
+                    {t(key)}
+                  </a>
+                </div>
+              ))}
             </div>
-
-            {/* Other links */}
-          </div>
+          </nav>
           <div className="menu-info">
             <div className="menu-info-col">
-              <a
-                href="#"
-                onClick={() =>
-                  (window.location.href = "https://github.com/Guevarnation")
-                }
-              >
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
                 Github &#8599;
               </a>
-              <a
-                href="#"
-                onClick={() =>
-                  (window.location.href =
-                    "https://www.linkedin.com/in/eugenio-guevara-a8417b20b/")
-                }
-              >
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
                 LinkedIn &#8599;
               </a>
-              {/* <a href="#">Facebook &#8599;</a> */}
             </div>
-            <div className="menu-info-col" onClick={handleEmailClick}>
-              <p>guevaraeu1@gmail.com</p>
-              {/* <p>Monterrey, Mexico</p> */}
+            <div className="menu-info-col">
+              <a href={MAILTO}>{EMAIL}</a>
             </div>
           </div>
         </div>
-        {/* <div className="menu-preview">
-          <p className="menu-guevara">Ver video</p>
-        </div> */}
       </div>
     </div>
   );

@@ -1,21 +1,26 @@
 .introduction {
-  height: 100vh;
-  width: 100vw;
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
   z-index: 99;
   background-color: #141516;
+  will-change: transform;
+
   svg {
     position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
-    height: calc(100% + 300px);
+    // viewBox is 100x130: the extra 30% is the convex bottom of the curtain
+    // that shows while the overlay slides up.
+    height: 130%;
     path {
       fill: #141516;
     }
   }
+
   p {
     display: flex;
     color: white;
@@ -23,6 +28,7 @@
     align-items: center;
     position: absolute;
     z-index: 1;
+    margin: 0;
     span {
       display: block;
       width: 10px;

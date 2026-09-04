@@ -2,6 +2,10 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const Magnetic = ({ children }) => {
+  // The React Compiler bails on this component ("Cannot access refs during
+  // render") because the ref object is passed through cloneElement below.
+  // Make the opt-out explicit instead of relying on the silent skip.
+  "use no memo";
   const magneticRef = useRef(null);
 
   useEffect(() => {
@@ -58,8 +62,7 @@ const Magnetic = ({ children }) => {
   }, []); // Note: The empty dependency array assumes magneticRef won't be reassigned new elements dynamically.
 
   // cloneElement is the intended way to attach the magnetic ref to an
-  // arbitrary child; the ref object itself (not .current) is read in render.
-  // eslint-disable-next-line react-hooks/refs
+  // arbitrary child; only the ref object (never .current) is read in render.
   return React.cloneElement(children, { ref: magneticRef });
 };
 

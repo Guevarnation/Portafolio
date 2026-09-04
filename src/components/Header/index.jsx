@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
@@ -15,6 +15,22 @@ import Menu from "./Menu";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// Section ids on the page paired with their "Index" translation keys.
+const NAV_LINKS = [
+  { id: "description", labelKey: "About" },
+  { id: "work", labelKey: "Work" },
+  { id: "contact", labelKey: "Contact" },
+];
+
+// Keep the real `href="#id"` (keyboard, middle-click, copy-link all work);
+// left-clicks get a smooth scroll instead of the default jump.
+const scrollToSection = (event, id) => {
+  const target = document.getElementById(id);
+  if (!target) return;
+  event.preventDefault();
+  target.scrollIntoView({ behavior: "smooth" });
+};
+
 export default function Header({}) {
   const header = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -22,13 +38,16 @@ export default function Header({}) {
   const button = useRef(null);
 
   const t = useTranslations("Index");
+  const tMenu = useTranslations("Menu");
 
-  useEffect(() => {
-    if (isActive) {
-      setIsActive(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  // Close the menu when the route changes. Adjusting state during render is
+  // the React-recommended replacement for a setState-in-effect on a prop
+  // change (react-hooks/set-state-in-effect).
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    if (isActive) setIsActive(false);
+  }
 
   const toggleMenu = () => {
     setIsActive(!isActive);
@@ -72,75 +91,33 @@ export default function Header({}) {
             <p className={styles.guevara}>Guevara</p>
           </div>
         </div>
-        <nav className={styles.nav} aria-label="Main navigation">
-          <Magnetic>
-            <div className={styles.el}>
-              <a
-                href="#description"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const descriptionElement =
-                    document.getElementById("description");
-                  if (descriptionElement) {
-                    descriptionElement.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-              >
-                {t("About")}
-              </a>
-              <div className={styles.indicator}></div>
-            </div>
-          </Magnetic>
-          <Magnetic>
-            <div className={styles.el}>
-              <a
-                href="#work"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const descriptionElement = document.getElementById("work");
-                  if (descriptionElement) {
-                    descriptionElement.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-              >
-                {t("Work")}
-              </a>
-              <div className={styles.indicator}></div>
-            </div>
-          </Magnetic>
-          <Magnetic>
-            <div className={styles.el}>
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const descriptionElement = document.getElementById("contact");
-                  if (descriptionElement) {
-                    descriptionElement.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-              >
-                {t("Contact")}
-              </a>
-              <div className={styles.indicator}></div>
-            </div>
-          </Magnetic>
+        <nav className={styles.nav} aria-label={tMenu("mainNav")}>
+          {NAV_LINKS.map(({ id, labelKey }) => (
+            <Magnetic key={id}>
+              <div className={styles.el}>
+                <a href={`#${id}`} onClick={(e) => scrollToSection(e, id)}>
+                  {t(labelKey)}
+                </a>
+                <div className={styles.indicator}></div>
+              </div>
+            </Magnetic>
+          ))}
         </nav>
       </div>
       <div ref={button} className={styles.headerButtonContainer}>
         <Rounded
-          onClick={() => {
-            setIsActive(!isActive);
-          }}
+          as="button"
+          type="button"
+          onClick={toggleMenu}
           className={`${styles.button}`}
-          aria-label={isActive ? "Close menu" : "Open menu"}
+          aria-label={isActive ? tMenu("close") : tMenu("open")}
           aria-expanded={isActive}
         >
-          <div
+          <span
             className={`${styles.burger} ${
               isActive ? styles.burgerActive : ""
             }`}
-          ></div>
+          ></span>
         </Rounded>
       </div>
       <AnimatePresence mode="wait">

@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { slideUp } from "./animation";
 import { m, Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { useIntro } from "../IntroOverlay/IntroContext";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -21,6 +22,7 @@ export default function Home() {
   const direction = useRef(-1);
 
   const t = useTranslations();
+  const { phase, skipped } = useIntro();
 
   useGSAP(
     () => {
@@ -55,18 +57,22 @@ export default function Home() {
   );
 
   return (
-    <m.main
-      ref={container}
-      variants={slideUp as unknown as Variants}
-      initial="initial"
-      animate="enter"
-      className={styles.landing}
-    >
+    <div className={styles.landingWrap}>
+      <m.section
+        ref={container}
+        aria-labelledby="hero-title"
+        data-hero=""
+        variants={slideUp as unknown as Variants}
+        custom={skipped}
+        initial="initial"
+        animate={phase === "done" ? "enter" : "initial"}
+        className={styles.landing}
+      >
       <Image
         src="/images/background2.jpg"
         alt="Eugenio Guevara - Full-stack developer workspace with modern technology setup"
         fill={true}
-        priority
+        preload
         sizes="100vw"
         style={{ objectFit: "cover" }}
       />
@@ -76,7 +82,7 @@ export default function Home() {
           <p ref={secondText}>{t("Index.FreelanceDeveloper")}</p>
         </div>
       </div>
-      <div data-scroll data-scroll-speed={0.1} className={styles.description}>
+      <div className={styles.description}>
         <svg
           width="9"
           height="9"
@@ -90,9 +96,15 @@ export default function Home() {
             fill="white"
           />
         </svg>
-        <p>{t("Footer.Economist")}</p>
-        <p>{t("Footer.& Developer")}</p>
+        {/* Single page <h1>: reads "Eugenio Guevara — Developer & Economist"
+            for assistive tech and crawlers; visually only the two lines show. */}
+        <h1 id="hero-title" className={styles.title}>
+          <span className={styles.srOnly}>Eugenio Guevara — </span>
+          <span className={styles.line}>{t("Footer.Economist")}</span>{" "}
+          <span className={styles.line}>{t("Footer.& Developer")}</span>
+        </h1>
       </div>
-    </m.main>
+      </m.section>
+    </div>
   );
 }

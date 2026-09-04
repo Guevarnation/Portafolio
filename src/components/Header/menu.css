@@ -18,7 +18,15 @@
   cursor: pointer;
 }
 
-.menu-close p {
+.menu-close {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.menu-close span {
   color: #000;
   cursor: pointer;
 }
@@ -80,11 +88,19 @@
 }
 
 .menu-link-item-holder a {
+  display: inline-block;
   color: #000;
   font-size: 80px;
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 85%;
+}
+
+.menu-link-item-holder a:focus-visible,
+.menu-info-col a:focus-visible,
+.menu-close:focus-visible {
+  outline: 2px solid #fb7b45;
+  outline-offset: 4px;
 }
 
 .menu-info {

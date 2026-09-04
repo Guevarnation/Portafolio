@@ -1,3 +1,15 @@
+// Reset for when the button renders as <a> / <button>. Declared first so
+// `.roundedButton` (and consumer classes) win on any shared property.
+.reset {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .roundedButton {
   border-radius: 3em;
   border: 1px solid rgb(136, 136, 136);
@@ -24,6 +36,7 @@
 }
 
 .circle {
+  display: block;
   width: 100%;
   height: 150%;
   position: absolute;

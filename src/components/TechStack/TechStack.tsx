@@ -1,407 +1,319 @@
 "use client";
 
-import { memo, useMemo, useRef } from "react";
-import { m, useInView, useReducedMotion, Variants } from "framer-motion";
+import { useRef } from "react";
+import { m, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
-import styles from "./style.module.scss";
+import { RiOpenaiFill } from "react-icons/ri";
+import type { IconType } from "react-icons";
 import {
-  SiNextdotjs,
-  SiReact,
-  SiTypescript,
-  SiPython,
-  SiMysql,
-  SiPostgresql,
-  SiDocker,
-  SiSolidity,
-  SiOpenai,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiGo,
-  SiWeb3Dotjs,
-  SiHono,
-  SiDrizzle,
-  SiExpress,
-  SiExpo,
   SiAngular,
+  SiAnthropic,
+  SiAstro,
+  SiClaude,
+  SiClerk,
+  SiCloudinary,
+  SiDocker,
+  SiDrizzle,
+  SiExpo,
+  SiExpress,
+  SiGithubactions,
+  SiGo,
+  SiGooglecloud,
+  SiGooglegemini,
+  SiHono,
   SiIonic,
-  SiSupabase,
-  SiFirebase,
   SiMongodb,
-  SiVercel,
-  SiStripe,
-  SiPuppeteer,
-  SiR,
+  SiMysql,
+  SiNestjs,
+  SiNextdotjs,
+  SiNodedotjs,
+
+  SiPostgresql,
   SiPrisma,
+  SiPuppeteer,
+  SiPusher,
+  SiPython,
+  SiReact,
+  SiResend,
+  SiRust,
+  SiShadcnui,
+  SiStripe,
+  SiSupabase,
+  SiTailwindcss,
+  SiTurborepo,
+  SiTypescript,
+  SiVercel,
+  SiModelcontextprotocol,
+  SiGithub,
+  SiBun,
+  SiZod,
+  SiFigma,
+  SiLinux,
 } from "react-icons/si";
 import {
-  FaDatabase,
+  FaAws,
+  FaBrain,
   FaCloud,
   FaCode,
-  FaMobile,
-  FaAws,
+  FaDatabase,
+  FaGlobe,
+  FaGraduationCap,
+  FaLanguage,
+  FaMobileAlt,
+  FaPlug,
+  FaProjectDiagram,
+  FaServer,
+  FaTools,
 } from "react-icons/fa";
-import { BiLaptop } from "react-icons/bi";
-import type { IconType } from "react-icons";
+import { TbSql, TbTerminal2, TbVector } from "react-icons/tb";
+import styles from "./style.module.scss";
 
-interface TechItemData {
+type GroupId =
+  | "languages"
+  | "web"
+  | "mobile"
+  | "backend"
+  | "data"
+  | "cloud"
+  | "ai"
+  | "services"
+  | "tooling";
+
+type HighlightId = "aws" | "languages" | "economics";
+
+interface TechItem {
   name: string;
   icon: IconType;
-  color: string;
-  level: "Expert" | "Advanced" | "Intermediate";
-  years: string;
+  /** Emphasised in the UI — the tools he reaches for first. */
+  primary?: boolean;
 }
 
-interface TechCategory {
-  id: string;
-  label: string;
+interface TechGroup {
+  id: GroupId;
   icon: IconType;
-  items: TechItemData[];
+  items: TechItem[];
 }
 
-const TechCard = memo(function TechCard({
-  tech,
-  prefersReducedMotion,
-}: {
-  tech: TechItemData;
-  prefersReducedMotion: boolean;
-}) {
-  const hoverVariants: Variants = {
-    hover: {
-      y: prefersReducedMotion ? 0 : -4,
-      backgroundColor: "rgba(255, 255, 255, 0.05)",
-      transition: { type: "spring", stiffness: 300, damping: 20 },
+interface Highlight {
+  id: HighlightId;
+  icon: IconType;
+}
+
+// Static data: no translations needed for product names, so it lives outside
+// the component and is never re-created on render.
+const GROUPS: TechGroup[] = [
+  {
+    id: "languages",
+    icon: FaCode,
+    items: [
+      { name: "TypeScript", icon: SiTypescript, primary: true },
+      { name: "Go", icon: SiGo, primary: true },
+      { name: "Rust", icon: SiRust },
+      { name: "Python", icon: SiPython },
+      { name: "SQL", icon: TbSql },
+    ],
+  },
+  {
+    id: "web",
+    icon: FaGlobe,
+    items: [
+      { name: "Next.js", icon: SiNextdotjs, primary: true },
+      { name: "React", icon: SiReact },
+      { name: "Astro", icon: SiAstro },
+      { name: "Tailwind CSS", icon: SiTailwindcss },
+      { name: "shadcn/ui", icon: SiShadcnui },
+    ],
+  },
+  {
+    id: "mobile",
+    icon: FaMobileAlt,
+    items: [
+      { name: "React Native", icon: SiReact, primary: true },
+      { name: "Expo", icon: SiExpo },
+      { name: "Ionic", icon: SiIonic },
+      { name: "Angular", icon: SiAngular },
+    ],
+  },
+  {
+    id: "backend",
+    icon: FaServer,
+    items: [
+      { name: "Hono", icon: SiHono, primary: true },
+      { name: "NestJS", icon: SiNestjs },
+      { name: "Node.js", icon: SiNodedotjs },
+      { name: "Express", icon: SiExpress },
+      { name: "Drizzle ORM", icon: SiDrizzle, primary: true },
+      { name: "Prisma", icon: SiPrisma },
+    ],
+  },
+  {
+    id: "data",
+    icon: FaDatabase,
+    items: [
+      { name: "PostgreSQL", icon: SiPostgresql, primary: true },
+      { name: "Neon", icon: FaDatabase },
+      { name: "pgvector", icon: TbVector },
+      { name: "MySQL", icon: SiMysql },
+      { name: "MongoDB", icon: SiMongodb },
+      { name: "Supabase", icon: SiSupabase },
+    ],
+  },
+  {
+    id: "cloud",
+    icon: FaCloud,
+    items: [
+      { name: "AWS", icon: FaAws, primary: true },
+      { name: "Google Cloud", icon: SiGooglecloud },
+      { name: "Vercel", icon: SiVercel },
+      { name: "Docker", icon: SiDocker },
+      { name: "Turborepo", icon: SiTurborepo },
+      { name: "EAS", icon: SiExpo },
+      { name: "GitHub Actions", icon: SiGithubactions },
+    ],
+  },
+  {
+    id: "ai",
+    icon: FaBrain,
+    items: [
+      { name: "Claude API", icon: SiAnthropic, primary: true },
+      { name: "OpenAI", icon: RiOpenaiFill },
+      { name: "Vercel AI SDK", icon: SiVercel },
+      { name: "RAG pipelines", icon: FaProjectDiagram },
+      { name: "Gemini", icon: SiGooglegemini },
+    ],
+  },
+  {
+    id: "services",
+    icon: FaPlug,
+    items: [
+      { name: "Stripe + Connect", icon: SiStripe },
+      { name: "Clerk", icon: SiClerk },
+      { name: "Pusher", icon: SiPusher },
+      { name: "Resend", icon: SiResend },
+      { name: "Cloudinary", icon: SiCloudinary },
+      { name: "Vercel Blob", icon: SiVercel },
+      { name: "Puppeteer", icon: SiPuppeteer },
+    ],
+  },
+  {
+    id: "tooling",
+    icon: FaTools,
+    items: [
+      { name: "Claude Code", icon: SiClaude },
+      { name: "MCP", icon: SiModelcontextprotocol },
+      { name: "Cursor", icon: TbTerminal2 },
+      { name: "Git & GitHub", icon: SiGithub },
+      { name: "Bun", icon: SiBun },
+      { name: "Zod", icon: SiZod },
+      { name: "Figma", icon: SiFigma },
+      { name: "Linux", icon: SiLinux },
+    ],
+  },
+];
+
+const HIGHLIGHTS: Highlight[] = [
+  { id: "aws", icon: FaAws },
+  { id: "languages", icon: FaLanguage },
+  { id: "economics", icon: FaGraduationCap },
+];
+
+const EASE = [0.33, 1, 0.68, 1] as const;
+
+function buildVariants(reduced: boolean) {
+  const lift = reduced ? 0 : 16;
+  const duration = reduced ? 0 : 0.5;
+  const section: Variants = {
+    hidden: {},
+    visible: {
+      transition: reduced ? { duration: 0 } : { staggerChildren: 0.08 },
     },
   };
-
-  const Icon = tech.icon;
-
-  return (
-    <m.div
-      className={styles.techCard}
-      variants={{
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 },
-        ...hoverVariants,
-      }}
-      whileHover={prefersReducedMotion ? undefined : "hover"}
-    >
-      <div className={styles.cardHeader}>
-        <div className={styles.iconWrapper} style={{ color: tech.color }}>
-          <Icon size={24} />
-        </div>
-        <div className={styles.info}>
-          <h4 className={styles.name}>{tech.name}</h4>
-          <span className={styles.level}>{tech.level}</span>
-        </div>
-      </div>
-    </m.div>
-  );
-});
+  const block: Variants = {
+    hidden: { opacity: 0, y: lift },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: reduced
+        ? { duration: 0 }
+        : { duration, ease: EASE, when: "beforeChildren", staggerChildren: 0.03 },
+    },
+  };
+  const chip: Variants = {
+    hidden: { opacity: 0, y: reduced ? 0 : 8 },
+    visible: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.3 } },
+  };
+  return { section, block, chip };
+}
 
 export default function TechStack() {
   const t = useTranslations("TechStack");
   const prefersReducedMotion = useReducedMotion() ?? false;
-  const ref = useRef(null);
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.1,
-    margin: "-50px",
-  });
-
-  const categories: TechCategory[] = useMemo(
-    () => [
-      {
-        id: "core",
-        label: "Core & Languages",
-        icon: FaCode,
-        items: [
-          {
-            name: "TypeScript",
-            icon: SiTypescript,
-            color: "#3178C6",
-            level: "Expert",
-            years: "5+ Years",
-          },
-          {
-            name: "Python",
-            icon: SiPython,
-            color: "#3776AB",
-            level: "Expert",
-            years: "4+ Years",
-          },
-          {
-            name: "Go",
-            icon: SiGo,
-            color: "#00ADD8",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "Solidity",
-            icon: SiSolidity,
-            color: "#363636",
-            level: "Intermediate",
-            years: "2+ Years",
-          },
-          {
-            name: "R",
-            icon: SiR,
-            color: "#276DC3",
-            level: "Intermediate",
-            years: "2+ Years",
-          },
-        ],
-      },
-      {
-        id: "web_mobile",
-        label: "Web & Mobile",
-        icon: FaMobile,
-        items: [
-          {
-            name: "Next.js",
-            icon: SiNextdotjs,
-            color: "#000000",
-            level: "Expert",
-            years: "4+ Years",
-          },
-          {
-            name: "React",
-            icon: SiReact,
-            color: "#61DAFB",
-            level: "Expert",
-            years: "5+ Years",
-          },
-          {
-            name: "Tailwind",
-            icon: SiTailwindcss,
-            color: "#06B6D4",
-            level: "Expert",
-            years: "3+ Years",
-          },
-          {
-            name: "React Native",
-            icon: SiReact,
-            color: "#61DAFB",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "Expo",
-            icon: SiExpo,
-            color: "#000020",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "Angular",
-            icon: SiAngular,
-            color: "#DD0031",
-            level: "Intermediate",
-            years: "2+ Years",
-          },
-          {
-            name: "Ionic",
-            icon: SiIonic,
-            color: "#3880FF",
-            level: "Intermediate",
-            years: "2+ Years",
-          },
-        ],
-      },
-      {
-        id: "backend_data",
-        label: "Backend & Data",
-        icon: FaDatabase,
-        items: [
-          {
-            name: "Node.js",
-            icon: SiNodedotjs,
-            color: "#339933",
-            level: "Advanced",
-            years: "5+ Years",
-          },
-          {
-            name: "Hono.js",
-            icon: SiHono,
-            color: "#E36002",
-            level: "Advanced",
-            years: "1+ Years",
-          },
-          {
-            name: "Express",
-            icon: SiExpress,
-            color: "#000000",
-            level: "Advanced",
-            years: "4+ Years",
-          },
-          {
-            name: "Drizzle ORM",
-            icon: SiDrizzle,
-            color: "#C5F74F",
-            level: "Advanced",
-            years: "2+ Years",
-          },
-          {
-            name: "Prisma",
-            icon: SiPrisma,
-            color: "#2D3748",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "PostgreSQL",
-            icon: SiPostgresql,
-            color: "#336791",
-            level: "Advanced",
-            years: "4+ Years",
-          },
-          {
-            name: "MySQL",
-            icon: SiMysql,
-            color: "#4479A1",
-            level: "Advanced",
-            years: "5+ Years",
-          },
-          {
-            name: "MongoDB",
-            icon: SiMongodb,
-            color: "#47A248",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "Supabase",
-            icon: SiSupabase,
-            color: "#3ECF8E",
-            level: "Advanced",
-            years: "2+ Years",
-          },
-          {
-            name: "Firebase",
-            icon: SiFirebase,
-            color: "#FFCA28",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-        ],
-      },
-      {
-        id: "infra_tools",
-        label: "Infra, AI & Tools",
-        icon: FaCloud,
-        items: [
-          {
-            name: "AWS",
-            icon: FaAws,
-            color: "#FF9900",
-            level: "Advanced",
-            years: "4+ Years",
-          },
-          {
-            name: "Docker",
-            icon: SiDocker,
-            color: "#2496ED",
-            level: "Intermediate",
-            years: "3+ Years",
-          },
-          {
-            name: "OpenAI API",
-            icon: SiOpenai,
-            color: "#412991",
-            level: "Advanced",
-            years: "2+ Years",
-          },
-          {
-            name: "Vercel",
-            icon: SiVercel,
-            color: "#000000",
-            level: "Expert",
-            years: "4+ Years",
-          },
-          {
-            name: "Stripe",
-            icon: SiStripe,
-            color: "#635BFF",
-            level: "Advanced",
-            years: "3+ Years",
-          },
-          {
-            name: "Web3.js",
-            icon: SiWeb3Dotjs,
-            color: "#F16822",
-            level: "Intermediate",
-            years: "2+ Years",
-          },
-          {
-            name: "Puppeteer",
-            icon: SiPuppeteer,
-            color: "#40B5A8",
-            level: "Advanced",
-            years: "2+ Years",
-          },
-          {
-            name: "Cursor",
-            icon: BiLaptop,
-            color: "#000000",
-            level: "Expert",
-            years: "1+ Years",
-          },
-        ],
-      },
-    ],
-    []
-  );
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.1, margin: "-50px" });
+  const show = prefersReducedMotion || inView;
+  const variants = buildVariants(prefersReducedMotion);
 
   return (
-    <section className={styles.techStack} id="tech-stack" ref={ref}>
-      <div className={styles.container}>
-        <m.h2
-          className={styles.sectionTitle}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-        >
-          {t("title")}
-        </m.h2>
+    <section
+      className={styles.techStack}
+      id="tech-stack"
+      ref={ref}
+      aria-labelledby="tech-stack-title"
+    >
+      <m.div
+        className={styles.container}
+        variants={variants.section}
+        initial="hidden"
+        animate={show ? "visible" : "hidden"}
+      >
+        <m.div className={styles.header} variants={variants.block}>
+          <h2 id="tech-stack-title" className={styles.sectionTitle}>
+            {t("title")}
+          </h2>
+          <p className={styles.legend}>
+            <span className={styles.legendSwatch} aria-hidden="true" />
+            {t("legend")}
+          </p>
+        </m.div>
 
-        <div className={styles.categoriesGrid}>
-          {categories.map((category, catIndex) => (
-            <m.div
-              key={category.id}
-              className={styles.categoryColumn}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    delay: catIndex * 0.1,
-                    duration: 0.5,
-                    when: "beforeChildren",
-                    staggerChildren: 0.05,
-                  },
-                },
-              }}
-            >
-              <h3 className={styles.categoryTitle}>
-                <category.icon className={styles.catIcon} />
-                {category.label}
+        <m.ul className={styles.highlights} variants={variants.block}>
+          {HIGHLIGHTS.map(({ id, icon: Icon }) => (
+            <m.li key={id} className={styles.highlight} variants={variants.chip}>
+              <Icon className={styles.highlightIcon} aria-hidden="true" />
+              <span className={styles.highlightText}>
+                <strong>{t(`highlights.${id}.label`)}</strong>
+                <span>{t(`highlights.${id}.detail`)}</span>
+              </span>
+            </m.li>
+          ))}
+        </m.ul>
+
+        <div className={styles.grid}>
+          {GROUPS.map(({ id, icon: GroupIcon, items }) => (
+            <m.article key={id} className={styles.card} variants={variants.block}>
+              <h3 className={styles.cardTitle}>
+                <GroupIcon className={styles.cardIcon} aria-hidden="true" />
+                {t(`groups.${id}`)}
               </h3>
-              <div className={styles.cardsList}>
-                {category.items.map((tech) => (
-                  <TechCard
-                    key={tech.name}
-                    tech={tech}
-                    prefersReducedMotion={prefersReducedMotion}
-                  />
+              <ul className={styles.chips}>
+                {items.map(({ name, icon: Icon, primary }) => (
+                  <m.li
+                    key={name}
+                    className={`${styles.chip} ${primary ? styles.chipPrimary : ""}`}
+                    variants={variants.chip}
+                  >
+                    <Icon className={styles.chipIcon} aria-hidden="true" />
+                    <span>{name}</span>
+                    {primary && (
+                      <span className={styles.srOnly}> ({t("core")})</span>
+                    )}
+                  </m.li>
                 ))}
-              </div>
-            </m.div>
+              </ul>
+            </m.article>
           ))}
         </div>
-      </div>
+      </m.div>
     </section>
   );
 }

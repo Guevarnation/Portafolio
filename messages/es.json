@@ -16,47 +16,122 @@
   "Projects": {
     "ViewProject": "Ver Proyecto",
     "Technologies": "Tecnologías:",
+    "sectionTitle": "Trabajo seleccionado",
+    "appStoreAlt": "Descárgala en el App Store",
+    "googlePlayAlt": "Disponible en Google Play",
     "YEYAR": {
       "title": "Plataforma Inmobiliaria YEYAR",
-      "description": "Lideré el desarrollo de YEYAR, una plataforma de inversión inmobiliaria para propiedades en preventa en México, construida con Next.js, TypeScript y Drizzle ORM en AWS. Desarrollé mapas de propiedades interactivos con la API de Google Maps, paneles para inversionistas y un panel de administración para que los desarrolladores gestionen el interés de los inversionistas, chateen y procesen reservaciones de unidades en la aplicación a través de Stripe. Implementé optimización de SEO y metadatos, aumentando el tráfico orgánico en un 30%, y creé un CMS para obtener información sobre bienes raíces, impulsando la participación de los usuarios."
+      "description": "Lideré el desarrollo de YEYAR, una plataforma de inversión inmobiliaria para propiedades en preventa en México, hoy estructurada como un monorepo donde la plataforma web para inversionistas, la plataforma de administración para el equipo interno y los desarrolladores, y la app móvil comparten una sola base de código. Desarrollé mapas de propiedades interactivos con la API de Google Maps, paneles para inversionistas, chat en tiempo real y reservaciones de unidades en la aplicación a través de Stripe. Implementé optimización de SEO y metadatos, aumentando el tráfico orgánico en un 30%, y creé un CMS de contenido inmobiliario que impulsó la participación de los usuarios."
     },
     "YEYARMobile": {
       "title": "Aplicación Móvil YEYAR",
-      "description": "Desarrollé una aplicación móvil multiplataforma de YEYAR usando React Native y Expo, permitiendo alertas de propiedades en tiempo real a través de notificaciones push de Expo. Construí un chat basado en Pusher para mensajería en tiempo real y sincronización de datos sin conexión para una experiencia de usuario fluida. Integré retroalimentación háptica y funciones basadas en la ubicación, logrando una calificación de 4.2+ en la App Store y Google Play."
+      "description": "Desarrollé una aplicación móvil multiplataforma de YEYAR usando React Native y Expo, permitiendo alertas de propiedades en tiempo real a través de notificaciones push de Expo. Construí un chat basado en Pusher para mensajería en tiempo real y sincronización de datos sin conexión para una experiencia de usuario fluida. Integré retroalimentación háptica y funciones basadas en la ubicación, publicada en la App Store y Google Play."
+    },
+    "MiContax": {
+      "title": "MiContax y CMS Consultores",
+      "description": "Construí MiContax, un SaaS de preparación de impuestos para México que se conecta a la API contable de Contalink para guiar a los usuarios en sus declaraciones. Desarrollé el panel autenticado, la facturación por suscripción con Stripe y un editor de blog de texto enriquecido sobre una API tipada. También construí el sitio de marketing de CMS Consultores, el despacho contable detrás del producto, con formularios de captación de clientes, un centro de recursos y una configuración SEO completa."
     },
     "AIRAGSystems": {
       "title": "Sistemas de IA y RAG",
-      "description": "Lideré un equipo de 3 desarrolladores en una empresa fintech de Nueva York para arquitectar un sistema de IA avanzado logrando 90% de precisión en evaluaciones FinanceBench. Construí un pipeline RAG (Retrieval-Augmented Generation) sofisticado integrando Claude 3.7 con la base de datos SEC EDGAR para análisis de documentos financieros en tiempo real. El sistema procesa filings 10-K, 10-Q y 8-K, extrayendo métricas financieras clave y generando respuestas inteligentes a consultas de inversión complejas. Implementé embeddings vectoriales con pgvector para búsqueda semántica a través de millones de documentos financieros, mientras integraba múltiples APIs financieras para datos de mercado en vivo, calendarios de ganancias y proyecciones EPS."
+      "description": "Lideré un equipo de 3 desarrolladores en una empresa fintech de Nueva York para arquitectar un sistema de IA avanzado logrando 90% de precisión en evaluaciones FinanceBench. Construí un pipeline RAG (Retrieval-Augmented Generation) sofisticado integrando Claude con la base de datos SEC EDGAR para análisis de documentos financieros en tiempo real. El sistema procesa filings 10-K, 10-Q y 8-K, extrayendo métricas financieras clave y generando respuestas inteligentes a consultas de inversión complejas. Implementé embeddings vectoriales con pgvector para búsqueda semántica a través de millones de documentos financieros, mientras integraba múltiples APIs financieras para datos de mercado en vivo, calendarios de ganancias y proyecciones EPS."
+    },
+    "Dropper": {
+      "title": "Sistema de Dropper de Boletos en Tiempo Real",
+      "description": "Desarrollé un sistema de dropper de boletos en tiempo real para un cliente con sede en Nueva York, con un frontend en Flutter construido en equipo, un scraper en Node.js usando Puppeteer con plugins de sigilo, proxies residenciales y resolución avanzada de CAPTCHA para evadir la detección sofisticada de bots. Implementé un backend en Express con arquitectura de scraper paralelo en Google Cloud, logrando una tasa de éxito del 98% en la extracción de datos de disponibilidad y precios de boletos, habilitando notificaciones automáticas de drop."
     },
     "ChromeExtension": {
       "title": "Extensión de Chrome",
       "description": "Desarrollé una extensión de navegador personalizada sofisticada que selecciona automáticamente asientos adyacentes con un solo clic. Creé una solución universal compatible con todas las principales plataformas de boletos a través de algoritmos avanzados de manipulación DOM y reconocimiento de patrones. Implementé un sistema de licencias robusto con autenticación encriptada y gestión de usuarios. Construí un framework de UI personalizado optimizado para interfaces de superposición en diferentes sitios web. La extensión presenta opciones de personalización extensas, mapeo automático de asientos y algoritmos inteligentes de agrupación de asientos que reduce el tiempo de compra en lote en 80%."
     },
+    "PolymarketEngine": {
+      "title": "Motor de Trading para Polymarket",
+      "description": "Construí un motor de trading en Rust para los mercados de predicción de Polymarket que ejecuta varias estrategias en paralelo sobre un libro de órdenes compartido en vivo. El mismo código de estrategia corre en vivo por WebSockets o en backtests contra datos de mercado grabados, con un pipeline de grabación y replay para evaluar ideas antes de desplegarlas. Corre como instancias concurrentes en AWS junto a un bot de copy-trading en Go que opera en vivo desde inicios de 2026."
+    },
     "BlockchainSolutions": {
       "title": "Soluciones Blockchain",
       "description": "Creé y desplegué un token ERC-20 simple y dApp acompañante como parte de una iniciativa de aprendizaje blockchain. Los usuarios podían mintear, comprar y vender el token a través de una UI mínima usando MetaMask y Web3.js. Diseñé la lógica del contrato inteligente, manejé el despliegue en testnets de Ethereum y obtuve familiaridad con optimización de gas, wallets y preocupaciones de seguridad en el desarrollo de contratos inteligentes."
-    },
-    "Dropper": {
-      "title": "Sistema de Dropper de Boletos en Tiempo Real",
-      "description": "Desarrollé un sistema de dropper de boletos en tiempo real para un cliente con sede en Nueva York, con un frontend en Flutter construido en equipo, un scraper en Node.js usando Puppeteer con plugins de sigilo, proxies residenciales y resolución avanzada de CAPTCHA para evadir la detección sofisticada de bots. Implementé un backend en Express con arquitectura de scraper paralelo en Google Cloud, logrando una tasa de éxito del 98% en la extracción de datos de disponibilidad y precios de boletos, habilitando notificaciones automáticas de drop."
     }
   },
   "TechStack": {
     "title": "Stack Tecnológico y Herramientas",
-    "categories": {
-      "Frontend": "Frontend",
-      "Mobile": "Móvil",
-      "Styling": "Estilos",
-      "Backend": "Backend",
-      "Languages": "Lenguajes",
-      "State Management": "Gestión de Estado",
-      "Database": "Base de Datos",
-      "AI/ML": "IA/ML",
-      "Cloud": "Nube",
-      "Services": "Servicios",
-      "Tools": "Herramientas",
-      "Blockchain": "Blockchain",
-      "APIs": "APIs"
+    "legend": "Resaltado = stack principal",
+    "core": "principal",
+    "groups": {
+      "languages": "Lenguajes",
+      "web": "Web",
+      "mobile": "Móvil",
+      "backend": "Backend",
+      "data": "Datos",
+      "cloud": "Nube y DevOps",
+      "ai": "IA",
+      "services": "Servicios",
+      "tooling": "Herramientas"
+    },
+    "highlights": {
+      "aws": {
+        "label": "Certificado AWS",
+        "detail": "Solutions Architect – Associate (SAA-C03), 2026"
+      },
+      "languages": {
+        "label": "3 idiomas",
+        "detail": "Español (nativo), Inglés (C2), Francés (B2)"
+      },
+      "economics": {
+        "label": "Lic. en Economía",
+        "detail": "Universidad de Monterrey (UDEM)"
+      }
+    }
+  },
+  "GitHub": {
+    "chartTitle": "Gráfica de contribuciones de GitHub",
+    "less": "Menos",
+    "more": "Más",
+    "eyebrow": "Código abierto y actividad",
+    "title": "Actividad en GitHub",
+    "profileLink": "@Guevarnation",
+    "profileAria": "Abrir el perfil de GitHub de Eugenio (nueva pestaña)",
+    "heatmapTitle": "Contribuciones · últimos 12 meses",
+    "heatmapSummary": "{total} contribuciones en los últimos 12 meses en {activeDays} días activos; el día más activo fue el {date} con {max} contribuciones.",
+    "cellTitle": "{count, plural, =0 {Sin contribuciones} one {# contribución} other {# contribuciones}} el {date}",
+    "unavailable": "La actividad de contribuciones no está disponible por ahora. La gráfica completa está en GitHub.",
+    "stats": {
+      "contributions": {
+        "label": "Contribuciones",
+        "detail": "últimos 12 meses"
+      },
+      "activeDays": {
+        "label": "Días activos",
+        "detail": "{pct}% del año"
+      },
+      "busiestDay": {
+        "label": "Día más activo",
+        "detail": "{date}"
+      },
+      "privateWork": {
+        "label": "Trabajo privado para clientes",
+        "detail": "de las contribuciones"
+      },
+      "activeSince": {
+        "label": "En GitHub desde",
+        "detail": "creación de la cuenta"
+      }
+    },
+    "reposTitle": "Repositorios públicos seleccionados",
+    "viewAll": "Todos los repositorios",
+    "updated": "Actualizado {date}",
+    "repos": {
+      "portfolio": {
+        "description": "Este sitio — Next.js 16, React 19, next-intl, GSAP y Motion."
+      },
+      "ledger": {
+        "description": "Servicio de libro contable en Go para saldos de clientes: concurrencia segura, auditabilidad y PostgreSQL con la biblioteca estándar."
+      },
+      "polymarket": {
+        "description": "Bot de copy-trading para Polymarket en Rust: replica a un trader con límites de riesgo y ejecución en vivo en el CLOB."
+      },
+      "binance": {
+        "description": "Bot de trading de futuros de Binance en Python guiado por un modelo Random Forest sobre indicadores técnicos y de sentimiento."
+      }
     }
   },
   "Description": {
@@ -71,7 +146,26 @@
     "github": "Github",
     "version": "Versión",
     "edition": "2026 © Edición",
-    "language": "Idioma"
+    "language": "Idioma",
+    "localTime": "Hora local",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "languageCodes": {
+      "en": "En",
+      "es": "Es"
+    },
+    "linkedinAria": "Visita el perfil de LinkedIn de Eugenio"
+  },
+  "Menu": {
+    "close": "Cerrar menú",
+    "open": "Abrir menú",
+    "mainNav": "Navegación principal",
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "work": "Trabajo",
+    "contact": "Contacto"
   },
   "NotFound": {
     "title": "Página no encontrada",

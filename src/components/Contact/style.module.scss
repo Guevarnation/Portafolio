@@ -194,9 +194,10 @@
             }
           }
         }
-        span {
+        .infoGroup {
           display: flex;
           flex-direction: column;
+          align-items: normal; // undo the parent div's flex-end
           gap: 15px;
 
           @media (max-width: 768px) {
@@ -220,12 +221,13 @@
       font: inherit;
       padding: 2.5px;
       cursor: pointer;
+      text-decoration: none;
 
       &::after {
         content: "";
         width: 0%;
         height: 1px;
-        background-color: white;
+        background-color: currentColor;
         display: block;
         margin-top: 2px;
         position: relative;
@@ -233,10 +235,14 @@
         transform: translateX(-50%);
         transition: width 0.2s linear;
       }
-      &:hover {
+      &:hover,
+      &[aria-current="page"] {
         &::after {
           width: 100%;
         }
+      }
+      &[aria-current="page"] {
+        color: #fb7b45;
       }
     }
   }

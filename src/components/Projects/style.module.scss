@@ -147,6 +147,16 @@
     text-transform: none;
     transition: all 0.3s ease;
 
+    // Linked titles: the global `a { font-size: 14px; text-transform:
+    // uppercase }` rule must not turn the heading into an eyebrow label.
+    a {
+      font: inherit;
+      color: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      text-decoration: none;
+    }
+
     @media (max-width: 768px) {
       font-size: 1.8rem;
       margin-bottom: 16px;
