@@ -13,7 +13,10 @@ const VIDEO_TRANSFORM = "f_auto,q_auto";
 const POSTER_TRANSFORM = "so_0,q_auto";
 
 function cloudinaryVideo(url, width) {
-  return url.replace("/video/upload/", `/video/upload/${VIDEO_TRANSFORM},w_${width}/`);
+  return url.replace(
+    "/video/upload/",
+    `/video/upload/${VIDEO_TRANSFORM},w_${width}/`,
+  );
 }
 
 function cloudinaryPoster(url, width) {
@@ -235,7 +238,8 @@ export default function Projects() {
   const projects = [
     {
       translationKey: "YEYAR",
-      technologies: "Next.js, TypeScript, Hono, Drizzle ORM, PostgreSQL, Stripe, Turborepo",
+      technologies:
+        "Next.js, TypeScript, Hono, Drizzle ORM, PostgreSQL, Stripe, Turborepo",
       videoSrc:
         "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027454/Screen_Recording_2025-11-24_at_5.29.27_p.m._crxuh5.mp4",
       color: "#8C8C8C",
@@ -245,7 +249,7 @@ export default function Projects() {
       translationKey: "YEYARMobile",
       technologies: "React Native, Expo, Stripe, Pusher, Native APIs",
       videoSrc:
-        "https://res.cloudinary.com/dnbsem7vr/video/upload/v1764027231/ScreenRecording_11-24-2025_17-30-58_1_t0aqgx.mp4",
+        "https://res.cloudinary.com/dnbsem7vr/video/upload/v1788567922/Screen_Recording_2026-09-04_at_6.10.56_p.m._1_bngrab.mov",
       // Portrait phone recording rendered in a 330px column.
       videoWidth: 800,
       color: "#EFE8D3",
@@ -328,7 +332,7 @@ export default function Projects() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     currentVideoRefs.forEach((video, index) => {
