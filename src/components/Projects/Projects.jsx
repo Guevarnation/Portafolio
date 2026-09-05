@@ -6,31 +6,8 @@ import { useTranslations } from "next-intl";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Rounded from "../../common/RoundedButton/RoundedButton";
-
-// Cloudinary delivery transforms: best format/quality for the client, capped
-// width. Posters are the first frame (so_0) of the same asset; f_auto lets
-// Cloudinary pick AVIF/WebP for the poster too (verified: every poster URL
-// still returns 200 with it).
-const VIDEO_TRANSFORM = "f_auto,q_auto";
-const POSTER_TRANSFORM = "so_0,q_auto,f_auto";
-// The poster only shows until the video (auto-played once in view) has its
-// first frame, and the slot is at most 700 CSS px wide, so 800 px is plenty:
-// it halves poster bytes versus w_1200 (measured 60 KB -> 32 KB webp).
-const POSTER_MAX_WIDTH = 800;
-
-function cloudinaryVideo(url, width) {
-  return url.replace(
-    "/video/upload/",
-    `/video/upload/${VIDEO_TRANSFORM},w_${width}/`,
-  );
-}
-
-function cloudinaryPoster(url, width) {
-  const w = Math.min(width, POSTER_MAX_WIDTH);
-  return url
-    .replace("/video/upload/", `/video/upload/${POSTER_TRANSFORM},w_${w}/`)
-    .replace(/\.(mp4|mov)$/, ".jpg");
-}
+import ProjectRow from "./ProjectRow";
+import { cloudinaryPoster, cloudinaryVideo } from "./cloudinary";
 
 // The media column is `flex: 1.3` of a 1300px container capped at 700px.
 const MEDIA_SIZES = "(max-width: 768px) calc(100vw - 40px), 700px";
@@ -269,6 +246,8 @@ export default function Projects() {
   // rendition at that width, measured from the encoded stream; images: the
   // file in /public/images). It drives width/height + aspect-ratio, so keep
   // it in sync when swapping an asset.
+  // The four smaller projects (Dropper, Chrome extension, Polymarket engine,
+  // ERC-20 dApp) live in the compact <ProjectRow /> below these cards.
   const projects = [
     {
       translationKey: "YEYAR",
@@ -318,37 +297,6 @@ export default function Projects() {
         "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752083845/ew_nixk0e.mp4",
       media: { width: 1200, height: 630 },
       color: "#000000",
-    },
-    {
-      translationKey: "Dropper",
-      technologies: "Flutter, Node.js, Puppeteer, CAPTCHA Solver, Google Cloud",
-      videoSrc:
-        "https://res.cloudinary.com/drjfzsw6m/video/upload/v1752085528/Screen_Recording_2025-07-09_at_12.18.00_p.m._1_.mp4_kqnph4.mp4",
-      media: { width: 1200, height: 716 },
-      color: "#000000",
-    },
-    {
-      translationKey: "ChromeExtension",
-      technologies: "JavaScript, Chrome API, Custom UI Framework",
-      videoSrc:
-        "https://res.cloudinary.com/drjfzsw6m/video/upload/tm_1_cmv0l6.mp4",
-      media: { width: 1200, height: 778 },
-      color: "#000000",
-    },
-    {
-      translationKey: "PolymarketEngine",
-      technologies: "Rust, WebSockets, AWS EC2, Go",
-      // Private repo: generated poster, no public link.
-      src: "polymarket-engine.png",
-      media: { width: 1200, height: 800 },
-      color: "#0f1011",
-    },
-    {
-      translationKey: "BlockchainSolutions",
-      technologies: "Solidity, Ethereum, Web3.js",
-      src: "blockchain.jpg",
-      media: { width: 1600, height: 876 },
-      color: "#706D63",
     },
   ];
 
@@ -419,6 +367,7 @@ export default function Projects() {
             }}
           />
         ))}
+        <ProjectRow />
       </div>
     </section>
   );

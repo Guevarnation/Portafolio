@@ -20,6 +20,11 @@
     "appStoreAlt": "Download on the App Store",
     "googlePlayAlt": "Get it on Google Play",
     "openSite": "Open {name} in a new tab",
+    "moreEyebrow": "Also built",
+    "moreTitle": "More work",
+    "moreHint": "Hover or focus a project for details",
+    "moreDetails": "Show details for {name}",
+    "moreTech": "Technologies",
     "YEYAR": {
       "title": "YEYAR Real Estate Platform",
       "description": "Led the development of YEYAR, a real estate investment platform for presale properties in Mexico, now structured as a monorepo where the investor web platform, the admin platform for the internal team and developers, and the mobile app share one codebase. Developed interactive property maps with the Google Maps API, investor dashboards, real-time chat, and in-app unit reservations via Stripe. Implemented SEO and metadata optimization, increasing organic traffic by 30%, and created a CMS for real estate insights, boosting user engagement."
@@ -42,19 +47,27 @@
     },
     "Dropper": {
       "title": "Real-Time Ticket Dropper System",
-      "description": "Developed a real-time ticket dropper system for a New York-based client, featuring a Flutter frontend built in a team, a Node.js scraper using Puppeteer with stealth plugins, residential proxies, and advanced CAPTCHA-solving to bypass sophisticated bot detection. Implemented an Express backend with parallel scraper architecture on Google Cloud, achieving a 98% success rate in extracting ticket availability and pricing data, enabling automated drop notifications."
+      "description": "Developed a real-time ticket dropper system for a New York-based client, featuring a Flutter frontend built in a team, a Node.js scraper using Puppeteer with stealth plugins, residential proxies, and advanced CAPTCHA-solving to bypass sophisticated bot detection. Implemented an Express backend with parallel scraper architecture on Google Cloud, achieving a 98% success rate in extracting ticket availability and pricing data, enabling automated drop notifications.",
+      "kicker": "Scraping & alerts",
+      "summary": "Real-time ticket-drop alerts for a New York client: a Flutter app over a Node.js and Puppeteer scraper fleet on Google Cloud, with stealth plugins, residential proxies and CAPTCHA solving at 98% extraction success."
     },
     "ChromeExtension": {
       "title": "Chrome Extension",
-      "description": "Developed a sophisticated custom browser extension that automatically selects adjacent seats with a single click. Engineered a universal solution compatible with all major ticketing platforms through advanced DOM manipulation and pattern recognition algorithms. Implemented a robust licensing system with encrypted authentication and user management. Built a custom UI framework optimized for overlay interfaces across different websites. The extension features extensive customization options, automated seat mapping, and intelligent seat grouping algorithms that reduces bulk purchase time by 80%."
+      "description": "Developed a sophisticated custom browser extension that automatically selects adjacent seats with a single click. Engineered a universal solution compatible with all major ticketing platforms through advanced DOM manipulation and pattern recognition algorithms. Implemented a robust licensing system with encrypted authentication and user management. Built a custom UI framework optimized for overlay interfaces across different websites. The extension features extensive customization options, automated seat mapping, and intelligent seat grouping algorithms that reduces bulk purchase time by 80%.",
+      "kicker": "Browser automation",
+      "summary": "A browser extension that selects adjacent seats in one click on every major ticketing platform, using DOM pattern recognition, a custom overlay UI framework and encrypted licensing, cutting bulk purchase time by 80%."
     },
     "PolymarketEngine": {
       "title": "Polymarket Trading Engine",
-      "description": "Built a Rust trading engine for Polymarket prediction markets that runs several strategies side by side against a shared live order book. The same strategy code runs live over WebSockets or in backtests against recorded market data, with a recorder and replay pipeline to evaluate ideas before deploying them. Runs as concurrent instances on AWS alongside a Go copy-trading bot that has been live since early 2026."
+      "description": "Built a Rust trading engine for Polymarket prediction markets that runs several strategies side by side against a shared live order book. The same strategy code runs live over WebSockets or in backtests against recorded market data, with a recorder and replay pipeline to evaluate ideas before deploying them. Runs as concurrent instances on AWS alongside a Go copy-trading bot that has been live since early 2026.",
+      "kicker": "Rust trading engine",
+      "summary": "A Rust engine that runs several strategies against one live Polymarket order book over WebSockets, with record-and-replay backtests on the same code, deployed as concurrent AWS instances beside a Go copy-trading bot."
     },
     "BlockchainSolutions": {
       "title": "Blockchain Solutions",
-      "description": "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development."
+      "description": "Created and deployed a simple ERC-20 token and accompanying dApp as part of a blockchain learning initiative. Users could mint, buy, and sell the token via a minimal UI using MetaMask and Web3.js. Designed smart contract logic, handled deployment on Ethereum testnets, and gained familiarity with gas optimization, wallets, and security concerns in smart contract development.",
+      "kicker": "Smart contracts",
+      "summary": "An ERC-20 token and companion dApp built as a learning project: mint, buy and sell through a minimal MetaMask and Web3.js UI, deployed to Ethereum testnets with attention to gas costs and contract security."
     }
   },
   "TechStack": {
