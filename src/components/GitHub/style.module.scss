@@ -2,7 +2,10 @@
 $bg: #141516;
 $accent: #fb7b45;
 $border: rgba(255, 255, 255, 0.08);
-$surface: rgba(255, 255, 255, 0.03);
+// Opaque flavour of TechStack's rgba(255,255,255,.03) surface over $bg: the
+// Contact title slides up *under* this section and must show only in the
+// gaps between cards, never through them.
+$surface: #1b1c1d;
 // Contribution ramp: $accent mixed over $bg at 0 / .42 / .62 / .82 / 1.
 // The low steps are lifted so single-contribution days (most active days)
 // stay clearly visible against the card surface.
@@ -22,15 +25,17 @@ $cell-4: #fb7b45;
 // TechStack ends with 120px of bottom padding and Contact starts with 200px
 // of top padding, so 80px here gives a 200px interval on both sides.
 //
-// Contact translates itself upwards with a scroll-linked `y` (up to -500px)
+// Contact translates itself upwards with a scroll-linked `y` (up to -200px)
 // and expects the section above it to sit on top of the stacking order, so
-// its title slides out from underneath. Keep this section opaque + stacked.
+// its title slides out from underneath. The section is intentionally
+// transparent: the dark canvas is the page-level `.dark` wrapper, so the
+// Contact title shows through the gaps between the repo cards while the
+// cards themselves (translucent surfaces) stay on top.
 .github {
   position: relative;
   z-index: 1;
   width: 100%;
   padding: 80px 20px 0;
-  background-color: $bg;
   color: white;
   display: flex;
   justify-content: center;

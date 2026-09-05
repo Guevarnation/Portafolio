@@ -19,6 +19,7 @@
     "sectionTitle": "Trabajo seleccionado",
     "appStoreAlt": "Descárgala en el App Store",
     "googlePlayAlt": "Disponible en Google Play",
+    "openSite": "Abrir {name} en una pestaña nueva",
     "YEYAR": {
       "title": "Plataforma Inmobiliaria YEYAR",
       "description": "Lideré el desarrollo de YEYAR, una plataforma de inversión inmobiliaria para propiedades en preventa en México, hoy estructurada como un monorepo donde la plataforma web para inversionistas, la plataforma de administración para el equipo interno y los desarrolladores, y la app móvil comparten una sola base de código. Desarrollé mapas de propiedades interactivos con la API de Google Maps, paneles para inversionistas, chat en tiempo real y reservaciones de unidades en la aplicación a través de Stripe. Implementé optimización de SEO y metadatos, aumentando el tráfico orgánico en un 30%, y creé un CMS de contenido inmobiliario que impulsó la participación de los usuarios."
@@ -30,6 +31,10 @@
     "MiContax": {
       "title": "MiContax y CMS Consultores",
       "description": "Construí MiContax, un SaaS de preparación de impuestos para México que se conecta a la API contable de Contalink para guiar a los usuarios en sus declaraciones. Desarrollé el panel autenticado, la facturación por suscripción con Stripe y un editor de blog de texto enriquecido sobre una API tipada. También construí el sitio de marketing de CMS Consultores, el despacho contable detrás del producto, con formularios de captación de clientes, un centro de recursos y una configuración SEO completa."
+    },
+    "InsertBid": {
+      "title": "InsertBid",
+      "description": "InsertBid es un marketplace de subastas en línea de coleccionables de videojuegos, donde vendedores verificados publican juegos retro, cartas coleccionables y memorabilia para que los coleccionistas pujen. Me integré a una base de código existente en React y Express en lugar de construirla desde cero: contribuí mejoras a la plataforma y a su sistema de pujas, y me enfoqué en SEO, posicionamiento en buscadores y optimización de rendimiento medida con Core Web Vitals."
     },
     "AIRAGSystems": {
       "title": "Sistemas de IA y RAG",
@@ -156,7 +161,30 @@
       "en": "En",
       "es": "Es"
     },
-    "linkedinAria": "Visita el perfil de LinkedIn de Eugenio"
+    "linkedinAria": "Visita el perfil de LinkedIn de Eugenio",
+    "form": {
+      "title": "Envía un mensaje",
+      "intro": "¿Prefieres un formulario? Déjame un mensaje y te responderé por correo.",
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "email": "Correo",
+      "emailPlaceholder": "tu@empresa.com",
+      "message": "Mensaje",
+      "messagePlaceholder": "¿Qué estás construyendo?",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando…",
+      "success": "¡Gracias! Tu mensaje fue enviado. Te responderé por correo pronto.",
+      "errors": {
+        "name": "Escribe tu nombre (de 2 a 80 caracteres).",
+        "email": "Escribe un correo electrónico válido.",
+        "message": "Escribe un mensaje de 10 a 2,000 caracteres.",
+        "invalid": "Revisa los campos marcados.",
+        "tooFast": "Eso fue muy rápido. Tómate un momento e inténtalo de nuevo.",
+        "rateLimited": "Demasiados mensajes en poco tiempo. Espera unos minutos e inténtalo de nuevo.",
+        "notConfigured": "El formulario no está disponible por ahora. Escríbeme directamente a:",
+        "sendFailed": "Algo salió mal al enviar. Inténtalo de nuevo o escríbeme directamente a:"
+      }
+    }
   },
   "Menu": {
     "close": "Cerrar menú",

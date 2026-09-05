@@ -1,12 +1,11 @@
-$bg: #141516;
 $accent: #fb7b45;
 $border: rgba(255, 255, 255, 0.08);
 $surface: rgba(255, 255, 255, 0.03);
 
+// Background comes from the page-level `.dark` wrapper (app/[locale]/page.tsx).
 .techStack {
   width: 100%;
   padding: 120px 20px;
-  background-color: $bg;
   color: white;
   display: flex;
   justify-content: center;

@@ -24,10 +24,20 @@ const NAV_LINKS = [
 
 // Keep the real `href="#id"` (keyboard, middle-click, copy-link all work);
 // left-clicks get a smooth scroll instead of the default jump.
+// The Contact section is parallax-translated (y from -200 to 0 as it comes
+// into view), so scrollIntoView lands short of it; scroll to the very bottom
+// of the document instead.
 const scrollToSection = (event, id) => {
   const target = document.getElementById(id);
   if (!target) return;
   event.preventDefault();
+  if (id === "contact") {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+    return;
+  }
   target.scrollIntoView({ behavior: "smooth" });
 };
 

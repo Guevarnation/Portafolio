@@ -1,0 +1,217 @@
+// Contact form: lives inside the dark Contact section, between the CTA row
+// and the footer info row. Colours follow the site palette (#141516 ground,
+// #fb7b45 accent, white text). Global `p, a { text-transform: uppercase;
+// font-size: 14px }` is undone locally so copy reads as prose.
+
+$accent: #fb7b45;
+$line: rgba(255, 255, 255, 0.22);
+$muted: rgba(255, 255, 255, 0.6);
+
+.formSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 60px;
+  margin: 120px 200px 0;
+  padding-top: 80px;
+  border-top: 1px solid rgb(134, 134, 134);
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    margin: 80px 20px 0;
+    padding-top: 50px;
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.1;
+  color: white;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+}
+
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  text-transform: none;
+  color: $muted;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 24px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $muted;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 0;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: white;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid $line;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  &:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.45);
+  }
+
+  &:focus-visible {
+    border-bottom-color: $accent;
+  }
+
+  &[aria-invalid="true"] {
+    border-bottom-color: #ff8c8c;
+  }
+
+  &:read-only {
+    opacity: 0.6;
+  }
+}
+
+textarea.input {
+  min-height: 140px;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-transform: none;
+  color: #ff8c8c;
+}
+
+// Off-screen rather than display:none so naive bots still "see" the field.
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  margin-top: 8px;
+}
+
+// Pill submit in the RoundedButton idiom: dark ground, orange fill on hover.
+.submit {
+  border-radius: 3em;
+  border: 1px solid rgb(136, 136, 136);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 50px;
+  background-color: #1c1d20;
+  color: white;
+}
+
+.submitLabel {
+  position: relative;
+  z-index: 1;
+  color: white;
+  transition: color 0.4s linear;
+
+  .submit:hover & {
+    color: #141516;
+  }
+}
+
+.submit {
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 4px;
+  }
+
+  &:disabled {
+    cursor: progress;
+    opacity: 0.7;
+  }
+}
+
+.status {
+  flex: 1 1 260px;
+  min-width: 0;
+  outline: none; // programmatic focus target only (tabindex=-1)
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-transform: none;
+  }
+}
+
+.success {
+  color: #c5fb45;
+}
+
+.error {
+  color: #ff8c8c;
+}
+
+.mailLink {
+  font: inherit;
+  text-transform: none;
+  color: $accent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

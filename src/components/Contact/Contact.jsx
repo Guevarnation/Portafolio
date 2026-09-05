@@ -15,7 +15,8 @@ import {
 import { useScroll, m, useTransform } from "framer-motion";
 import { BsGithub } from "react-icons/bs";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
+import ContactForm from "./ContactForm";
 import { routing } from "@/i18n/routing";
 
 const EMAIL = "guevaraeu1@gmail.com";
@@ -58,7 +59,6 @@ function useLocalTime(locale) {
 export default function Contact() {
   const t = useTranslations("Contact");
   const locale = useLocale();
-  const pathname = usePathname();
   const localTime = useLocalTime(locale);
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -76,7 +76,10 @@ export default function Contact() {
   }, []);
 
   const xRange = isMobile ? [0, 0] : [0, 100];
-  const yRange = isMobile ? [-100, 0] : [-500, 0];
+  // Parallax lift. .body has 200px (desktop) / 100px (mobile) of top padding,
+  // so a lift no larger than that keeps the title from sliding up behind the
+  // GitHub repo cards; only the dark padding overlaps them.
+  const yRange = isMobile ? [-80, 0] : [-200, 0];
   const x = useTransform(scrollYProgress, [0, 1], xRange);
   const y = useTransform(scrollYProgress, [0, 1], yRange);
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
@@ -138,6 +141,7 @@ export default function Contact() {
             </Rounded>
           </div>
         </div>
+        <ContactForm />
         <div className={styles.info}>
           <div>
             {/* div, not span: h3/nav are flow content (invalid inside span). */}
@@ -157,11 +161,15 @@ export default function Contact() {
                 className="flex flex-row gap-2"
                 aria-label={t("language")}
               >
+                {/* href="/" + locale for the OTHER locale: next-intl prefixes
+                    it per the routing mode and syncs the locale cookie. The
+                    active locale gets no `locale` prop, otherwise next-intl
+                    forces "/en", which the proxy redirects to "/". */}
                 {routing.locales.map((code) => (
                   <Link
                     key={code}
-                    href={pathname}
-                    locale={code}
+                    href="/"
+                    locale={code === locale ? undefined : code}
                     hrefLang={code}
                     lang={code}
                     aria-label={t(`languages.${code}`)}

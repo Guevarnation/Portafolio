@@ -14,9 +14,14 @@ export default function Home() {
       <Landing />
       <Description />
       <Projects />
-      <TechStack />
-      <GitHub />
-      <Contact />
+      {/* One dark canvas for the last three sections: TechStack and GitHub
+          are transparent, so Contact (which slides up under GitHub) shows
+          through the repo-card gaps with no white ever visible. */}
+      <div className={styles.dark}>
+        <TechStack />
+        <GitHub />
+        <Contact />
+      </div>
     </main>
   );
 }

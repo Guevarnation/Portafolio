@@ -72,7 +72,10 @@ export default function Home() {
         src="/images/background2.jpg"
         alt="Eugenio Guevara - Full-stack developer workspace with modern technology setup"
         fill={true}
+        // preload: <link rel="preload" imagesrcset> in <head>; fetchPriority:
+        // Lighthouse showed the request queued at "Low" without it.
         preload
+        fetchPriority="high"
         sizes="100vw"
         style={{ objectFit: "cover" }}
       />

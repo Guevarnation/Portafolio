@@ -75,6 +75,15 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, toggleMenu }) => {
     (event: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     event.preventDefault();
     setTimeout(() => {
+      if (sectionId === "contact") {
+        // The Contact section is parallax-translated (y -200 -> 0), so
+        // scrollIntoView lands short; the page bottom is where it settles.
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
+        return;
+      }
       const sectionElement = document.getElementById(sectionId);
       if (sectionElement) {
         sectionElement.scrollIntoView();

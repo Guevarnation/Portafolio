@@ -8,7 +8,7 @@ Live: https://www.eugenioguevara.com
 
 - Next.js 16 (App Router, React Server Components, static prerender per locale)
 - React 19, TypeScript (strict)
-- next-intl v4 for `/en` and `/es` routing and translations
+- next-intl v4 for routing and translations: English at `/`, Spanish at `/es` (`localePrefix: "as-needed"`; `/en/...` 307s to the unprefixed path)
 - Tailwind CSS v4 + SCSS Modules
 - GSAP (`useGSAP`, ScrollTrigger) and Framer Motion (`LazyMotion` strict, `m.*` components)
 - Videos and posters served from Cloudinary; static images in `public/images/`
@@ -32,14 +32,14 @@ bun run typecheck  # tsc --noEmit
 ```
 src/
   app/
-    [locale]/            # layout (metadata, JSON-LD), page, opengraph-image, not-found
+    [locale]/            # layout (metadata, JSON-LD, resource hints), page, opengraph-image, not-found
     sitemap.ts           # /sitemap.xml with hreflang alternates
     robots.ts            # /robots.txt
   components/            # Feature sections (Landing, Projects, TechStack, GitHub, Contact, ...)
                          # + MotionProvider (LazyMotion), IntroOverlay + Preloader
   common/                # Reusable pieces (RoundedButton, Magnetic)
-  i18n/                  # routing.ts (defineRouting) + request.ts (getRequestConfig)
-  proxy.ts               # next-intl locale middleware
+  i18n/                  # routing.ts (defineRouting, SITE_URL, localeUrl) + request.ts (getRequestConfig)
+  proxy.ts               # next-intl locale middleware (skips *.ext and opengraph-image)
 messages/                # en.json / es.json (identical key structure)
 public/images/           # Static images and store badges
 ```
@@ -53,7 +53,9 @@ public/images/           # Static images and store badges
 
 ## Deployment
 
-Deployed on Vercel. The canonical host is `https://www.eugenioguevara.com`; the apex domain 308-redirects to `www`. Every absolute URL in metadata, sitemap, robots, JSON-LD and Open Graph uses the `www` host, and `next.config.mjs` sends `X-Robots-Tag: noindex, nofollow` on any other host (preview deployments, `*.vercel.app`, localhost).
+Deployed on Vercel. The canonical host is `https://www.eugenioguevara.com`; the apex domain 308-redirects to `www`, and that is the only redirect a first visit pays: English is served unprefixed at `/` (canonical + `x-default`), Spanish at `/es`. Every absolute URL in metadata, sitemap, robots, JSON-LD and Open Graph is built with `localeUrl()` from `src/i18n/routing.ts` on the `www` host, and `next.config.mjs` sends `X-Robots-Tag: noindex, nofollow` on any other host (preview deployments, `*.vercel.app`, localhost).
+
+Performance notes: the hero image is the LCP element (`preload` + `fetchPriority="high"`), `res.cloudinary.com` is preconnected from the layout. Code-splitting the below-the-fold islands was measured and rejected (see `docs/audit-2026-09.md`, Round 3).
 
 ## Environment
 

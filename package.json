@@ -20,7 +20,10 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",
-    "sass": "^1.104.0"
+    "resend": "^6.26.0",
+    "sass": "^1.104.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

@@ -19,6 +19,7 @@
     "sectionTitle": "Selected work",
     "appStoreAlt": "Download on the App Store",
     "googlePlayAlt": "Get it on Google Play",
+    "openSite": "Open {name} in a new tab",
     "YEYAR": {
       "title": "YEYAR Real Estate Platform",
       "description": "Led the development of YEYAR, a real estate investment platform for presale properties in Mexico, now structured as a monorepo where the investor web platform, the admin platform for the internal team and developers, and the mobile app share one codebase. Developed interactive property maps with the Google Maps API, investor dashboards, real-time chat, and in-app unit reservations via Stripe. Implemented SEO and metadata optimization, increasing organic traffic by 30%, and created a CMS for real estate insights, boosting user engagement."
@@ -30,6 +31,10 @@
     "MiContax": {
       "title": "MiContax & CMS Consultores",
       "description": "Built MiContax, a tax-preparation SaaS for Mexico that connects to the Contalink accounting API to guide users through their filings. Developed the authenticated dashboard, subscription billing with Stripe, and a rich-text blog editor on top of a typed API. Also built the marketing site for CMS Consultores, the accounting firm behind the product, with lead-capture forms, a resource hub, and a full SEO setup."
+    },
+    "InsertBid": {
+      "title": "InsertBid",
+      "description": "InsertBid is an online auction marketplace for gaming collectibles, where verified sellers list vintage video games, trading cards and memorabilia for collectors to bid on. I joined an existing React and Express codebase rather than building it from scratch: contributed improvements to the platform and its bidding system, and focused on SEO, search ranking and performance optimisation measured against Core Web Vitals."
     },
     "AIRAGSystems": {
       "title": "AI & RAG Systems",
@@ -156,7 +161,30 @@
       "en": "En",
       "es": "Es"
     },
-    "linkedinAria": "Visit Eugenio's LinkedIn profile"
+    "linkedinAria": "Visit Eugenio's LinkedIn profile",
+    "form": {
+      "title": "Send a message",
+      "intro": "Prefer a form? Leave a message and I will reply by email.",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@company.com",
+      "message": "Message",
+      "messagePlaceholder": "What are you building?",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "success": "Thanks! Your message was sent. I will reply by email soon.",
+      "errors": {
+        "name": "Please enter your name (2–80 characters).",
+        "email": "Please enter a valid email address.",
+        "message": "Please write a message of 10–2,000 characters.",
+        "invalid": "Please check the highlighted fields.",
+        "tooFast": "That was quick. Please take a moment and try again.",
+        "rateLimited": "Too many messages in a short time. Please wait a few minutes and try again.",
+        "notConfigured": "The form is not available right now. Please email me directly:",
+        "sendFailed": "Something went wrong while sending. Please try again or email me directly:"
+      }
+    }
   },
   "Menu": {
     "close": "Close menu",

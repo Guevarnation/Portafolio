@@ -83,6 +83,9 @@
     }
   }
 
+  // Rendered as an <a> (linked cards) or a <div>. The media inside carries
+  // width/height + aspect-ratio, so this box has its final height before any
+  // poster/metadata loads.
   .imageWrapper {
     border-radius: 20px;
     overflow: hidden;
@@ -97,6 +100,14 @@
     background-color: transparent !important;
     will-change: transform;
     transform: translateZ(0);
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+
+    &:focus-visible {
+      outline: 2px solid #fb7b45;
+      outline-offset: 4px;
+    }
 
     &::after {
       content: "";
@@ -107,7 +118,9 @@
       z-index: 0;
     }
 
-    img {
+    img,
+    video {
+      display: block;
       position: relative;
       z-index: 1;
       width: 100%;
@@ -117,13 +130,7 @@
     }
 
     video {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      height: auto;
       border-radius: 12px;
-      will-change: transform;
-      transform: translateZ(0);
     }
   }
 

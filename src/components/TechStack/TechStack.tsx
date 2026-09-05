@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { RiOpenaiFill } from "react-icons/ri";
 import type { IconType } from "react-icons";
 import {
-  SiAngular,
   SiAnthropic,
   SiAstro,
   SiClaude,
@@ -22,6 +21,7 @@ import {
   SiGooglegemini,
   SiHono,
   SiIonic,
+  SiReactquery,
   SiMongodb,
   SiMysql,
   SiNestjs,
@@ -65,7 +65,7 @@ import {
   FaServer,
   FaTools,
 } from "react-icons/fa";
-import { TbSql, TbTerminal2, TbVector } from "react-icons/tb";
+import { TbSql, TbStack2, TbTerminal2, TbVector } from "react-icons/tb";
 import styles from "./style.module.scss";
 
 type GroupId =
@@ -122,6 +122,8 @@ const GROUPS: TechGroup[] = [
       { name: "Astro", icon: SiAstro },
       { name: "Tailwind CSS", icon: SiTailwindcss },
       { name: "shadcn/ui", icon: SiShadcnui },
+      { name: "TanStack Query", icon: SiReactquery },
+      { name: "Zustand", icon: TbStack2 },
     ],
   },
   {
@@ -130,8 +132,7 @@ const GROUPS: TechGroup[] = [
     items: [
       { name: "React Native", icon: SiReact, primary: true },
       { name: "Expo", icon: SiExpo },
-      { name: "Ionic", icon: SiIonic },
-      { name: "Angular", icon: SiAngular },
+      { name: "Ionic (Angular)", icon: SiIonic },
     ],
   },
   {

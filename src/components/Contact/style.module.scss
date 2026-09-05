@@ -131,15 +131,26 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: black;
-      transition: color 1s ease;
-      &:hover {
-        color: #fb7b45;
+
+      // The pill is an <a>, and the global `a { color: white }` rule beat the
+      // black set here, so the icon (fill: currentColor) was always white.
+      // Colour the anchor itself: icon and label share one rest/hover
+      // cascade and the same transition (label colour comes from
+      // RoundedButton's `p` rules with the identical 0.4s linear timing).
+      a {
+        color: black;
+        transition: color 0.4s linear;
+      }
+      a:hover {
+        color: white;
       }
       .githubIcon {
         font-size: 24px;
         margin-right: 6px;
+        position: relative;
         z-index: 1;
+        color: inherit;
+        transition: color 0.4s linear;
       }
     }
 

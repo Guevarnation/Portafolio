@@ -1,20 +1,17 @@
 import type { MetadataRoute } from "next";
-import { routing } from "@/i18n/routing";
-
-const SITE_URL = "https://www.eugenioguevara.com";
+import { localeUrl, routing } from "@/i18n/routing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   // One <url> entry per locale, each carrying the full hreflang cluster.
-  const languages = {
-    en: `${SITE_URL}/en`,
-    es: `${SITE_URL}/es`,
-    "x-default": `${SITE_URL}/en`,
-  };
+  const languages = Object.fromEntries(
+    routing.locales.map((locale) => [locale, localeUrl(locale)])
+  );
+  languages["x-default"] = localeUrl(routing.defaultLocale);
 
   return routing.locales.map((locale) => ({
-    url: `${SITE_URL}/${locale}`,
+    url: localeUrl(locale),
     lastModified,
     changeFrequency: "weekly",
     priority: locale === routing.defaultLocale ? 1 : 0.9,

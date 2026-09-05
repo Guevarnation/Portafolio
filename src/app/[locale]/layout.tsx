@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { preconnect } from "react-dom";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
+import { localeUrl, routing, SITE_URL } from "@/i18n/routing";
 import Header from "@/components/Header";
 import MotionProvider from "@/components/MotionProvider/MotionProvider";
 import { IntroProvider } from "@/components/IntroOverlay/IntroContext";
@@ -16,7 +17,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-const SITE_URL = "https://www.eugenioguevara.com";
+/** Project posters and videos (below the fold) are served from Cloudinary. */
+const MEDIA_ORIGIN = "https://res.cloudinary.com";
 
 /**
  * Runs synchronously in <head>, before the intro overlay is painted. Keep the
@@ -36,6 +38,11 @@ export async function generateMetadata({
   const { locale } = await params;
   const ogLocale = locale === "es" ? "es_ES" : "en_US";
   const altLocale = locale === "es" ? "en_US" : "es_ES";
+  // English is unprefixed ("/"), Spanish is "/es" (routing.localePrefix).
+  const languages = Object.fromEntries(
+    routing.locales.map((l) => [l, localeUrl(l)])
+  );
+  languages["x-default"] = localeUrl(routing.defaultLocale);
 
   return {
   metadataBase: new URL(`${SITE_URL}/`),
@@ -78,7 +85,7 @@ export async function generateMetadata({
     type: "website",
     locale: ogLocale,
     alternateLocale: altLocale,
-    url: `${SITE_URL}/${locale}`,
+    url: localeUrl(locale),
     title: "Eugenio Guevara - AWS Certified Full-Stack Developer",
     description:
       "AWS Certified Full-Stack Developer building production apps for US agencies and fintech startups. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
@@ -91,12 +98,8 @@ export async function generateMetadata({
       "AWS Certified Full-Stack Developer. TypeScript, Go, React Native, AI pipelines, and cloud-native architectures.",
   },
   alternates: {
-    canonical: `${SITE_URL}/${locale}`,
-    languages: {
-      en: `${SITE_URL}/en`,
-      es: `${SITE_URL}/es`,
-      "x-default": `${SITE_URL}/en`,
-    },
+    canonical: localeUrl(locale),
+    languages,
   },
   };
 }
@@ -110,6 +113,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   // validates it and 404s on unknown values. Static rendering is preserved
   // without setRequestLocale (deprecated in next-intl 4.13.5).
   const locale = await getLocale();
+
+  // Resource hint for the media CDN, emitted into <head> by React (the
+  // Metadata API has no field for it; see generate-metadata.md). preconnect
+  // subsumes dns-prefetch; React drops a prefetchDNS for the same origin.
+  preconnect(MEDIA_ORIGIN);
 
   const inLanguage = locale === "es" ? "es-ES" : "en-US";
 
