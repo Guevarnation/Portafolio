@@ -71,9 +71,15 @@
     }
   },
   "TechStack": {
+    "eyebrow": "Cómo construyo",
     "title": "Stack Tecnológico y Herramientas",
+    "hint": "Pasa el cursor o enfoca un grupo para ver notas",
+    "gridTitle": "Stack por área",
     "legend": "Resaltado = stack principal",
     "core": "principal",
+    "tools": "Herramientas",
+    "details": "Ver notas de {name}",
+    "kicker": "{count, plural, one {# herramienta} other {# herramientas}}{core, plural, =0 {} one { · # principal} other { · # principales}}",
     "groups": {
       "languages": "Lenguajes",
       "web": "Web",
@@ -87,17 +93,31 @@
     },
     "highlights": {
       "aws": {
+        "kicker": "Certificación",
         "label": "Certificado AWS",
         "detail": "Solutions Architect – Associate (SAA-C03), 2026"
       },
       "languages": {
+        "kicker": "Idiomas",
         "label": "3 idiomas",
-        "detail": "Español (nativo), Inglés (C2), Francés (B2)"
+        "detail": "Español (nativo) · Inglés (C2) · Francés (B2)"
       },
       "economics": {
+        "kicker": "Formación",
         "label": "Lic. en Economía",
         "detail": "Universidad de Monterrey (UDEM)"
       }
+    },
+    "notes": {
+      "languages": "TypeScript de punta a punta; Go cuando un servicio debe ser pequeño y rápido; Rust y Python para motores y datos.",
+      "web": "Next.js App Router con Server Components, Tailwind y shadcn/ui; Astro para sitios de contenido.",
+      "mobile": "React Native con Expo, publicada en ambas tiendas para YEYAR; Ionic en bases de código Angular.",
+      "backend": "Hono en el edge con Drizzle para SQL tipado; NestJS y Express para equipos grandes y APIs heredadas.",
+      "data": "PostgreSQL primero (Neon, Supabase) con pgvector para embeddings; MySQL y MongoDB donde el proyecto ya los usa.",
+      "cloud": "Arquitectura en AWS (certificado), Vercel para Next.js, Docker y GitHub Actions para CI, EAS para builds móviles.",
+      "ai": "Claude y OpenAI vía Vercel AI SDK; pipelines RAG sobre pgvector para análisis de documentos financieros.",
+      "services": "Stripe (incl. Connect) para pagos, Clerk para acceso, Pusher en tiempo real, Resend para correo y Cloudinary para archivos.",
+      "tooling": "Claude Code y servidores MCP en el día a día, Bun para scripts e instalación, Zod en cada frontera, Figma para el diseño."
     }
   },
   "GitHub": {

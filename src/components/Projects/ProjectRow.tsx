@@ -71,9 +71,12 @@ const EASE = [0.33, 1, 0.68, 1] as const;
 // Same entrance as TechStack: the section staggers header -> row, the row
 // staggers its tiles. Motion only ever owns opacity/transform on the slot
 // (the article); the hover geometry lives on the inner .tile as
-// transform + clip-path, so the two never fight.
+// transform + clip-path, so the two never fight. The hidden geometry does
+// not depend on `reduced` (null on the server, matchMedia on the client), so
+// the server's inline style matches the client's first render; reduced
+// motion only zeroes the durations.
 function buildVariants(reduced: boolean) {
-  const lift = reduced ? 0 : 16;
+  const lift = 16;
   const still = { duration: 0 } as const;
   const section: Variants = {
     hidden: {},
@@ -121,7 +124,10 @@ export default function ProjectRow() {
   const [pinned, setPinned] = useState<number | null>(null);
   // Pointer type of the press in flight. A tap on a hover-capable touch
   // screen focuses the button before `click`; without this the focus would
-  // set `active` and a second tap could not collapse the tile.
+  // set `active` and a second tap could not collapse the tile. For touch the
+  // compat mouse events (mousedown, focus, click) fire *after* pointerup, so
+  // the ref is cleared on the click that ends the sequence (or on
+  // pointercancel), never on pointerup.
   const pressType = useRef<string | null>(null);
   const focus = (i: number) => {
     setActive(i);
@@ -163,10 +169,11 @@ export default function ProjectRow() {
         onPointerDown={(e) => {
           pressType.current = e.pointerType;
         }}
-        onPointerUp={() => {
+        onPointerCancel={() => {
           pressType.current = null;
         }}
-        onPointerCancel={() => {
+        // Bubbles from the trigger after its own onClick has toggled the pin.
+        onClick={() => {
           pressType.current = null;
         }}
         onBlur={(e) => {

@@ -71,9 +71,15 @@
     }
   },
   "TechStack": {
+    "eyebrow": "How I build",
     "title": "Tech Stack & Tools",
+    "hint": "Hover or focus a group for notes",
+    "gridTitle": "Stack by area",
     "legend": "Highlighted = core stack",
     "core": "core",
+    "tools": "Tools",
+    "details": "Show notes for {name}",
+    "kicker": "{count, plural, one {# tool} other {# tools}}{core, plural, =0 {} other { · # core}}",
     "groups": {
       "languages": "Languages",
       "web": "Web",
@@ -87,17 +93,31 @@
     },
     "highlights": {
       "aws": {
+        "kicker": "Certification",
         "label": "AWS Certified",
         "detail": "Solutions Architect – Associate (SAA-C03), 2026"
       },
       "languages": {
+        "kicker": "Languages",
         "label": "3 languages",
-        "detail": "Spanish (native), English (C2), French (B2)"
+        "detail": "Spanish (native) · English (C2) · French (B2)"
       },
       "economics": {
+        "kicker": "Education",
         "label": "Economics B.A.",
         "detail": "Universidad de Monterrey (UDEM)"
       }
+    },
+    "notes": {
+      "languages": "TypeScript end to end; Go when a service must stay small and fast; Rust and Python for engines and data work.",
+      "web": "Next.js App Router with Server Components, Tailwind and shadcn/ui; Astro for content-heavy sites.",
+      "mobile": "React Native with Expo, shipped to both stores for YEYAR; Ionic on older Angular codebases.",
+      "backend": "Hono on the edge with Drizzle for typed SQL; NestJS and Express for larger teams and legacy APIs.",
+      "data": "PostgreSQL first (Neon, Supabase) with pgvector for embeddings; MySQL and MongoDB where a project has them.",
+      "cloud": "AWS architecture (certified), Vercel for Next.js, Docker and GitHub Actions for CI, EAS for mobile builds.",
+      "ai": "Claude and OpenAI through the Vercel AI SDK; RAG pipelines over pgvector for financial document analysis.",
+      "services": "Stripe (incl. Connect) for payments, Clerk for auth, Pusher for realtime, Resend for email, Cloudinary for media.",
+      "tooling": "Claude Code and MCP servers in the daily loop, Bun for scripts and installs, Zod at every boundary, Figma for handoff."
     }
   },
   "GitHub": {

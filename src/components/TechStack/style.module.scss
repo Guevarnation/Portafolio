@@ -1,14 +1,42 @@
+// Tech stack: nine fixed tiles (3 x 3), one per area, on the shared dark
+// canvas (app/[locale]/page.tsx `.dark`, so no background of its own). Same
+// language as the "More work" row (Projects/ProjectRow.module.scss) and the
+// GitHub section: dark tiles, radius 16, index / kicker / title, chips, the
+// lime glyph and the orange accent.
+//
+// Hover / focus / pin is driven by data-open (React state), never :hover, so
+// aria-expanded always matches what is on screen. Nothing in the grid changes
+// size on hover: the tile lifts (transform), a hairline wipes in (scaleX),
+// the chips brighten (opacity), the glyph rotates, and the note slides into a
+// strip whose height is reserved at rest - so an open/close is transform and
+// paint only and never registers as a layout shift.
+$bg: #141516;
 $accent: #fb7b45;
+$lime: #c5fb45;
 $border: rgba(255, 255, 255, 0.08);
-$surface: rgba(255, 255, 255, 0.03);
+// Opaque (same as GitHub): Contact slides up under this canvas and must show
+// only in the gaps between tiles, never through them.
+$surface: #1b1c1d;
+$surface-open: #202223;
 
-// Background comes from the page-level `.dark` wrapper (app/[locale]/page.tsx).
 .techStack {
+  --gap: 16px;
+  --pad: 24px;
+  --radius: 16px;
+  --note-h: 57px; // 3 lines of 13px / 1.45: at 1024-1399 four or five notes wrap to 3
+  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur: 0.55s;
   width: 100%;
   padding: 120px 20px;
   color: white;
   display: flex;
   justify-content: center;
+
+  // Tiles are 443-456px wide from here up (the container caps at 1400), and
+  // every EN and ES note measures 2 lines, so the strip reserves 2.
+  @media (min-width: 1400px) {
+    --note-h: 38px;
+  }
 
   @media (max-width: 768px) {
     padding: 80px 20px;
@@ -19,6 +47,8 @@ $surface: rgba(255, 255, 255, 0.03);
   width: 100%;
   max-width: 1400px;
 }
+
+/* ---------------- Header (= GitHub .header) ---------------- */
 
 .header {
   display: flex;
@@ -31,6 +61,31 @@ $surface: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid $border;
 }
 
+.headingGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+// The global `p` rule gives uppercase/14px/500/white; override size + colour.
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.eyebrowIcon {
+  font-size: 16px;
+  color: $accent;
+}
+
 .sectionTitle {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
@@ -39,41 +94,42 @@ $surface: rgba(255, 255, 255, 0.03);
   letter-spacing: -0.02em;
 }
 
-// The global `p` rule forces uppercase/14px; keep that but soften colour.
-.legend {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.55);
+.hint {
+  display: none;
+  margin: 0;
   font-size: 12px;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6); // 8:1 on #141516
 }
 
-.legendSwatch {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: $accent;
-  flex-shrink: 0;
+@media (min-width: 1024px) and (hover: hover) {
+  .hint {
+    display: inline-flex;
+  }
 }
+
+/* ---------------- Highlights (= GitHub .stats) ---------------- */
 
 .highlights {
   list-style: none;
-  margin: 0 0 48px 0;
+  margin: 0 0 40px;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
 .highlight {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
   padding: 18px 20px;
   border-radius: 16px;
   background: $surface;
@@ -81,57 +137,48 @@ $surface: rgba(255, 255, 255, 0.03);
   will-change: transform, opacity;
 }
 
+.highlightLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .highlightIcon {
+  font-size: 16px;
   flex-shrink: 0;
-  font-size: 28px;
   color: $accent;
 }
 
-.highlightText {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-
-  strong {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-  span {
-    font-size: 13px;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 0.6);
-  }
+// Words rather than numerals, so a step under the GitHub 32px stat value.
+.highlightValue {
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: white;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.highlightDetail {
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: none;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 24px;
-  border-radius: 16px;
-  background: $surface;
-  border: 1px solid $border;
-  transition: border-color 0.3s ease;
-  will-change: transform, opacity;
+/* ---------------- Grid header (= GitHub .reposHeader) ---------------- */
 
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.18);
-  }
+.gridHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .cardTitle {
@@ -151,15 +198,141 @@ $surface: rgba(255, 255, 255, 0.03);
   color: $accent;
 }
 
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: $accent;
+  flex-shrink: 0;
+}
+
+/* ---------------- Grid ---------------- */
+
+// Uniform 3 x 3: every row is as tall as the tallest tile, so a tile never
+// grows on hover and the note strip has the same reserved height everywhere.
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: var(--gap);
+}
+
+// Layout box; Motion animates its entrance (opacity/y). Flex column so the
+// tile fills the stretched grid cell.
+.slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  will-change: transform, opacity;
+  text-transform: none;
+}
+
+.tile {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 48px var(--pad) var(--pad);
+  border-radius: var(--radius);
+  background: $surface;
+  border: 1px solid $border;
+  overflow: hidden;
+  isolation: isolate;
+  transform: translateY(0);
+  transition:
+    transform var(--dur) var(--ease),
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  will-change: transform;
+
+  .slot[data-open="true"] & {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.18);
+    background: $surface-open;
+  }
+}
+
+// 2px accent line along the top, wiped in from the left.
+.hairline {
+  position: absolute;
+  top: 0;
+  left: var(--pad);
+  right: var(--pad);
+  height: 2px;
+  z-index: 1;
+  background: linear-gradient(90deg, $accent, rgba(251, 123, 69, 0));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur) var(--ease);
+  will-change: transform;
+
+  .slot[data-open="true"] & {
+    transform: scaleX(1);
+  }
+}
+
+.index {
+  position: absolute;
+  top: 20px;
+  left: var(--pad);
+  z-index: 2;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 8px;
+}
+
+.groupIcon {
+  font-size: 14px;
+  flex-shrink: 0;
+  color: $accent;
+}
+
+.tileTitle {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: white;
+  text-transform: none;
+}
+
 .chips {
   list-style: none;
-  margin: 0;
+  margin: 0 0 14px;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+// Rest: dimmed to .72 (x .85 white = 5.6:1 on the surface). Open: brightens
+// in a 25ms cascade (--i is the chip index, set inline); leaving is instant.
 .chip {
   display: inline-flex;
   align-items: center;
@@ -172,37 +345,129 @@ $surface: rgba(255, 255, 255, 0.03);
   font-weight: 400;
   line-height: 1;
   color: rgba(255, 255, 255, 0.85);
+  opacity: 0.72;
   cursor: default;
-  will-change: transform, opacity;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  transition-delay: 0s;
 
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.28);
-    background: rgba(255, 255, 255, 0.07);
+  .slot[data-open="true"] & {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.18);
+    transition-delay: calc(var(--i) * 25ms);
+  }
+}
+
+// Core tools: the accent is reserved for these, and they never dim.
+.chipPrimary {
+  opacity: 1;
+  color: white;
+  font-weight: 500;
+  border-color: rgba(251, 123, 69, 0.55);
+  background: rgba(251, 123, 69, 0.1);
+
+  .slot[data-open="true"] & {
+    border-color: $accent;
+    background: rgba(251, 123, 69, 0.16);
   }
 }
 
 .chipIcon {
   font-size: 16px;
   flex-shrink: 0;
-  opacity: 0.85;
+  color: $accent;
 }
 
-// Emphasised "primary" tools — the accent is reserved for these.
-.chipPrimary {
-  color: white;
-  font-weight: 500;
-  border-color: rgba(251, 123, 69, 0.55);
-  background: rgba(251, 123, 69, 0.1);
+// The note follows the chips (a caption to them, not a footer); its height
+// is reserved at rest so opening never resizes the tile. Hidden from
+// assistive tech while aria-expanded=false.
+.note {
+  height: var(--note-h);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition:
+    opacity 0.25s ease,
+    transform var(--dur) var(--ease),
+    visibility 0s linear 0.25s;
+  will-change: transform, opacity;
 
-  .chipIcon {
-    color: $accent;
+  .slot[data-open="true"] & {
     opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      opacity 0.35s ease 0.12s,
+      transform var(--dur) var(--ease),
+      visibility 0s;
   }
+}
 
-  &:hover {
-    border-color: $accent;
-    background: rgba(251, 123, 69, 0.16);
+.summary {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (min-width: 1400px) {
+    -webkit-line-clamp: 2;
+  }
+}
+
+// Whole-tile hit area; the only interactive element in the tile.
+.trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  border-radius: var(--radius);
+
+  // Inset: overflow:hidden on the tile would clip an outside ring.
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: -3px;
+  }
+}
+
+// "+" becomes the lime "x"
+.glyph {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  font-size: 14px;
+  transform: rotate(0deg);
+  transition:
+    transform var(--dur) var(--ease),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  will-change: transform;
+
+  .slot[data-open="true"] & {
+    transform: rotate(45deg);
+    background: rgba(197, 251, 69, 0.95);
+    border-color: transparent;
+    color: $bg;
   }
 }
 
@@ -216,4 +481,106 @@ $surface: rgba(255, 255, 255, 0.03);
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ---------------- Breakpoints ---------------- */
+
+// 1024-1279 with a mouse: tiles are ~317px, so tighten the padding and the
+// title.
+@media (max-width: 1279px) {
+  .techStack {
+    --pad: 20px;
+  }
+
+  .tileTitle {
+    font-size: 17px;
+  }
+}
+
+// Touch or narrow: two columns, everything open, no button, no transitions.
+// Same rule as the "More work" row: there is no hover to reveal the note, so
+// every tile shows it. The [data-open] selectors match the open-state rules
+// above at their own specificity, so a mouse at <=1023px cannot lift a tile.
+@media (max-width: 1023px), (hover: none) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+  }
+
+  // No orphan in the two-column grid.
+  .slot:nth-child(9) {
+    grid-column: span 2;
+  }
+
+  .tile,
+  .slot[data-open] .tile {
+    transform: none;
+    transition: none;
+    border-color: $border;
+    background: $surface;
+  }
+
+  .hairline {
+    display: none;
+  }
+
+  .chip,
+  .slot[data-open] .chip {
+    opacity: 1;
+    transition: none;
+  }
+
+  .note,
+  .slot[data-open] .note {
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .summary {
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+
+  .trigger {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .techStack {
+    --gap: 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slot:nth-child(9) {
+    grid-column: auto;
+  }
+}
+
+// Reduced motion: the note still appears (content must stay reachable), just
+// without the lift, the easing, the chip cascade or the fade-in delay. The
+// open-state selectors are repeated at their own specificity so their delays
+// are overridden too.
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .slot[data-open] .tile,
+  .hairline,
+  .chip,
+  .slot[data-open] .chip,
+  .note,
+  .slot[data-open] .note,
+  .glyph {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+  }
+
+  .slot[data-open="true"] .tile {
+    transform: none;
+  }
 }
