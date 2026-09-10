@@ -109,15 +109,15 @@
       }
     },
     "notes": {
-      "languages": "TypeScript de punta a punta; Go cuando un servicio debe ser pequeño y rápido; Rust y Python para motores y datos.",
-      "web": "Next.js App Router con Server Components, Tailwind y shadcn/ui; Astro para sitios de contenido.",
-      "mobile": "React Native con Expo, publicada en ambas tiendas para YEYAR; Ionic en bases de código Angular.",
-      "backend": "Hono en el edge con Drizzle para SQL tipado; NestJS y Express para equipos grandes y APIs heredadas.",
+      "languages": "TypeScript de punta a punta; Go cuando un servicio debe ser pequeño y rápido; Java en servicios JVM; Rust y Python para motores y datos.",
+      "web": "Next.js App Router con Server Components, Tailwind y shadcn/ui — el mismo React que publico en nativo; Astro para sitios de contenido y Angular donde el cliente ya lo usa.",
+      "mobile": "React Native con Expo y EAS, publicada en ambas tiendas para YEYAR; Ionic sobre bases de código Angular.",
+      "backend": "Hono en el edge con Drizzle para SQL tipado; NestJS y Express para equipos grandes y APIs heredadas; Spring Boot del lado JVM.",
       "data": "PostgreSQL primero (Neon, Supabase) con pgvector para embeddings; MySQL y MongoDB donde el proyecto ya los usa.",
-      "cloud": "Arquitectura en AWS (certificado), Vercel para Next.js, Docker y GitHub Actions para CI, EAS para builds móviles.",
+      "cloud": "Arquitectura en AWS (certificado) — Lambda, ECS, S3, SQS y SNS — con Terraform como infraestructura como código; Pub/Sub en Google Cloud, Vercel para Next.js, Docker y GitHub Actions para CI.",
       "ai": "Claude y OpenAI vía Vercel AI SDK; pipelines RAG sobre pgvector para análisis de documentos financieros.",
-      "services": "Stripe (incl. Connect) para pagos, Clerk para acceso, Pusher en tiempo real, Resend para correo y Cloudinary para archivos.",
-      "tooling": "Claude Code y servidores MCP en el día a día, Bun para scripts e instalación, Zod en cada frontera, Figma para el diseño."
+      "services": "Stripe (incl. Connect) para pagos, Clerk para acceso, Resend para correo, Cloudinary y Vercel Blob para archivos, Puppeteer para tareas headless.",
+      "tooling": "Claude Code y servidores MCP en el día a día, Bun para scripts e instalación, Vitest y Playwright para pruebas, Turborepo para monorepos, Zod en cada frontera, Figma para el diseño."
     }
   },
   "GitHub": {
